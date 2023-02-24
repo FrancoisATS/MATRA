@@ -1,0 +1,46 @@
+Chaine de production;Description chaine production;ID calendrier;Nbr d'opératur max
+ILOTST;Ilot Virtuel ST;*;1
+ILOT90;Spatial;*;16
+ILOT80;microelectronique;*;3
+ILOT01;Hitemp PB;*;1
+ILOT57;test vibrations;2X8;4
+ILOT58;test manuel;*;3
+ILOT53;test auto;*;11
+ILOT60;SAV TEST;*;3
+ILOT76;test pole carte;*;2
+ILOT99;Les Etudes;*;1
+ILOT05;Cartes;*;9
+ILOT14;cables bateau;*;2
+ILOT75;Modules et Cartes;*;8
+ILOT81;Controle S/T;*;1
+ILOT15;Interco;*;5
+ILOT11;Prepa OF;*;7
+ILOT03;KOKO;*;1
+ILOT55;SAV;*;2
+ILOT32;surtressage;*;1
+ILOT04;Controle;*;7
+ILOT06;ONE TWO;*;8
+ILOT07;Controle QUALITE;*;1
+ILOT09;Contrôle d'Entrée;*;1
+ILOT23;soudure vague;*;2
+ILOT33;Medical;*;2
+ILOT56;Ilot Test DIVERS;*;1
+ILOT49;Test BTGA;*;1
+ILOT61;Plastics;*;12
+ILOT71;report CMS + MAG CMS;2X8;15
+ILOT70;Prép et prog CMS;*;2
+ILOT72;controle CMS;2X8;3
+ILOT50;Assemblage;*;6
+ILOT10;Filaire;*;16
+ILOT22;retouches;*;1
+ILOT02;Pole Flexible;*;1
+ILOT34;DEPANNAGE TEST;*;1
+ILOT59;Zone Protégée;*;1
+ILOT54;test filaire;2X8;3
+ILOT73;controle Rx;2X8;2
+ILOT13;controle Rx Atelier;*;1
+ILOT79;RETOUCHES Poles Cartes;*;3
+ILOT51;test ctl fin /condit;*;1
+ILOT98;METHODES;*;1
+ILOT52;test petrole;*;1
+ILOT69;RETOUCHES V/P;2X8;1

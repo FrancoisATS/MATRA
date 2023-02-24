@@ -1,0 +1,93 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+MATRA_APPLI
+</name>
+</assembly>
+<members>
+<member name="M:MATRA_APPLI.Jalonnement.Run(Preactor.Interop.PreactorObject.PreactorObj@,System.Object@)">
+ <summary>
+ Run the jalonnement
+ </summary>
+ <param name="preactorComObject"></param>
+ <param name="pespComObject"></param>
+ <returns></returns>
+</member>
+<member name="M:MATRA_APPLI.Jalonnement.Init_Lists">
+ <summary>
+ Initialize the different lists
+ </summary>
+</member>
+<member name="M:MATRA_APPLI.Jalonnement.FillMarginDict">
+ <summary>
+ Function which allows to get, for a selected operation and a selected resource, its margin
+ </summary>
+</member>
+<member name="M:MATRA_APPLI.Jalonnement.Init_Operations">
+ <summary>
+ Initialize the different informations needed for the operations
+ </summary>
+</member>
+<member name="M:MATRA_APPLI.Jalonnement.ResetDates(MATRA_APPLI.Pr_OrdersJalon.Tbl)">
+ <summary>
+ Sets the jalonnement dates to -1 for the operation
+ </summary>
+ <param name="order"></param>
+</member>
+<member name="M:MATRA_APPLI.Jalonnement.FillDictOp(MATRA_APPLI.Pr_OrdersJalon.Tbl,System.Boolean)">
+ <summary>
+ Fills the next and previous dictionaries
+ </summary>
+ <param name="order"></param>
+ <param name="direction"></param>
+</member>
+<member name="M:MATRA_APPLI.Jalonnement.Init_Ope(System.Int32)">
+ <summary>
+ Initializes for one operation an object with all the information needed
+ </summary>
+ <param name="Record"></param>
+</member>
+<member name="M:MATRA_APPLI.Jalonnement.Jalon_Ope(System.Int32,System.DateTime)">
+ <summary>
+ Calculates the jalonnement dates for the specified Record
+ </summary>
+ <param name="Record"></param>
+</member>
+<member name="M:MATRA_APPLI.Jalonnement.CalculateLatestEnd(System.Int32,System.DateTime@)">
+ <summary>
+ Calculate Latest End
+ </summary>
+ <param name="Record"></param>
+ <param name="ActualDueDate"></param>
+</member>
+<member name="M:MATRA_APPLI.Jalonnement.CalculateLatestStart(System.Int32,System.DateTime@)">
+ <summary>
+ Calculate latest start
+ </summary>
+ <param name="Record"></param>
+ <param name="ActualDueDate"></param>
+</member>
+<member name="M:MATRA_APPLI.Jalonnement.CalculateEarliestStart(System.Int32)">
+ <summary>
+ Calculate earliest start
+ </summary>
+ <param name="Record"></param>
+</member>
+<member name="M:MATRA_APPLI.Jalonnement.Jalon_Ope_Prec(System.Int32)">
+ <summary>
+ For all the previous ops, calculate the dates
+ </summary>
+ <param name="Record"></param>
+</member>
+<member name="M:MATRA_APPLI.Jalonnement.CalculateDate(System.Int32,System.DateTime,System.Int32)">
+ <summary>
+ Calculation type : 1 for earliest start, 2 for latest start, 3 for latest end
+ </summary>
+ <param name="Record"></param>
+ <param name="MyDateInit"></param>
+ <param name="CalculationType"></param>
+ <returns></returns>
+</member>
+</members>
+</doc>

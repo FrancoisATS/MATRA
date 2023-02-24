@@ -1,0 +1,890 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="matrix1">
+        <TablixCorner>
+          <TablixCornerRows>
+            <TablixCornerRow>
+              <TablixCornerCell>
+                <CellContents>
+                  <Textbox Name="textbox1">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value />
+                            <Style>
+                              <FontFamily>Verdana</FontFamily>
+                              <FontSize>8pt</FontSize>
+                              <FontWeight>Bold</FontWeight>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>textbox1</rd:DefaultName>
+                    <ZIndex>3</ZIndex>
+                    <Style>
+                      <BottomBorder>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </BottomBorder>
+                      <RightBorder>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </RightBorder>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixCornerCell>
+            </TablixCornerRow>
+          </TablixCornerRows>
+        </TablixCorner>
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1.25in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Quantity">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!QTY.Value)</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Quantity</rd:DefaultName>
+                      <ActionInfo>
+                        <Actions>
+                          <Action>
+                            <Drillthrough>
+                              <ReportName>=Left(Globals!ReportFolder,InStrRev(Globals!ReportFolder,"/"))&amp; "Production/Production By Period Details"</ReportName>
+                              <Parameters>
+                                <Parameter Name="DatasetId">
+                                  <Value>=Parameters!DatasetId.Value</Value>
+                                </Parameter>
+                                <Parameter Name="Criteria">
+                                  <Value>=Parameters!Criteria.Value</Value>
+                                </Parameter>
+                                <Parameter Name="Product">
+                                  <Value>=First(Fields!Product.Value)</Value>
+                                </Parameter>
+                                <Parameter Name="RefDate">
+                                  <Value>=First(Fields!ReferenceDate.Value)</Value>
+                                </Parameter>
+                              </Parameters>
+                            </Drillthrough>
+                          </Action>
+                        </Actions>
+                      </ActionInfo>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                  <DataElementOutput>Output</DataElementOutput>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="matrix1_ReferenceDate">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!ReferenceDate.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <TablixHeader>
+                <Size>0.25in</Size>
+                <CellContents>
+                  <Textbox Name="ReferenceDate">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>=Fields!ReferenceDate.Value</Value>
+                            <Style>
+                              <FontFamily>Verdana</FontFamily>
+                              <FontSize>8pt</FontSize>
+                              <FontWeight>Bold</FontWeight>
+                              <Format>d</Format>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style>
+                          <TextAlign>Left</TextAlign>
+                        </Style>
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>ReferenceDate</rd:DefaultName>
+                    <ZIndex>2</ZIndex>
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="matrix1_Product">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Product.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!Product.Value</Value>
+                </SortExpression>
+              </SortExpressions>
+              <TablixHeader>
+                <Size>1.75in</Size>
+                <CellContents>
+                  <Textbox Name="Product">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>=Fields!Product.Value</Value>
+                            <Style>
+                              <FontFamily>Verdana</FontFamily>
+                              <FontSize>8pt</FontSize>
+                              <FontWeight>Bold</FontWeight>
+                              <Color>#004882</Color>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>Product</rd:DefaultName>
+                    <ActionInfo>
+                      <Actions>
+                        <Action>
+                          <Drillthrough>
+                            <ReportName>=Left(Globals!ReportFolder,InStrRev(Globals!ReportFolder,"/"))&amp; "Production/Production By Period Chart"</ReportName>
+                            <Parameters>
+                              <Parameter Name="DatasetId">
+                                <Value>=Parameters!DatasetId.Value</Value>
+                              </Parameter>
+                              <Parameter Name="Criteria">
+                                <Value>=Parameters!Criteria.Value</Value>
+                              </Parameter>
+                              <Parameter Name="Product">
+                                <Value>=Fields!Product.Value</Value>
+                              </Parameter>
+                            </Parameters>
+                          </Drillthrough>
+                        </Action>
+                      </Actions>
+                    </ActionInfo>
+                    <ZIndex>1</ZIndex>
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <RepeatColumnHeaders>true</RepeatColumnHeaders>
+        <RepeatRowHeaders>true</RepeatRowHeaders>
+        <DataSetName>DateTime</DataSetName>
+        <Top>0.5in</Top>
+        <Left>0.125in</Left>
+        <Height>0.5in</Height>
+        <Width>3in</Width>
+        <Visibility>
+          <Hidden>=iif(Parameters!Criteria.Value="By Day",False,True)</Hidden>
+        </Visibility>
+        <DataElementOutput>NoOutput</DataElementOutput>
+        <Style>
+          <Border>
+            <Color>#004882</Color>
+            <Style>Solid</Style>
+          </Border>
+          <BackgroundColor>="#FFFECC"</BackgroundColor>
+        </Style>
+      </Tablix>
+      <Textbox Name="textbox14">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value rd:LocID="Production">="Production  " &amp; Parameters!Criteria.Value</Value>
+                <Style>
+                  <FontSize>14pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <Color>#004882</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>0.125in</Top>
+        <Left>0.125in</Left>
+        <Height>0.75cm</Height>
+        <Width>5.875in</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Tablix Name="matrix2">
+        <TablixCorner>
+          <TablixCornerRows>
+            <TablixCornerRow>
+              <TablixCornerCell>
+                <CellContents>
+                  <Textbox Name="textbox4">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value />
+                            <Style>
+                              <FontFamily>Verdana</FontFamily>
+                              <FontSize>8pt</FontSize>
+                              <FontWeight>Bold</FontWeight>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <ZIndex>3</ZIndex>
+                    <Style>
+                      <BottomBorder>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </BottomBorder>
+                      <RightBorder>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </RightBorder>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixCornerCell>
+            </TablixCornerRow>
+          </TablixCornerRows>
+        </TablixCorner>
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1.25in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!QTY.Value)</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ActionInfo>
+                        <Actions>
+                          <Action>
+                            <Drillthrough>
+                              <ReportName>=Left(Globals!ReportFolder,InStrRev(Globals!ReportFolder,"/"))&amp; "Production/Production By Period Details"</ReportName>
+                              <Parameters>
+                                <Parameter Name="DatasetId">
+                                  <Value>=Parameters!DatasetId.Value</Value>
+                                </Parameter>
+                                <Parameter Name="Criteria">
+                                  <Value>=Parameters!Criteria.Value</Value>
+                                </Parameter>
+                                <Parameter Name="Product">
+                                  <Value>=First(Fields!Product.Value)</Value>
+                                </Parameter>
+                                <Parameter Name="RefDate">
+                                  <Value>=First(Fields!WeekDate.Value)</Value>
+                                </Parameter>
+                              </Parameters>
+                            </Drillthrough>
+                          </Action>
+                        </Actions>
+                      </ActionInfo>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                  <DataElementOutput>Output</DataElementOutput>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="matrix2_ColumnGroup1">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!WeekDate.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <TablixHeader>
+                <Size>0.25in</Size>
+                <CellContents>
+                  <Textbox Name="textbox3">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>=(Fields!WeekDate.Value)</Value>
+                            <Style>
+                              <FontFamily>Verdana</FontFamily>
+                              <FontSize>8pt</FontSize>
+                              <FontWeight>Bold</FontWeight>
+                              <Format>d</Format>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style>
+                          <TextAlign>Left</TextAlign>
+                        </Style>
+                      </Paragraph>
+                    </Paragraphs>
+                    <ZIndex>2</ZIndex>
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="matrix2_RowGroup1">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Product.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!Product.Value</Value>
+                </SortExpression>
+              </SortExpressions>
+              <TablixHeader>
+                <Size>1.75in</Size>
+                <CellContents>
+                  <Textbox Name="textbox2">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>=Fields!Product.Value</Value>
+                            <Style>
+                              <FontFamily>Verdana</FontFamily>
+                              <FontSize>8pt</FontSize>
+                              <FontWeight>Bold</FontWeight>
+                              <Color>#004882</Color>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <ActionInfo>
+                      <Actions>
+                        <Action>
+                          <Drillthrough>
+                            <ReportName>=Left(Globals!ReportFolder,InStrRev(Globals!ReportFolder,"/"))&amp; "Production/Production By Period Chart"</ReportName>
+                            <Parameters>
+                              <Parameter Name="DatasetId">
+                                <Value>=Parameters!DatasetId.Value</Value>
+                              </Parameter>
+                              <Parameter Name="Criteria">
+                                <Value>=Parameters!Criteria.Value</Value>
+                              </Parameter>
+                              <Parameter Name="Product">
+                                <Value>=Fields!Product.Value</Value>
+                              </Parameter>
+                            </Parameters>
+                          </Drillthrough>
+                        </Action>
+                      </Actions>
+                    </ActionInfo>
+                    <ZIndex>1</ZIndex>
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <RepeatColumnHeaders>true</RepeatColumnHeaders>
+        <RepeatRowHeaders>true</RepeatRowHeaders>
+        <DataSetName>DataByWeek</DataSetName>
+        <Top>1.125in</Top>
+        <Left>0.125in</Left>
+        <Height>0.5in</Height>
+        <Width>3in</Width>
+        <ZIndex>2</ZIndex>
+        <Visibility>
+          <Hidden>=iif(Parameters!Criteria.Value="By Week",False,True)</Hidden>
+        </Visibility>
+        <DataElementOutput>NoOutput</DataElementOutput>
+        <Style>
+          <Border>
+            <Color>#004882</Color>
+            <Style>Solid</Style>
+          </Border>
+          <BackgroundColor>="#FFFECC"</BackgroundColor>
+        </Style>
+      </Tablix>
+    </ReportItems>
+    <Height>1.625in</Height>
+    <Style />
+  </Body>
+  <Width>6.5in</Width>
+  <Page>
+    <PageHeader>
+      <Height>0.25in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="textbox7">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!ReportName.ToString()</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.125in</Top>
+          <Left>0.125in</Left>
+          <Height>0.125in</Height>
+          <Width>3.125in</Width>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style />
+    </PageHeader>
+    <PageFooter>
+      <Height>0.38906in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <Style />
+    </PageFooter>
+    <PageHeight>24cm</PageHeight>
+    <PageWidth>34cm</PageWidth>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Preactor_Database">
+      <DataSourceReference>Preactor Database</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>2c0b2a13-9b3b-4cb0-a77c-8501d78f3b13</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="Datasets">
+      <Query>
+        <DataSourceName>Preactor_Database</DataSourceName>
+        <CommandText>SELECT     dataset_id, name
+FROM         DatasetsSequencerOperations
+ORDER BY dataset_id</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="dataset_id">
+          <DataField>dataset_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="name">
+          <DataField>name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DateTime">
+      <Query>
+        <DataSourceName>Preactor_Database</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@DatasetId">
+            <Value>=Parameters!DatasetId.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>
+DECLARE @FirstBucketStartDate datetime
+DECLARE @RangeStart datetime
+DECLARE @LastBucketStartDate datetime
+
+-- Get the first bucket start date and the last date to process
+SELECT 
+	  @FirstBucketStartDate = dbo.DateAtStartOfWeek(MIN(DATEADD(d, 0, DATEDIFF(d, 0, [SetupStart]))))
+	, @LastBucketStartDate = MAX(DATEADD(d, 0, DATEDIFF(d, 0, [EndTime])))
+	, @RangeStart = MIN(DATEADD(d, 0, DATEDIFF(d, 0, [SetupStart])))
+FROM [dbo].[OrdersView]
+WHERE [DatasetId] = @DatasetId
+
+
+-- Select data as the previous column headings (for legacy support)
+SELECT
+	  [BucketStartDate] AS [ReferenceDate]
+	, [Product] AS [Product]
+	, [OrderNo] AS [OrderNo]
+	, [Quantity] AS [QTY]
+FROM (
+
+-- Select main data, if the data bucket does not match a bucket then quantity is 0
+SELECT
+	  OrderDataByBucket.[OrderNo]
+	, OrderDataByBucket.[Product]
+	, (CASE 
+			WHEN Buckets.[BucketStartDate] = OrderDataByBucket.[BucketStartDate] THEN OrderDataByBucket.[Quantity]
+			ELSE 0
+	   END) AS [Quantity]
+	, Buckets.[BucketStartDate]
+FROM (
+-- Select order data and find the buckt it should belong to
+	SELECT 
+		  [OrderNo]
+		, [Product]
+		, [Quantity]
+		, DATEADD(DAY, DATEDIFF(DAY, @FirstBucketStartDate, DATEADD(d, 0, DATEDIFF(d, 0, [OrderEnd]))), @FirstBucketStartDate) AS [BucketStartDate]
+	FROM (
+-- Get order data
+		SELECT 
+			  MIN([OrderStart]) AS [OrderStart]
+			, MAX([OrderEnd]) AS [OrderEnd]
+			, [OrderNo]
+			, [Product]
+			, MAX([Quantity]) AS [Quantity]
+		FROM [dbo].[OrdersView]
+		WHERE [DatasetId] = @DatasetId
+		GROUP BY [OrderNo], [Product]
+	) AS GroupedOrderData
+) AS OrderDataByBucket
+CROSS JOIN
+(
+-- Select buckets which are inside the range
+	SELECT [BucketStartDate]
+	FROM (
+-- Create a list of buckets by taking a row number and adding the number of buckets to the first bucket
+		SELECT TOP 100 
+			DATEADD(DAY, (ROW_NUMBER() OVER (ORDER BY [object_id]) - 1), @FirstBucketStartDate) AS [BucketStartDate]
+		FROM sys.objects
+		ORDER BY [object_id]
+		 ) AS LotsOfBuckets
+	WHERE [BucketStartDate] &gt;= @RangeStart AND [BucketStartDate] &lt;= @LastBucketStartDate
+) AS Buckets
+
+) AS Data</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ReferenceDate">
+          <DataField>ReferenceDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Product">
+          <DataField>Product</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Quantity">
+          <DataField>Quantity</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="OrderNo">
+          <DataField>OrderNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="End_Time">
+          <DataField>End_Time</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="QTY">
+          <DataField>QTY</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataByWeek">
+      <Query>
+        <DataSourceName>Preactor_Database</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@DatasetId">
+            <Value>=Parameters!DatasetId.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>
+DECLARE @FirstBucketStartDate datetime
+DECLARE @LastBucketStartDate datetime
+
+-- Get the first bucket start date and the last date to process
+SELECT 
+	  @FirstBucketStartDate = dbo.DateAtStartOfWeek(MIN(DATEADD(d, 0, DATEDIFF(d, 0, [SetupStart]))))
+	, @LastBucketStartDate = MAX(DATEADD(d, 0, DATEDIFF(d, 0, [EndTime])))
+FROM [dbo].[OrdersView]
+WHERE [DatasetId] = @DatasetId
+
+
+-- Select data as the previous column headings (for legacy support)
+SELECT
+	  [BucketStartDate] AS [WeekDate]
+	, [Product] AS [Product]
+	, [OrderNo] AS [OrderNo]
+	, [Quantity] AS [QTY]
+FROM (
+
+-- Select main data, if the data bucket does not match a bucket then quantity is 0
+SELECT
+	  OrderDataByBucket.[OrderNo]
+	, OrderDataByBucket.[Product]
+	, (CASE 
+			WHEN Buckets.[BucketStartDate] = OrderDataByBucket.[BucketStartDate] THEN OrderDataByBucket.[Quantity]
+			ELSE 0
+	   END) AS [Quantity]
+	, Buckets.[BucketStartDate]
+FROM (
+-- Select order data and find the buckt it should belong to
+	SELECT 
+		  [OrderNo]
+		, [Product]
+		, [Quantity]
+		, DATEADD(WEEK, DATEDIFF(WEEK, @FirstBucketStartDate, DATEADD(d, 0, DATEDIFF(d, 0, [OrderEnd]))), @FirstBucketStartDate) AS [BucketStartDate]
+	FROM (
+-- Get order data
+		SELECT 
+			  MIN([OrderStart]) AS [OrderStart]
+			, MAX([OrderEnd]) AS [OrderEnd]
+			, [OrderNo]
+			, [Product]
+			, MAX([Quantity]) AS [Quantity]
+		FROM [dbo].[OrdersView]
+		WHERE [DatasetId] = @DatasetId
+		GROUP BY [OrderNo], [Product]
+	) AS GroupedOrderData
+) AS OrderDataByBucket
+CROSS JOIN
+(
+-- Select buckets which are inside the range
+	SELECT [BucketStartDate]
+	FROM (
+-- Create a list of buckets by taking a row number and adding the number of buckets to the first bucket
+		SELECT TOP 100 
+			DATEADD(WEEK, (ROW_NUMBER() OVER (ORDER BY [object_id]) - 1), @FirstBucketStartDate) AS [BucketStartDate]
+		FROM sys.objects
+		ORDER BY [object_id]
+		 ) AS LotsOfBuckets
+	WHERE [BucketStartDate] &lt;= @LastBucketStartDate
+) AS Buckets
+
+) AS Data</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="WeekDate">
+          <DataField>WeekDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Product">
+          <DataField>Product</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Quantity">
+          <DataField>Quantity</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="OrderNo">
+          <DataField>OrderNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="End_Time">
+          <DataField>End_Time</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="QTY">
+          <DataField>QTY</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="DatasetId">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Datasets</DataSetName>
+          <ValueField>dataset_id</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>Select Dataset</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Datasets</DataSetName>
+          <ValueField>dataset_id</ValueField>
+          <LabelField>name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="Criteria">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>By Day</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Criteria</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>By Day</Value>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>By Week</Value>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
+  </ReportParameters>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>960a02f7-a730-4efe-8795-7eef1c748785</rd:ReportID>
+</Report>

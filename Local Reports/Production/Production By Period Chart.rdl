@@ -1,0 +1,1287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="list1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>8.375in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>5in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Rectangle Name="list1_Contents">
+                      <ReportItems>
+                        <Tablix Name="list2">
+                          <TablixBody>
+                            <TablixColumns>
+                              <TablixColumn>
+                                <Width>8.25in</Width>
+                              </TablixColumn>
+                            </TablixColumns>
+                            <TablixRows>
+                              <TablixRow>
+                                <Height>4.875in</Height>
+                                <TablixCells>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Rectangle Name="list2_Contents">
+                                        <ReportItems>
+                                          <Chart Name="chart1">
+                                            <ChartCategoryHierarchy>
+                                              <ChartMembers>
+                                                <ChartMember>
+                                                  <Group Name="chart1_CategoryGroup1">
+                                                    <GroupExpressions>
+                                                      <GroupExpression>=Fields!ReferenceDate.Value</GroupExpression>
+                                                    </GroupExpressions>
+                                                  </Group>
+                                                  <SortExpressions>
+                                                    <SortExpression>
+                                                      <Value>=Fields!ReferenceDate.Value</Value>
+                                                    </SortExpression>
+                                                  </SortExpressions>
+                                                  <Label>=format(Fields!ReferenceDate.Value,"dd/MM/yy")</Label>
+                                                  <DataElementOutput>Output</DataElementOutput>
+                                                </ChartMember>
+                                              </ChartMembers>
+                                            </ChartCategoryHierarchy>
+                                            <ChartSeriesHierarchy>
+                                              <ChartMembers>
+                                                <ChartMember>
+                                                  <Label>QTY</Label>
+                                                </ChartMember>
+                                              </ChartMembers>
+                                            </ChartSeriesHierarchy>
+                                            <ChartData>
+                                              <ChartSeriesCollection>
+                                                <ChartSeries Name="Series1">
+                                                  <ChartDataPoints>
+                                                    <ChartDataPoint>
+                                                      <ChartDataPointValues>
+                                                        <Y>=Sum(Fields!QTY.Value)</Y>
+                                                      </ChartDataPointValues>
+                                                      <ChartDataLabel>
+                                                        <Style />
+                                                      </ChartDataLabel>
+                                                      <ActionInfo>
+                                                        <Actions>
+                                                          <Action>
+                                                            <Drillthrough>
+                                                              <ReportName>=Left(Globals!ReportFolder,InStrRev(Globals!ReportFolder,"/"))&amp; "Production/Production By Period Details"</ReportName>
+                                                              <Parameters>
+                                                                <Parameter Name="DatasetId">
+                                                                  <Value>=Parameters!DatasetId.Value</Value>
+                                                                </Parameter>
+                                                                <Parameter Name="Criteria">
+                                                                  <Value>=Parameters!Criteria.Value</Value>
+                                                                </Parameter>
+                                                                <Parameter Name="Product">
+                                                                  <Value>=Fields!Product.Value</Value>
+                                                                </Parameter>
+                                                                <Parameter Name="RefDate">
+                                                                  <Value>=Fields!ReferenceDate.Value</Value>
+                                                                </Parameter>
+                                                              </Parameters>
+                                                            </Drillthrough>
+                                                          </Action>
+                                                        </Actions>
+                                                      </ActionInfo>
+                                                      <Style>
+                                                        <Border>
+                                                          <Color>Black</Color>
+                                                          <Width>0.376pt</Width>
+                                                        </Border>
+                                                        <Color>DodgerBlue</Color>
+                                                      </Style>
+                                                      <ChartMarker>
+                                                        <Size>6pt</Size>
+                                                        <Style />
+                                                      </ChartMarker>
+                                                    </ChartDataPoint>
+                                                  </ChartDataPoints>
+                                                  <Subtype>Stacked</Subtype>
+                                                  <Style />
+                                                  <ChartEmptyPoints>
+                                                    <Style />
+                                                    <ChartMarker>
+                                                      <Style />
+                                                    </ChartMarker>
+                                                    <ChartDataLabel>
+                                                      <Style />
+                                                    </ChartDataLabel>
+                                                  </ChartEmptyPoints>
+                                                  <CustomProperties>
+                                                    <CustomProperty>
+                                                      <Name>PointWidth</Name>
+                                                      <Value>0.6</Value>
+                                                    </CustomProperty>
+                                                  </CustomProperties>
+                                                  <ValueAxisName>Primary</ValueAxisName>
+                                                  <CategoryAxisName>Primary</CategoryAxisName>
+                                                  <ChartSmartLabel>
+                                                    <CalloutLineColor>Black</CalloutLineColor>
+                                                    <MinMovingDistance>0pt</MinMovingDistance>
+                                                  </ChartSmartLabel>
+                                                </ChartSeries>
+                                              </ChartSeriesCollection>
+                                            </ChartData>
+                                            <ChartAreas>
+                                              <ChartArea Name="Default">
+                                                <ChartCategoryAxes>
+                                                  <ChartAxis Name="Primary">
+                                                    <Style>
+                                                      <Border>
+                                                        <Style>None</Style>
+                                                        <Width>0.75pt</Width>
+                                                      </Border>
+                                                      <FontFamily>Verdana</FontFamily>
+                                                      <FontSize>8pt</FontSize>
+                                                    </Style>
+                                                    <ChartAxisTitle>
+                                                      <Caption>Date</Caption>
+                                                      <Style>
+                                                        <FontFamily>Verdana</FontFamily>
+                                                        <FontSize>8pt</FontSize>
+                                                        <FontWeight>Bold</FontWeight>
+                                                      </Style>
+                                                    </ChartAxisTitle>
+                                                    <Margin>True</Margin>
+                                                    <Interval>1</Interval>
+                                                    <ChartMajorGridLines>
+                                                      <Enabled>False</Enabled>
+                                                      <Style>
+                                                        <Border>
+                                                          <Style>Solid</Style>
+                                                          <Width>0.75pt</Width>
+                                                        </Border>
+                                                      </Style>
+                                                      <Interval>NaN</Interval>
+                                                      <IntervalOffset>1</IntervalOffset>
+                                                    </ChartMajorGridLines>
+                                                    <ChartMinorGridLines>
+                                                      <Enabled>False</Enabled>
+                                                      <Style>
+                                                        <Border>
+                                                          <Style>Solid</Style>
+                                                          <Width>0.75pt</Width>
+                                                        </Border>
+                                                      </Style>
+                                                      <Interval>NaN</Interval>
+                                                    </ChartMinorGridLines>
+                                                    <ChartMajorTickMarks>
+                                                      <Type>None</Type>
+                                                    </ChartMajorTickMarks>
+                                                    <ChartMinorTickMarks>
+                                                      <Type>None</Type>
+                                                    </ChartMinorTickMarks>
+                                                    <Minimum>NaN</Minimum>
+                                                    <Maximum>NaN</Maximum>
+                                                    <PreventFontShrink>true</PreventFontShrink>
+                                                    <PreventFontGrow>true</PreventFontGrow>
+                                                    <IncludeZero>false</IncludeZero>
+                                                    <ChartAxisScaleBreak>
+                                                      <Style />
+                                                    </ChartAxisScaleBreak>
+                                                  </ChartAxis>
+                                                  <ChartAxis Name="Secondary">
+                                                    <Style>
+                                                      <FontSize>8pt</FontSize>
+                                                    </Style>
+                                                    <ChartAxisTitle>
+                                                      <Caption />
+                                                      <Style>
+                                                        <FontSize>8pt</FontSize>
+                                                      </Style>
+                                                    </ChartAxisTitle>
+                                                    <CrossAt>NaN</CrossAt>
+                                                    <Location>Opposite</Location>
+                                                    <Minimum>NaN</Minimum>
+                                                    <Maximum>NaN</Maximum>
+                                                    <ChartAxisScaleBreak>
+                                                      <Style />
+                                                    </ChartAxisScaleBreak>
+                                                  </ChartAxis>
+                                                </ChartCategoryAxes>
+                                                <ChartValueAxes>
+                                                  <ChartAxis Name="Primary">
+                                                    <Style>
+                                                      <Border>
+                                                        <Style>None</Style>
+                                                        <Width>0.75pt</Width>
+                                                      </Border>
+                                                      <FontFamily>Verdana</FontFamily>
+                                                      <FontSize>8pt</FontSize>
+                                                    </Style>
+                                                    <ChartAxisTitle>
+                                                      <Caption>Quantity</Caption>
+                                                      <Style>
+                                                        <FontFamily>Verdana</FontFamily>
+                                                        <FontSize>8pt</FontSize>
+                                                        <FontWeight>Bold</FontWeight>
+                                                      </Style>
+                                                    </ChartAxisTitle>
+                                                    <Margin>True</Margin>
+                                                    <ChartMajorGridLines>
+                                                      <Enabled>False</Enabled>
+                                                      <Style>
+                                                        <Border>
+                                                          <Style>Solid</Style>
+                                                          <Width>0.75pt</Width>
+                                                        </Border>
+                                                      </Style>
+                                                      <Interval>NaN</Interval>
+                                                    </ChartMajorGridLines>
+                                                    <ChartMinorGridLines>
+                                                      <Enabled>False</Enabled>
+                                                      <Style>
+                                                        <Border>
+                                                          <Style>Solid</Style>
+                                                          <Width>0.75pt</Width>
+                                                        </Border>
+                                                      </Style>
+                                                      <Interval>NaN</Interval>
+                                                    </ChartMinorGridLines>
+                                                    <ChartMajorTickMarks>
+                                                      <Type>None</Type>
+                                                    </ChartMajorTickMarks>
+                                                    <ChartMinorTickMarks>
+                                                      <Type>None</Type>
+                                                    </ChartMinorTickMarks>
+                                                    <Scalar>true</Scalar>
+                                                    <Minimum>0</Minimum>
+                                                    <PreventFontShrink>true</PreventFontShrink>
+                                                    <PreventFontGrow>true</PreventFontGrow>
+                                                    <IncludeZero>false</IncludeZero>
+                                                    <ChartAxisScaleBreak>
+                                                      <Style />
+                                                    </ChartAxisScaleBreak>
+                                                  </ChartAxis>
+                                                  <ChartAxis Name="Secondary">
+                                                    <Style>
+                                                      <FontSize>8pt</FontSize>
+                                                    </Style>
+                                                    <ChartAxisTitle>
+                                                      <Caption />
+                                                      <Style>
+                                                        <FontSize>8pt</FontSize>
+                                                      </Style>
+                                                    </ChartAxisTitle>
+                                                    <CrossAt>NaN</CrossAt>
+                                                    <Location>Opposite</Location>
+                                                    <Minimum>NaN</Minimum>
+                                                    <Maximum>NaN</Maximum>
+                                                    <ChartAxisScaleBreak>
+                                                      <Style />
+                                                    </ChartAxisScaleBreak>
+                                                  </ChartAxis>
+                                                </ChartValueAxes>
+                                                <ChartThreeDProperties>
+                                                  <ProjectionMode>Perspective</ProjectionMode>
+                                                  <Shading>Simple</Shading>
+                                                  <WallThickness>15</WallThickness>
+                                                  <Clustered>true</Clustered>
+                                                </ChartThreeDProperties>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>Solid</Style>
+                                                    <Width>0.75pt</Width>
+                                                  </Border>
+                                                  <BackgroundColor>White</BackgroundColor>
+                                                </Style>
+                                              </ChartArea>
+                                            </ChartAreas>
+                                            <ChartLegends>
+                                              <ChartLegend Name="Default">
+                                                <Hidden>true</Hidden>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>Solid</Style>
+                                                    <Width>0.75pt</Width>
+                                                  </Border>
+                                                </Style>
+                                                <Position>RightCenter</Position>
+                                                <Layout>Column</Layout>
+                                                <ChartLegendTitle>
+                                                  <Caption />
+                                                  <Style>
+                                                    <FontSize>8pt</FontSize>
+                                                    <FontWeight>Bold</FontWeight>
+                                                    <TextAlign>Center</TextAlign>
+                                                  </Style>
+                                                </ChartLegendTitle>
+                                                <AutoFitTextDisabled>true</AutoFitTextDisabled>
+                                              </ChartLegend>
+                                            </ChartLegends>
+                                            <Palette>EarthTones</Palette>
+                                            <ChartBorderSkin>
+                                              <Style>
+                                                <BackgroundColor>Gray</BackgroundColor>
+                                                <BackgroundGradientType>None</BackgroundGradientType>
+                                                <Color>White</Color>
+                                              </Style>
+                                            </ChartBorderSkin>
+                                            <ChartNoDataMessage Name="NoDataMessage">
+                                              <Caption>No Data Available</Caption>
+                                              <Style>
+                                                <BackgroundGradientType>None</BackgroundGradientType>
+                                                <TextAlign>General</TextAlign>
+                                                <VerticalAlign>Top</VerticalAlign>
+                                              </Style>
+                                            </ChartNoDataMessage>
+                                            <DataSetName>DateTime</DataSetName>
+                                            <Top>0.375in</Top>
+                                            <Left>0.125in</Left>
+                                            <Height>4.5in</Height>
+                                            <Width>7.875in</Width>
+                                            <CustomProperties>
+                                              <CustomProperty>
+                                                <Name>__Upgraded2005__</Name>
+                                                <Value>__Upgraded2005__</Value>
+                                              </CustomProperty>
+                                            </CustomProperties>
+                                            <Style>
+                                              <BackgroundColor>White</BackgroundColor>
+                                            </Style>
+                                          </Chart>
+                                          <Textbox Name="textbox14">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value rd:LocID="Production">="Production For " &amp; Fields!Product.Value &amp; " - " &amp; Parameters!Criteria.Value</Value>
+                                                    <Style>
+                                                      <FontSize>14pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
+                                                      <Color>#004882</Color>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <Height>0.75cm</Height>
+                                            <Width>8.125in</Width>
+                                            <ZIndex>1</ZIndex>
+                                            <Style>
+                                              <PaddingLeft>2pt</PaddingLeft>
+                                              <PaddingRight>2pt</PaddingRight>
+                                              <PaddingTop>2pt</PaddingTop>
+                                              <PaddingBottom>2pt</PaddingBottom>
+                                            </Style>
+                                          </Textbox>
+                                        </ReportItems>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Style />
+                                      </Rectangle>
+                                    </CellContents>
+                                  </TablixCell>
+                                </TablixCells>
+                              </TablixRow>
+                            </TablixRows>
+                          </TablixBody>
+                          <TablixColumnHierarchy>
+                            <TablixMembers>
+                              <TablixMember />
+                            </TablixMembers>
+                          </TablixColumnHierarchy>
+                          <TablixRowHierarchy>
+                            <TablixMembers>
+                              <TablixMember>
+                                <Group Name="list2_Details_Group">
+                                  <GroupExpressions>
+                                    <GroupExpression>=Fields!Page.Value</GroupExpression>
+                                  </GroupExpressions>
+                                  <PageBreak>
+                                    <BreakLocation>Between</BreakLocation>
+                                  </PageBreak>
+                                </Group>
+                                <DataElementOutput>Output</DataElementOutput>
+                                <KeepTogether>true</KeepTogether>
+                              </TablixMember>
+                            </TablixMembers>
+                          </TablixRowHierarchy>
+                          <DataSetName>DateTime</DataSetName>
+                          <PageBreak>
+                            <BreakLocation>End</BreakLocation>
+                          </PageBreak>
+                          <Top>0.125in</Top>
+                          <Left>0.125in</Left>
+                          <Height>4.875in</Height>
+                          <Width>8.25in</Width>
+                          <Style />
+                        </Tablix>
+                      </ReportItems>
+                      <KeepTogether>true</KeepTogether>
+                      <Style />
+                    </Rectangle>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="list1_Details_Group">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Product.Value</GroupExpression>
+                </GroupExpressions>
+                <PageBreak>
+                  <BreakLocation>Between</BreakLocation>
+                </PageBreak>
+              </Group>
+              <Visibility>
+                <Hidden>=iif(Parameters!Criteria.Value="By Day",False,True)</Hidden>
+              </Visibility>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DateTime</DataSetName>
+        <Height>5in</Height>
+        <Width>8.375in</Width>
+        <DataElementOutput>NoOutput</DataElementOutput>
+        <Style />
+      </Tablix>
+      <Tablix Name="list3">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>8.375in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>6in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Rectangle Name="list3_Contents">
+                      <ReportItems>
+                        <Tablix Name="list4">
+                          <TablixBody>
+                            <TablixColumns>
+                              <TablixColumn>
+                                <Width>8.25in</Width>
+                              </TablixColumn>
+                            </TablixColumns>
+                            <TablixRows>
+                              <TablixRow>
+                                <Height>5.25in</Height>
+                                <TablixCells>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Rectangle Name="list4_Contents">
+                                        <ReportItems>
+                                          <Chart Name="chart2">
+                                            <ChartCategoryHierarchy>
+                                              <ChartMembers>
+                                                <ChartMember>
+                                                  <Group Name="chart2_CategoryGroup1">
+                                                    <GroupExpressions>
+                                                      <GroupExpression>=Fields!WeekDate.Value</GroupExpression>
+                                                    </GroupExpressions>
+                                                  </Group>
+                                                  <SortExpressions>
+                                                    <SortExpression>
+                                                      <Value>=Fields!WeekDate.Value</Value>
+                                                    </SortExpression>
+                                                  </SortExpressions>
+                                                  <Label>=format(Fields!WeekDate.Value,"dd/MM/yy")</Label>
+                                                  <DataElementOutput>Output</DataElementOutput>
+                                                </ChartMember>
+                                              </ChartMembers>
+                                            </ChartCategoryHierarchy>
+                                            <ChartSeriesHierarchy>
+                                              <ChartMembers>
+                                                <ChartMember>
+                                                  <Label>QTY</Label>
+                                                </ChartMember>
+                                              </ChartMembers>
+                                            </ChartSeriesHierarchy>
+                                            <ChartData>
+                                              <ChartSeriesCollection>
+                                                <ChartSeries Name="Series1">
+                                                  <ChartDataPoints>
+                                                    <ChartDataPoint>
+                                                      <ChartDataPointValues>
+                                                        <Y>=Sum(Fields!QTY.Value)</Y>
+                                                      </ChartDataPointValues>
+                                                      <ChartDataLabel>
+                                                        <Style />
+                                                      </ChartDataLabel>
+                                                      <ActionInfo>
+                                                        <Actions>
+                                                          <Action>
+                                                            <Drillthrough>
+                                                              <ReportName>=Left(Globals!ReportFolder,InStrRev(Globals!ReportFolder,"/"))&amp; "Production/Production By Period Details"</ReportName>
+                                                              <Parameters>
+                                                                <Parameter Name="DatasetId">
+                                                                  <Value>=Parameters!DatasetId.Value</Value>
+                                                                </Parameter>
+                                                                <Parameter Name="Criteria">
+                                                                  <Value>=Parameters!Criteria.Value</Value>
+                                                                </Parameter>
+                                                                <Parameter Name="Product">
+                                                                  <Value>=Fields!Product.Value</Value>
+                                                                </Parameter>
+                                                                <Parameter Name="RefDate">
+                                                                  <Value>=Fields!WeekDate.Value</Value>
+                                                                </Parameter>
+                                                              </Parameters>
+                                                            </Drillthrough>
+                                                          </Action>
+                                                        </Actions>
+                                                      </ActionInfo>
+                                                      <Style>
+                                                        <Border>
+                                                          <Color>Black</Color>
+                                                          <Width>0.376pt</Width>
+                                                        </Border>
+                                                        <Color>DodgerBlue</Color>
+                                                      </Style>
+                                                      <ChartMarker>
+                                                        <Size>6pt</Size>
+                                                        <Style />
+                                                      </ChartMarker>
+                                                    </ChartDataPoint>
+                                                  </ChartDataPoints>
+                                                  <Subtype>Stacked</Subtype>
+                                                  <Style />
+                                                  <ChartEmptyPoints>
+                                                    <Style />
+                                                    <ChartMarker>
+                                                      <Style />
+                                                    </ChartMarker>
+                                                    <ChartDataLabel>
+                                                      <Style />
+                                                    </ChartDataLabel>
+                                                  </ChartEmptyPoints>
+                                                  <CustomProperties>
+                                                    <CustomProperty>
+                                                      <Name>PointWidth</Name>
+                                                      <Value>0.6</Value>
+                                                    </CustomProperty>
+                                                  </CustomProperties>
+                                                  <ValueAxisName>Primary</ValueAxisName>
+                                                  <CategoryAxisName>Primary</CategoryAxisName>
+                                                  <ChartSmartLabel>
+                                                    <CalloutLineColor>Black</CalloutLineColor>
+                                                    <MinMovingDistance>0pt</MinMovingDistance>
+                                                  </ChartSmartLabel>
+                                                </ChartSeries>
+                                              </ChartSeriesCollection>
+                                            </ChartData>
+                                            <ChartAreas>
+                                              <ChartArea Name="Default">
+                                                <ChartCategoryAxes>
+                                                  <ChartAxis Name="Primary">
+                                                    <Style>
+                                                      <Border>
+                                                        <Style>None</Style>
+                                                        <Width>0.75pt</Width>
+                                                      </Border>
+                                                      <FontFamily>Verdana</FontFamily>
+                                                      <FontSize>8pt</FontSize>
+                                                    </Style>
+                                                    <ChartAxisTitle>
+                                                      <Caption>Week</Caption>
+                                                      <Style>
+                                                        <FontFamily>Verdana</FontFamily>
+                                                        <FontSize>8pt</FontSize>
+                                                        <FontWeight>Bold</FontWeight>
+                                                      </Style>
+                                                    </ChartAxisTitle>
+                                                    <Margin>True</Margin>
+                                                    <Interval>1</Interval>
+                                                    <ChartMajorGridLines>
+                                                      <Enabled>False</Enabled>
+                                                      <Style>
+                                                        <Border>
+                                                          <Style>Solid</Style>
+                                                          <Width>0.75pt</Width>
+                                                        </Border>
+                                                      </Style>
+                                                      <Interval>NaN</Interval>
+                                                      <IntervalOffset>1</IntervalOffset>
+                                                    </ChartMajorGridLines>
+                                                    <ChartMinorGridLines>
+                                                      <Enabled>False</Enabled>
+                                                      <Style>
+                                                        <Border>
+                                                          <Style>Solid</Style>
+                                                          <Width>0.75pt</Width>
+                                                        </Border>
+                                                      </Style>
+                                                      <Interval>NaN</Interval>
+                                                    </ChartMinorGridLines>
+                                                    <ChartMajorTickMarks>
+                                                      <Type>None</Type>
+                                                    </ChartMajorTickMarks>
+                                                    <ChartMinorTickMarks>
+                                                      <Type>None</Type>
+                                                    </ChartMinorTickMarks>
+                                                    <Minimum>NaN</Minimum>
+                                                    <Maximum>NaN</Maximum>
+                                                    <PreventFontShrink>true</PreventFontShrink>
+                                                    <PreventFontGrow>true</PreventFontGrow>
+                                                    <IncludeZero>false</IncludeZero>
+                                                    <ChartAxisScaleBreak>
+                                                      <Style />
+                                                    </ChartAxisScaleBreak>
+                                                  </ChartAxis>
+                                                  <ChartAxis Name="Secondary">
+                                                    <Style>
+                                                      <FontSize>8pt</FontSize>
+                                                    </Style>
+                                                    <ChartAxisTitle>
+                                                      <Caption />
+                                                      <Style>
+                                                        <FontSize>8pt</FontSize>
+                                                      </Style>
+                                                    </ChartAxisTitle>
+                                                    <CrossAt>NaN</CrossAt>
+                                                    <Location>Opposite</Location>
+                                                    <Minimum>NaN</Minimum>
+                                                    <Maximum>NaN</Maximum>
+                                                    <ChartAxisScaleBreak>
+                                                      <Style />
+                                                    </ChartAxisScaleBreak>
+                                                  </ChartAxis>
+                                                </ChartCategoryAxes>
+                                                <ChartValueAxes>
+                                                  <ChartAxis Name="Primary">
+                                                    <Style>
+                                                      <Border>
+                                                        <Style>None</Style>
+                                                        <Width>0.75pt</Width>
+                                                      </Border>
+                                                      <FontFamily>Verdana</FontFamily>
+                                                      <FontSize>8pt</FontSize>
+                                                    </Style>
+                                                    <ChartAxisTitle>
+                                                      <Caption>Quantity</Caption>
+                                                      <Style>
+                                                        <FontFamily>Verdana</FontFamily>
+                                                        <FontSize>8pt</FontSize>
+                                                        <FontWeight>Bold</FontWeight>
+                                                      </Style>
+                                                    </ChartAxisTitle>
+                                                    <Margin>True</Margin>
+                                                    <ChartMajorGridLines>
+                                                      <Enabled>False</Enabled>
+                                                      <Style>
+                                                        <Border>
+                                                          <Style>Solid</Style>
+                                                          <Width>0.75pt</Width>
+                                                        </Border>
+                                                      </Style>
+                                                      <Interval>NaN</Interval>
+                                                    </ChartMajorGridLines>
+                                                    <ChartMinorGridLines>
+                                                      <Enabled>False</Enabled>
+                                                      <Style>
+                                                        <Border>
+                                                          <Style>Solid</Style>
+                                                          <Width>0.75pt</Width>
+                                                        </Border>
+                                                      </Style>
+                                                      <Interval>NaN</Interval>
+                                                    </ChartMinorGridLines>
+                                                    <ChartMajorTickMarks>
+                                                      <Type>None</Type>
+                                                    </ChartMajorTickMarks>
+                                                    <ChartMinorTickMarks>
+                                                      <Type>None</Type>
+                                                    </ChartMinorTickMarks>
+                                                    <Scalar>true</Scalar>
+                                                    <Minimum>0</Minimum>
+                                                    <PreventFontShrink>true</PreventFontShrink>
+                                                    <PreventFontGrow>true</PreventFontGrow>
+                                                    <IncludeZero>false</IncludeZero>
+                                                    <ChartAxisScaleBreak>
+                                                      <Style />
+                                                    </ChartAxisScaleBreak>
+                                                  </ChartAxis>
+                                                  <ChartAxis Name="Secondary">
+                                                    <Style>
+                                                      <FontSize>8pt</FontSize>
+                                                    </Style>
+                                                    <ChartAxisTitle>
+                                                      <Caption />
+                                                      <Style>
+                                                        <FontSize>8pt</FontSize>
+                                                      </Style>
+                                                    </ChartAxisTitle>
+                                                    <CrossAt>NaN</CrossAt>
+                                                    <Location>Opposite</Location>
+                                                    <Minimum>NaN</Minimum>
+                                                    <Maximum>NaN</Maximum>
+                                                    <ChartAxisScaleBreak>
+                                                      <Style />
+                                                    </ChartAxisScaleBreak>
+                                                  </ChartAxis>
+                                                </ChartValueAxes>
+                                                <ChartThreeDProperties>
+                                                  <ProjectionMode>Perspective</ProjectionMode>
+                                                  <Shading>Simple</Shading>
+                                                  <WallThickness>15</WallThickness>
+                                                  <Clustered>true</Clustered>
+                                                </ChartThreeDProperties>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>Solid</Style>
+                                                    <Width>0.75pt</Width>
+                                                  </Border>
+                                                  <BackgroundColor>White</BackgroundColor>
+                                                </Style>
+                                              </ChartArea>
+                                            </ChartAreas>
+                                            <ChartLegends>
+                                              <ChartLegend Name="Default">
+                                                <Hidden>true</Hidden>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>Solid</Style>
+                                                    <Width>0.75pt</Width>
+                                                  </Border>
+                                                </Style>
+                                                <Position>RightCenter</Position>
+                                                <Layout>Column</Layout>
+                                                <ChartLegendTitle>
+                                                  <Caption />
+                                                  <Style>
+                                                    <FontSize>8pt</FontSize>
+                                                    <FontWeight>Bold</FontWeight>
+                                                    <TextAlign>Center</TextAlign>
+                                                  </Style>
+                                                </ChartLegendTitle>
+                                                <AutoFitTextDisabled>true</AutoFitTextDisabled>
+                                              </ChartLegend>
+                                            </ChartLegends>
+                                            <Palette>EarthTones</Palette>
+                                            <ChartBorderSkin>
+                                              <Style>
+                                                <BackgroundColor>Gray</BackgroundColor>
+                                                <BackgroundGradientType>None</BackgroundGradientType>
+                                                <Color>White</Color>
+                                              </Style>
+                                            </ChartBorderSkin>
+                                            <ChartNoDataMessage Name="NoDataMessage">
+                                              <Caption>No Data Available</Caption>
+                                              <Style>
+                                                <BackgroundGradientType>None</BackgroundGradientType>
+                                                <TextAlign>General</TextAlign>
+                                                <VerticalAlign>Top</VerticalAlign>
+                                              </Style>
+                                            </ChartNoDataMessage>
+                                            <DataSetName>DataByWeek</DataSetName>
+                                            <Top>0.375in</Top>
+                                            <Left>0.125in</Left>
+                                            <Height>4.875in</Height>
+                                            <Width>7.875in</Width>
+                                            <CustomProperties>
+                                              <CustomProperty>
+                                                <Name>__Upgraded2005__</Name>
+                                                <Value>__Upgraded2005__</Value>
+                                              </CustomProperty>
+                                            </CustomProperties>
+                                            <Style>
+                                              <BackgroundColor>White</BackgroundColor>
+                                            </Style>
+                                          </Chart>
+                                          <Textbox Name="textbox1">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value rd:LocID="Production">="Production For " &amp; Fields!Product.Value &amp; " - " &amp; Parameters!Criteria.Value</Value>
+                                                    <Style>
+                                                      <FontSize>14pt</FontSize>
+                                                      <FontWeight>Bold</FontWeight>
+                                                      <Color>#004882</Color>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <Height>0.75cm</Height>
+                                            <Width>8.125in</Width>
+                                            <ZIndex>1</ZIndex>
+                                            <Style>
+                                              <PaddingLeft>2pt</PaddingLeft>
+                                              <PaddingRight>2pt</PaddingRight>
+                                              <PaddingTop>2pt</PaddingTop>
+                                              <PaddingBottom>2pt</PaddingBottom>
+                                            </Style>
+                                          </Textbox>
+                                        </ReportItems>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Style />
+                                      </Rectangle>
+                                    </CellContents>
+                                  </TablixCell>
+                                </TablixCells>
+                              </TablixRow>
+                            </TablixRows>
+                          </TablixBody>
+                          <TablixColumnHierarchy>
+                            <TablixMembers>
+                              <TablixMember />
+                            </TablixMembers>
+                          </TablixColumnHierarchy>
+                          <TablixRowHierarchy>
+                            <TablixMembers>
+                              <TablixMember>
+                                <Group Name="list4_ListControl">
+                                  <GroupExpressions>
+                                    <GroupExpression>=Fields!Page.Value</GroupExpression>
+                                  </GroupExpressions>
+                                  <PageBreak>
+                                    <BreakLocation>Between</BreakLocation>
+                                  </PageBreak>
+                                </Group>
+                                <DataElementOutput>Output</DataElementOutput>
+                                <KeepTogether>true</KeepTogether>
+                              </TablixMember>
+                            </TablixMembers>
+                          </TablixRowHierarchy>
+                          <DataSetName>DataByWeek</DataSetName>
+                          <PageBreak>
+                            <BreakLocation>End</BreakLocation>
+                          </PageBreak>
+                          <Top>0.125in</Top>
+                          <Left>0.0625in</Left>
+                          <Height>5.25in</Height>
+                          <Width>8.25in</Width>
+                          <Style />
+                        </Tablix>
+                      </ReportItems>
+                      <KeepTogether>true</KeepTogether>
+                      <Style />
+                    </Rectangle>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="list3_Details_Group">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Product.Value</GroupExpression>
+                </GroupExpressions>
+                <PageBreak>
+                  <BreakLocation>Between</BreakLocation>
+                </PageBreak>
+              </Group>
+              <Visibility>
+                <Hidden>=iif(Parameters!Criteria.Value="By Week",False,True)</Hidden>
+              </Visibility>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DataByWeek</DataSetName>
+        <Top>5.125in</Top>
+        <Height>6in</Height>
+        <Width>8.375in</Width>
+        <ZIndex>1</ZIndex>
+        <DataElementOutput>NoOutput</DataElementOutput>
+        <Style />
+      </Tablix>
+    </ReportItems>
+    <Height>11.125in</Height>
+    <Style />
+  </Body>
+  <Width>8.375in</Width>
+  <Page>
+    <PageHeader>
+      <Height>0.25in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="textbox7">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!ReportName.ToString()</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.125in</Top>
+          <Left>0.125in</Left>
+          <Height>0.125in</Height>
+          <Width>3.125in</Width>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style />
+    </PageHeader>
+    <PageFooter>
+      <Height>0.38906in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <Style />
+    </PageFooter>
+    <PageHeight>24cm</PageHeight>
+    <PageWidth>34cm</PageWidth>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Preactor_Database">
+      <DataSourceReference>Preactor Database</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>2c0b2a13-9b3b-4cb0-a77c-8501d78f3b13</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="Datasets">
+      <Query>
+        <DataSourceName>Preactor_Database</DataSourceName>
+        <CommandText>SELECT        dataset_id, name
+FROM            DatasetsSequencerOperations
+ORDER BY dataset_id</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="dataset_id">
+          <DataField>dataset_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="name">
+          <DataField>name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DateTime">
+      <Query>
+        <DataSourceName>Preactor_Database</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@DatasetId">
+            <Value>=Parameters!DatasetId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@BarsPerPage">
+            <Value>=Parameters!BarsPerPage.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Product">
+            <Value>=Parameters!Product.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>DECLARE @FirstBucketStartDate datetime
+DECLARE @RangeStart datetime
+DECLARE @LastBucketStartDate datetime
+
+-- Get the first bucket start date and the last date to process
+SELECT 
+	  @FirstBucketStartDate = dbo.DateAtStartOfWeek(MIN(DATEADD(d, 0, DATEDIFF(d, 0, [SetupStart]))))
+	, @LastBucketStartDate = MAX(DATEADD(d, 0, DATEDIFF(d, 0, [EndTime])))
+	, @RangeStart = MIN(DATEADD(d, 0, DATEDIFF(d, 0, [SetupStart])))
+FROM [dbo].[OrdersView]
+WHERE [DatasetId] = @DatasetId
+
+
+-- Select data as the previous column headings (for legacy support)
+SELECT
+	  [BucketStartDate] AS [ReferenceDate]
+	, [Product] AS [Product]
+	, [OrderNo] AS [OrderNo]
+	, [Quantity] AS [QTY]
+	, ((ROW_NUMBER() OVER (PARTITION BY [OrderNo] ORDER BY [BucketStartDate]) - 1) / @BarsPerPage) AS [Page]
+FROM (
+
+-- Select main data, if the data bucket does not match a bucket then quantity is 0
+SELECT
+	  OrderDataByBucket.[OrderNo]
+	, OrderDataByBucket.[Product]
+	, (CASE 
+			WHEN Buckets.[BucketStartDate] = OrderDataByBucket.[BucketStartDate] THEN OrderDataByBucket.[Quantity]
+			ELSE 0
+	   END) AS [Quantity]
+	, Buckets.[BucketStartDate]
+FROM (
+-- Select order data and find the buckt it should belong to
+	SELECT 
+		  [OrderNo]
+		, [Product]
+		, [Quantity]
+		, DATEADD(DAY, DATEDIFF(DAY, @FirstBucketStartDate, DATEADD(d, 0, DATEDIFF(d, 0, [OrderEnd]))), @FirstBucketStartDate) AS [BucketStartDate]
+	FROM (
+-- Get order data
+		SELECT 
+			  MIN([OrderStart]) AS [OrderStart]
+			, MAX([OrderEnd]) AS [OrderEnd]
+			, [OrderNo]
+			, [Product]
+			, MAX([Quantity]) AS [Quantity]
+		FROM [dbo].[OrdersView]
+		WHERE [DatasetId] = @DatasetId AND [Product] = @Product
+		GROUP BY [OrderNo], [Product]
+	) AS GroupedOrderData
+) AS OrderDataByBucket
+CROSS JOIN
+(
+-- Select buckets which are inside the range
+	SELECT [BucketStartDate]
+	FROM (
+-- Create a list of buckets by taking a row number and adding the number of buckets to the first bucket
+		SELECT TOP 100 
+			DATEADD(DAY, (ROW_NUMBER() OVER (ORDER BY [object_id]) - 1), @FirstBucketStartDate) AS [BucketStartDate]
+		FROM sys.objects
+		ORDER BY [object_id]
+		 ) AS LotsOfBuckets
+	WHERE [BucketStartDate] &gt;= @RangeStart AND [BucketStartDate] &lt;= @LastBucketStartDate
+) AS Buckets
+
+) AS Data</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ReferenceDate">
+          <DataField>ReferenceDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Product">
+          <DataField>Product</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Quantity">
+          <DataField>Quantity</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="OrderNo">
+          <DataField>OrderNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="End_Time">
+          <DataField>End_Time</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="QTY">
+          <DataField>QTY</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Page">
+          <DataField>Page</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataByWeek">
+      <Query>
+        <DataSourceName>Preactor_Database</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@BarsPerPage">
+            <Value>=Parameters!BarsPerPage.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@DatasetId">
+            <Value>=Parameters!DatasetId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Product">
+            <Value>=Parameters!Product.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>DECLARE @FirstBucketStartDate datetime
+DECLARE @LastBucketStartDate datetime
+
+-- Get the first bucket start date and the last date to process
+SELECT 
+	  @FirstBucketStartDate = dbo.DateAtStartOfWeek(MIN(DATEADD(d, 0, DATEDIFF(d, 0, [SetupStart]))))
+	, @LastBucketStartDate = MAX(DATEADD(d, 0, DATEDIFF(d, 0, [EndTime])))
+FROM [dbo].[OrdersView]
+WHERE [DatasetId] = @DatasetId
+
+
+-- Select data as the previous column headings (for legacy support)
+SELECT
+	  [BucketStartDate] AS [WeekDate]
+	, [Product] AS [Product]
+	, [OrderNo] AS [OrderNo]
+	, [Quantity] AS [QTY]
+	, ((ROW_NUMBER() OVER (PARTITION BY [OrderNo] ORDER BY [BucketStartDate]) - 1) / @BarsPerPage) AS [Page]
+FROM (
+
+-- Select main data, if the data bucket does not match a bucket then quantity is 0
+SELECT
+	  OrderDataByBucket.[OrderNo]
+	, OrderDataByBucket.[Product]
+	, (CASE 
+			WHEN Buckets.[BucketStartDate] = OrderDataByBucket.[BucketStartDate] THEN OrderDataByBucket.[Quantity]
+			ELSE 0
+	   END) AS [Quantity]
+	, Buckets.[BucketStartDate]
+FROM (
+-- Select order data and find the buckt it should belong to
+	SELECT 
+		  [OrderNo]
+		, [Product]
+		, [Quantity]
+		, DATEADD(WEEK, DATEDIFF(WEEK, @FirstBucketStartDate, DATEADD(d, 0, DATEDIFF(d, 0, [OrderEnd]))), @FirstBucketStartDate) AS [BucketStartDate]
+	FROM (
+-- Get order data
+		SELECT 
+			  MIN([OrderStart]) AS [OrderStart]
+			, MAX([OrderEnd]) AS [OrderEnd]
+			, [OrderNo]
+			, [Product]
+			, MAX([Quantity]) AS [Quantity]
+		FROM [dbo].[OrdersView]
+		WHERE [DatasetId] = @DatasetId AND [Product] = @Product
+		GROUP BY [OrderNo], [Product]
+	) AS GroupedOrderData
+) AS OrderDataByBucket
+CROSS JOIN
+(
+-- Select buckets which are inside the range
+	SELECT [BucketStartDate]
+	FROM (
+-- Create a list of buckets by taking a row number and adding the number of buckets to the first bucket
+		SELECT TOP 100 
+			DATEADD(WEEK, (ROW_NUMBER() OVER (ORDER BY [object_id]) - 1), @FirstBucketStartDate) AS [BucketStartDate]
+		FROM sys.objects
+		ORDER BY [object_id]
+		 ) AS LotsOfBuckets
+	WHERE [BucketStartDate] &lt;= @LastBucketStartDate
+) AS Buckets
+
+) AS Data
+</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="WeekDate">
+          <DataField>WeekDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Product">
+          <DataField>Product</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Quantity">
+          <DataField>Quantity</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="OrderNo">
+          <DataField>OrderNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="End_Time">
+          <DataField>End_Time</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="QTY">
+          <DataField>QTY</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Page">
+          <DataField>Page</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="DatasetId">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Datasets</DataSetName>
+          <ValueField>dataset_id</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>Select Dataset</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Datasets</DataSetName>
+          <ValueField>dataset_id</ValueField>
+          <LabelField>name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="Criteria">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>By Day</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Criteria</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>By Day</Value>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>By Week</Value>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="BarsPerPage">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>10</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Bars Per Page</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Product">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+        </Values>
+      </DefaultValue>
+      <Prompt>Product</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>960a02f7-a730-4efe-8795-7eef1c748785</rd:ReportID>
+</Report>

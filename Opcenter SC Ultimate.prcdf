@@ -1,0 +1,11 @@
+﻿"/DbConnect:Data Source=.\SQLEXPRESS01;Initial Catalog=MATRA3006;Integrated Security=True;"
+"/FLEXLM.TYPE:Network"
+"/FLEXLM.SERVER:localhost"
+"/LICENSE:4958275"
+"/MDF:Opcenter_APS.prmdf"
+"/TDF:Opcenter_APS.prtdf"
+"/PCO"
+"/DisableLegacyReports"
+"/define:NO_WEB_PUBLISH"
+"/define:AS_PRO"
+

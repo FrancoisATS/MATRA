@@ -1,0 +1,3123 @@
+﻿;
+#include {PREACTOR PATH}\Include\pr_prtdf.inc #VERSION 3
+#include MaterialControl_prtdf.inc
+;
+;************************************************************************
+;
+;     Opcenter AS Table Definition
+;
+;************************************************************************
+;
+ACTIVEX_CUSTOM_CHECK_SERVER
+;
+GANTT_BUCKET_WIDTH 1
+;
+#ifdef VIEWER
+VIEWER_MODE
+#endif
+;
+#include Language\{COUNTRY}\{COUNTRY}_popup_prtdf.inc #OPTIONAL
+;
+RECORD_FORMAT
+;
+;************************************************************************
+;     User Process Data Formats(Tables)
+;************************************************************************
+;
+; Main schedule file definition.
+;
+Orders,DATASET:
+ OF,-1,STRING,
+   NULL FIELD:
+Sous ensemble,1,TOGGLE
+,INHERIT FROM PARENT:
+Commande,"",STRING,
+ALLOW EMPTY
+FREE FORMAT:
+   Opération,-1,STRING,
+   NULL FIELD:
+   Belongs to Order No.,-1,STRING,
+      HELPPOPUPID (10)
+      FAMILY(Order No.)
+      DIALOG ONLY:
+   Number,0,INTEGER,
+      PRIMARY KEY 
+	  ORDERS TABLE
+      MADE FROM KEY
+#ifndef PR_NOCOST
+      COST KEY
+#endif
+      HIDDEN:
+   Order Status,-1,STRING,
+      HELPPOPUPID (41)
+      DATABASE(Order Status(Order Status Name))
+      INHERIT FROM PARENT
+      ALLOW UNSPECIFIED
+      TRACE VERTICAL AXIS
+      LIST TIPS:
+   Order Status Rank,-1,INTEGER,
+      HELPPOPUPID (560)
+      DATABASE(Order Status(Rank))
+      UPDATE REFERENCE(Order Status)
+      HIDDEN
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      WEIGHTED
+      NO TRACK:
+   Order No.,"",STRING,
+      MATERIAL CONTROL ORDER NO
+      SIMATICIT ORDER NO
+      HELPPOPUPID (60)
+      FREE FORMAT (10)
+      INHERIT FROM PARENT
+      TIP DISPLAY
+      OPERATION ERROR DISPLAY:
+   Order Type,0,STRING,
+      HELPPOPUPID (25800)
+      DATABASE(Order Types(Name))
+      INHERIT FROM PARENT
+      DIALOG ONLY
+      ORDER TYPE
+      LIST TIPS:
+  Order Enquiry,0,TOGGLE,
+      DEFAULT ON INSERT
+      INHERIT FROM PARENT
+      DIALOG ONLY
+      ORDER ENQUIRY:
+   OF_DesignationOperation,-1,STRING,
+      FREE FORMAT
+	  EVALUATE "{$Order No.} _ {$Operation Name}":
+   Part No.,"",STRING,
+      MATERIAL CONTROL PART NO
+      HELPPOPUPID (40)
+      FREE FORMAT
+      INHERIT FROM PARENT
+      TRACE VERTICAL AXIS
+      AUTO EXPAND
+      LOOKUP SOURCE(Products(Part No.))
+      LOOKUP UPDATE:
+   Product,"",STRING,
+      HELPPOPUPID (50)
+      FREE FORMAT
+      TIP DISPLAY
+      INHERIT FROM PARENT
+      TRACE VERTICAL AXIS
+      LOOKUP SOURCE(Products(Product))
+      LOOKUP UPDATE(Product):
+   Earliest Start Date,-1,TIME,
+      
+      HELPPOPUPID (360)
+	  EARLIEST START JALONNEMENT
+      GLOBAL ASSIGN
+      DIALOG ONLY
+      SHOW DATE
+      REPEAT UPDATE
+      PARENT UPDATE
+      SPLIT EDIT:
+   Latest Start Date,-1,TIME,
+      READ ONLY
+      LATEST START JALONNEMENT:
+   Latest End Date,-1,TIME,
+      READ ONLY
+DUE DATE
+      LATEST END JALONNEMENT:
+   Due Date,-1,TIME,
+      HELPPOPUPID (370)
+      REPEAT UPDATE
+      DEMAND RANKING DATE
+	  
+DUEXDATE
+      GLOBAL ASSIGN
+
+      
+
+      SUPPLY RANKING DATE
+      SHOW DATE
+      INHERIT FROM PARENT
+      WEIGHTED:
+   Priority,10,REAL,
+      HELPPOPUPID (80)
+      PRIORITY
+      TRACE VERTICAL AXIS
+      WEIGHTED
+      FORMAT(.0)
+      GLOBAL ASSIGN:
+   Quantity,1,REAL,
+      HELPPOPUPID (260)
+      QUANTITY
+      PARENT UPDATE
+      FORMAT(.0):
+   Profit,0,REAL,
+      HELPPOPUPID (270)
+      FORMAT(.2)
+      DIALOG ONLY
+      WEIGHTED
+      INHERIT FROM PARENT
+      LOOKUP UPDATE:
+   Order Start,-1,TIME,
+      HELPPOPUPID (280)
+#ifndef PR_NOMAKESPAN
+      ORDER START
+#endif
+      DIALOG ONLY:
+   Order End,-1,TIME,
+      HELPPOPUPID (290)
+#ifndef PR_NOMAKESPAN
+      ORDER END
+#endif
+      DIALOG ONLY:
+   Make Span,-1,DURATION,
+      HELPPOPUPID (602)
+#ifndef PR_NOMAKESPAN
+      DIALOG ONLY
+#endif
+#ifdef PR_NOMAKESPAN
+      HIDDEN
+#endif
+      EVALUATE "({Order End}-{Order Start})"
+      READ ONLY:
+   Transfer Type,1,INTEGER,
+      SUBSTITUTE(0 -> "After Transfer Quantity")
+      SUBSTITUTE(1 -> "After Full Quantity")
+      DIALOG LEVEL 10
+      DIALOG ONLY:
+   Transfer Quantity Enabled,0,TOGGLE,
+      EVALUATE "{#Transfer Type}==0"
+      SWITCH ON (Transfer Quantity)
+      HIDDEN
+      DIALOG LEVEL 10:
+   Transfer Quantity,1,REAL,
+      HELPPOPUPID (300)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      LOOKUP UPDATE:
+   Start Offset Quantity,-1,REAL,
+      START OFFSET
+      EVALUATE "({#Transfer Type}==0)*{#Transfer Quantity} +
+                ({#Transfer Type}!=0)*-1"
+      HIDDEN
+      DIALOG LEVEL 10:
+   Table Attribute 1,-1,STRING,
+      HELPPOPUPID (6681)
+      DATABASE(Attribute 1(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      LOOKUP UPDATE
+      TRACE VERTICAL AXIS
+      LIST TIPS:
+   Table Attribute 1 Rank,-1,INTEGER,
+      HELPPOPUPID (560)
+      DATABASE(Attribute 1(Rank))
+      UPDATE REFERENCE(Table Attribute 1)
+      ALWAYS UPDATE
+      HIDDEN
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      WEIGHTED
+      NO TRACK:
+   Table Attribute 2,-1,STRING,
+      HELPPOPUPID (6682)
+      DATABASE(Attribute 2(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      LOOKUP UPDATE
+      TRACE VERTICAL AXIS
+      LIST TIPS:
+   Table Attribute 2 Rank,-1,INTEGER,
+      HELPPOPUPID (580)
+      DATABASE(Attribute 2(Rank))
+      UPDATE REFERENCE(Table Attribute 2)
+      ALWAYS UPDATE
+      HIDDEN
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      WEIGHTED
+      NO TRACK:
+   Table Attribute 3,-1,STRING,
+      HELPPOPUPID (6683)
+      DATABASE(Attribute 3(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      LOOKUP UPDATE
+      TRACE VERTICAL AXIS
+      LIST TIPS:
+   Table Attribute 3 Rank,-1,INTEGER,
+      HELPPOPUPID (600)
+      DATABASE(Attribute 3(Rank))
+      UPDATE REFERENCE(Table Attribute 3)
+      ALWAYS UPDATE
+      HIDDEN
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      WEIGHTED
+      NO TRACK:
+#ifdef AS_PRO
+   Table Attribute 4,-1,STRING,
+      HELPPOPUPID (6683)
+      DATABASE(Attribute 4(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      LOOKUP UPDATE
+      TRACE VERTICAL AXIS
+      LIST TIPS:
+   Table Attribute 4 Rank,-1,INTEGER,
+      HELPPOPUPID (600)
+      DATABASE(Attribute 4(Rank))
+      UPDATE REFERENCE(Table Attribute 4)
+      ALWAYS UPDATE
+      HIDDEN
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      WEIGHTED
+      NO TRACK:
+   Table Attribute 5,-1,STRING,
+      HELPPOPUPID (6683)
+      DATABASE(Attribute 5(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      LOOKUP UPDATE
+      TRACE VERTICAL AXIS
+      LIST TIPS:
+   Table Attribute 5 Rank,-1,INTEGER,
+      HELPPOPUPID (600)
+      DATABASE(Attribute 5(Rank))
+      UPDATE REFERENCE(Table Attribute 5)
+      ALWAYS UPDATE
+      HIDDEN
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      WEIGHTED
+      NO TRACK:
+#endif
+   String Attribute 1,"",STRING,
+      FREE FORMAT
+      HELPPOPUPID (6682)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW EMPTY
+      LOOKUP UPDATE:
+   String Attribute 2,"",STRING,
+      FREE FORMAT
+      HELPPOPUPID (6682)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW EMPTY
+      LOOKUP UPDATE:
+   String Attribute 3,"",STRING,
+      FREE FORMAT
+      HELPPOPUPID (6682)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW EMPTY
+      LOOKUP UPDATE:
+#ifdef AS_PRO
+   String Attribute 4,"",STRING,
+      FREE FORMAT
+      HELPPOPUPID (6682)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW EMPTY
+      LOOKUP UPDATE:
+   String Attribute 5,"",STRING,
+      FREE FORMAT
+      HELPPOPUPID (6682)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW EMPTY
+      LOOKUP UPDATE:
+#endif
+   Numerical Attribute 1,0,REAL,
+      HELPPOPUPID (6683)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      WEIGHTED
+      LOOKUP UPDATE:
+   Numerical Attribute 2,0,REAL,
+      HELPPOPUPID (6683)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      WEIGHTED
+      LOOKUP UPDATE:
+   Numerical Attribute 3,0,REAL,
+      HELPPOPUPID (6683)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      WEIGHTED
+      LOOKUP UPDATE:
+#ifdef AS_PRO
+   Numerical Attribute 4,0,REAL,
+      HELPPOPUPID (6683)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      WEIGHTED
+      LOOKUP UPDATE:
+   Numerical Attribute 5,0,REAL,
+      HELPPOPUPID (6683)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      WEIGHTED
+      LOOKUP UPDATE:
+#endif
+   Date Attribute 1,-1,TIME,
+      ALLOW UNSPECIFIED
+      HELPPOPUPID (6684)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      WEIGHTED
+      LOOKUP UPDATE:
+#ifdef AS_PRO
+   Date Attribute 2,-1,TIME,
+	DUE DATE JALONNEMENT
+      ALLOW UNSPECIFIED
+      HELPPOPUPID (6684)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      WEIGHTED
+      LOOKUP UPDATE:
+#endif
+   Duration Attribute 1,-1,DURATION,
+      ALLOW UNSPECIFIED
+      HELPPOPUPID (6685)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      WEIGHTED
+      LOOKUP UPDATE:
+   Duration Attribute 2,-1,DURATION,
+      ALLOW UNSPECIFIED
+      HELPPOPUPID (6685)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      WEIGHTED
+      LOOKUP UPDATE:
+#ifdef AS_PRO
+   Duration Attribute 3,-1,DURATION,
+      ALLOW UNSPECIFIED
+      HELPPOPUPID (6685)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      WEIGHTED
+      LOOKUP UPDATE:
+#endif
+   Toggle Attribute 1,0,TOGGLE,
+      HELPPOPUPID (6685)
+      DIALOG ONLY
+      LOOKUP UPDATE
+      DIALOG LEVEL 10:
+#ifdef AS_PRO
+   Toggle Attribute 2,0,TOGGLE,
+      HELPPOPUPID (6685)
+      DIALOG ONLY
+      LOOKUP UPDATE
+      DIALOG LEVEL 10:
+#endif
+   Waiting Time,-1,DURATION,
+      WaitingTimeForReports
+      HIDDEN:
+   Total Setup Time,-1,DURATION,
+      ALLOW UNSPECIFIED
+	  SETUP TIME JALONNEMENT
+      TOTAL SETUP TIME
+      DIALOG ONLY
+      HIDDEN:
+   Total Process Time,-1,DURATION,
+      ALLOW UNSPECIFIED
+      TOTAL PROCESS TIME
+      HIDDEN:
+   Critical Ratio,-1,REAL,
+      HELPPOPUPID (620)
+#ifndef PR_NOCRITICALRATIO
+      CRITICAL RATIO
+      DIALOG ONLY
+      DIALOG LEVEL 10
+#endif
+#ifdef PR_NOCRITICALRATIO
+      HIDDEN
+#endif
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified"):
+#ifdef AS_PRO
+   Look Ahead Window,7,DURATION,
+      HELPPOPUPID (530)
+      ALLOW UNSPECIFIED
+      DIALOG ONLY
+      OP GROUPING WINDOW
+      DIALOG LEVEL 10
+      PARENT UPDATE
+      LOOKUP UPDATE:
+#endif
+   Op. No.,10,INTEGER,
+      MATERIAL CONTROL OP NO
+      HELPPOPUPID (90)
+      TIP DISPLAY
+      OPERATION ERROR DISPLAY
+      LOOKUP UPDATE:
+   Op. Id.,10,INTEGER,
+      DIALOG ONLY
+      HIDDEN
+      OPERATION NUMBER (10)
+      LOOKUP UPDATE:
+   Operation Name,"",STRING,
+      TIP DISPLAY
+      HELPPOPUPID (110)
+      FREE FORMAT (30)
+      GANTT LEGEND
+      LOOKUP UPDATE:
+   Actual Resource,-1,STRING,
+      HIDDEN
+      NO TRACK
+      DATABASE(Resources(External Id))
+      OVERRIDE(Resource)
+      ALLOW UNSPECIFIED
+      DIALOG ONLY:
+   Resource Field Enabled,0,TOGGLE,
+      EVALUATE "{#Actual Resource}==-1"
+      SWITCH ON (Resource)
+      EXCLUDE FROM DB
+      HIDDEN:
+   Resource,-1,STRING,
+      HELPPOPUPID (150)
+      DATABASE(Orders(Resource Data))
+      ALLOW UNSPECIFIED
+      TRACE VERTICAL AXIS
+      V AXIS
+      DIALOG ONLY
+      JOBSRESOURCEFIELD
+      DEFAULT ON INSERT
+      DEFAULT ON REPEAT
+      DEFAULT ON COPY
+      DEFAULT ON SPLIT
+      LIST TIPS:
+   Material Control,-1,DIALOG,
+      HELPPOPUPID (25820)
+      CALL DIALOG 20:
+   Resources,-1,DIALOG,
+      HELPPOPUPID (112)
+      CALL DIALOG 30:
+   Primary Resource Data,0,STRING,
+      NULL FIELD
+      DIALOG ONLY
+      DIALOG LEVEL 30:
+   Resource Group,-1,STRING,
+      HELPPOPUPID (130)
+      DIALOG LEVEL 30
+      DATABASE(Resource Groups(Name))
+      ALLOW UNSPECIFIED
+      DIALOG ONLY
+      DEFAULT ON INSERT
+      SUBSTITUTE(-1 -> "All Resources")
+      TRACE VERTICAL AXIS
+      LOOKUP UPDATE
+      LIST TIPS:
+   Required Resource,-1,STRING,
+      HELPPOPUPID (140)
+      DIALOG LEVEL 30
+      DATABASE(Resource Groups(Resources))
+      ALLOW UNSPECIFIED
+      FORCE WINDOW
+      NO TRACK
+      DEFAULT ON INSERT
+      SUBSTITUTE(-1 -> "Select from Group")
+      DIALOG ONLY
+      LOOKUP UPDATE
+      LIST TIPS:  
+   SMT Operation,0,TOGGLE,
+      HIDDEN
+      DIALOG ONLY
+      SMT ORDERS       
+      DIALOG LEVEL 10
+      EVALUATE"{SMT OperationString}"
+      SWITCH ON (SMT Date)
+      SWITCH ON (SMT Side)
+      SWITCH ON (Revision):
+   SMT OperationString,0,STRING,
+      HIDDEN
+      ADDITIONAL REFERENCE(Resource Group)
+      ALLOW UNSPECIFIED 
+      DATABASE(Resource Groups(SMT Resource GroupString)):      
+   Resource Data,-1,MATRIX,
+      HELPPOPUPID (6100)
+      DIALOG LEVEL 30
+	  	  RESOURCE DATA JALONNEMENT
+      AUTO SELECT
+      AUTO LIST(Resource Groups(Resources))
+      LOOKUP UPDATE:
+   Automatic Sequencing?,1,MATRIX  TOGGLE,
+      HELPPOPUPID (6110)
+      DIRECT ASSOCIATE(Resource Data)
+      LOOKUP UPDATE:
+   Cost Factor %,100,MATRIX  REAL,
+      HELPPOPUPID (5035)
+#ifndef PR_NOCOST
+      RESOURCE COST FACTOR
+#endif
+#ifdef PR_NOCOST
+      HIDDEN
+#endif
+      DIRECT ASSOCIATE(Resource Data)
+      LOOKUP UPDATE:
+   Resource Setup Time,0,MATRIX  DURATION,
+      HELPPOPUPID (6120)
+      DIRECT ASSOCIATE(Resource Data)
+      SEQ SETUP
+      LOOKUP UPDATE:
+   Resource Op Time,0,MATRIX  DURATION,
+      HELPPOPUPID (6130)
+      HIDE WHEN DISABLED
+      DIRECT ASSOCIATE(Resource Data)
+      LOOKUP UPDATE:
+   Resource Rate Per Hour,0,MATRIX  REAL,
+      HELPPOPUPID (6131)
+      HIDE WHEN DISABLED
+      OVERWRITE PREVIOUS
+      DIRECT ASSOCIATE(Resource Data)
+      LOOKUP UPDATE:
+   Resource Batch Time,0,MATRIX  DURATION,
+      HELPPOPUPID (6132)
+      HIDE WHEN DISABLED
+      OVERWRITE PREVIOUS
+      DIRECT ASSOCIATE(Resource Data)
+      LOOKUP UPDATE:
+#ifdef AS_PRO
+   Resource Real Op Time per Item,0,MATRIX  DURATION,
+      EVALUATE "((((1/{#Resource Rate Per Hour})/24)*({#Process Time Type}==4))+
+      (({#Resource Op Time})*({#Process Time Type}==3))+
+      (({#Resource Batch Time})*({#Process Time Type}==5)))/{#Productivity Multiplier}"
+      FORMAT (.8)
+      DIALOG ONLY
+      ALWAYS UPDATE
+      DIRECT ASSOCIATE(Resource Data)
+      ALTERNATE PROCESS TIME:
+#endif
+#ifndef AS_PRO
+   Resource Real Op Time per Item,0,MATRIX  DURATION,
+      EVALUATE "((((1/{#Resource Rate Per Hour})/24)*({#Process Time Type}==4))+
+      (({#Resource Op Time})*({#Process Time Type}==3))+
+      (({#Resource Batch Time})*({#Process Time Type}==5)))"
+      FORMAT (.8)
+      DIALOG ONLY
+      ALWAYS UPDATE
+      DIRECT ASSOCIATE(Resource Data)
+      ALTERNATE PROCESS TIME:
+#endif
+   Resource Constraint,-1,MATRIX  STRING,
+      HELPPOPUPID (6140)
+      DATABASE(Secondary Constraints(Name))
+      ALLOW UNSPECIFIED
+      DIRECT ASSOCIATE(Resource Data)
+      LOOKUP UPDATE
+      LIST TIPS:
+   Resource Constraint Usage,5,MATRIX  STRING,
+      HELPPOPUPID (6150)
+      CAPACITY TYPE
+      DATABASE(Constraint Usage(Name))
+      DIRECT ASSOCIATE(Resource Data)
+      LIST TIPS
+      LOOKUP UPDATE:
+   Resource Constraint Qty,0,MATRIX  REAL,
+      HELPPOPUPID (6160)
+      GRAPH INCREMENT
+      REMOTE(Orders(Quantity))
+      REMOTE(Orders(Numerical Attribute 1))
+      REMOTE(Orders(Numerical Attribute 2))
+      REMOTE(Orders(Numerical Attribute 3))
+#ifdef AS_PRO
+      REMOTE(Orders(Numerical Attribute 4))
+      REMOTE(Orders(Numerical Attribute 5))
+#endif
+      DIRECT ASSOCIATE(Resource Data)
+      LOOKUP UPDATE:
+#ifdef AS_PRO
+   Resource Constraint Group,-1,MATRIX STRING,
+      HELPPOPUPID (2300)
+      DATABASE(Secondary Constraint Groups(Name))
+      ALLOW UNSPECIFIED
+      DEFAULT ON INSERT
+      DIRECT ASSOCIATE(Resource Data)
+      EXTENDED TRACK
+      LOOKUP UPDATE
+      LIST TIPS:
+   Resource Selection Timeout,-1,MATRIX  DURATION,
+      HELPPOPUPID (6170)
+      RESOURCE SELECTION TIMEOUT
+      DIRECT ASSOCIATE(Resource Data)
+      LOOKUP UPDATE:
+#endif
+   Set Subsequent Resource Group,-1,MATRIX  STRING,
+      HELPPOPUPID (6180)
+      NO TRACK
+      SUBSEQUENT RESOURCE CONSTRAINT 
+      ALLOW UNSPECIFIED
+      DATABASE(Resource Groups(Name))
+      DIRECT ASSOCIATE(Resource Data)
+      LOOKUP UPDATE
+      LIST TIPS:
+   Reset Subsequent Resource Group,-1,MATRIX  STRING,
+      HELPPOPUPID (6190)
+      NO TRACK
+      RESET SUBSEQUENT RESOURCE
+      ALLOW UNSPECIFIED
+      DATABASE(Resource Groups(Name))
+      DIRECT ASSOCIATE(Resource Data)
+      LOOKUP UPDATE
+      LIST TIPS:
+   Secondary Constraint Data,0,STRING,
+      NULL FIELD
+      DIALOG ONLY
+      DIALOG LEVEL 30:
+   Secondary Constraints,-1,MATRIX,
+      HELPPOPUPID (6470)
+      DIALOG LEVEL 30
+      AUTO LIST(Secondary Constraints(Name))
+      LOOKUP UPDATE
+      LIST TIPS:
+   Constraint Usage,5,MATRIX  STRING,
+      HELPPOPUPID (2110)
+      CAPACITY TYPE
+      DATABASE(Constraint Usage(Name))
+      DIRECT ASSOCIATE(Secondary Constraints)
+      LIST TIPS
+      LOOKUP UPDATE:
+   Constraint Quantity,0,MATRIX  REAL,
+      HELPPOPUPID (2120)
+      GRAPH INCREMENT
+      REMOTE(Orders(Quantity))
+      REMOTE(Orders(Numerical Attribute 1))
+      REMOTE(Orders(Numerical Attribute 2))
+      REMOTE(Orders(Numerical Attribute 3))
+#ifdef AS_PRO
+      REMOTE(Orders(Numerical Attribute 4))
+      REMOTE(Orders(Numerical Attribute 5))
+#endif
+      DIRECT ASSOCIATE(Secondary Constraints)
+      LOOKUP UPDATE:
+   Secondary Constraint Groups,0,STRING,
+      NULL FIELD
+      DIALOG ONLY
+      DIALOG LEVEL 30:
+   Resource Specific Constraint Group,-1,STRING,
+      HELPPOPUPID (130)
+      DIALOG LEVEL 30
+      LOCAL ASSIGNMENT(Orders(Selected Resource Specific Constraint))
+      DATABASE(Secondary Constraint Groups(Name))
+      ALLOW UNSPECIFIED
+      DIALOG ONLY
+      EXTENDED REFERENCE(Resource Constraint Group,Resource)
+      READ ONLY
+      LIST TIPS:
+  Selected Resource Specific Constraint, -1, STRING,
+      HELPPOPUPID (2310)
+      DIALOG LEVEL 30
+      TIP DISPLAY
+      NO TRACK
+      DATABASE(Secondary Constraint Groups(Secondary Constraints))
+	  RELATED FIELD (Resource Specific Constraint Group)
+      ALLOW UNSPECIFIED
+      DIALOG ONLY
+      DEFAULT ON INSERT:
+  Constraint Group 1,-1,STRING,
+      HELPPOPUPID (2300)
+      DIALOG LEVEL 30
+      LOCAL ASSIGNMENT(Orders(Selected Constraint 1))
+      DATABASE(Secondary Constraint Groups(Name))
+      ALLOW UNSPECIFIED
+      DIALOG ONLY
+      DEFAULT ON INSERT
+      LOOKUP UPDATE
+      LIST TIPS:
+   Selected Constraint 1, -1, STRING,
+      HELPPOPUPID (2310)
+      DIALOG LEVEL 30
+      TIP DISPLAY
+      NO TRACK
+      DATABASE(Secondary Constraint Groups(Secondary Constraints))
+      RELATED FIELD(Constraint Group 1)
+      ALLOW UNSPECIFIED
+      DIALOG ONLY
+      DEFAULT ON INSERT:
+#ifdef AS_PRO
+   Constraint Group 2,-1,STRING,
+      HELPPOPUPID (2300)
+      DIALOG LEVEL 30
+      LOCAL ASSIGNMENT(Orders(Selected Constraint 2))
+      DATABASE(Secondary Constraint Groups(Name))
+      ALLOW UNSPECIFIED
+      DIALOG ONLY
+      DEFAULT ON INSERT
+      LOOKUP UPDATE
+      LIST TIPS:
+   Selected Constraint 2, -1, STRING,
+      HELPPOPUPID (2310)
+      DIALOG LEVEL 30
+      TIP DISPLAY
+      NO TRACK
+      DATABASE(Secondary Constraint Groups(Secondary Constraints))
+      RELATED FIELD(Constraint Group 2)
+      ALLOW UNSPECIFIED
+      DIALOG ONLY
+      DEFAULT ON INSERT:
+#endif
+   Operation Times,-1,DIALOG,
+      HELPPOPUPID (815)
+      CALL DIALOG 40:
+   Setup Time,0,DURATION,
+      HELPPOPUPID (6230)
+      DIALOG ONLY
+      DIALOG LEVEL 40
+      SEQ SETUP
+      LOOKUP UPDATE:
+   Process Time Type,0,STRING,
+      HELPPOPUPID (180)
+      DIALOG LEVEL 40
+      DATABASE(Process Time Type Lookup(Name))
+      DEFAULT ON INSERT
+      DIALOG ONLY
+      TIME TYPE
+      NO TRACK
+      LIST TIPS
+      LOOKUP UPDATE:
+   Rate Per Hour Toggle,0,TOGGLE,
+      HIDDEN
+      EVALUATE"{#Process Time Type}==2"
+      DIALOG ONLY
+      SWITCH ON (Quantity per Hour):
+   Time Per Item Toggle,0,TOGGLE,
+      HIDDEN
+      EVALUATE"{#Process Time Type}==0"
+      DIALOG ONLY
+      SWITCH ON (Op. Time per Item):
+   Time Per Batch Toggle,0,TOGGLE,
+      HIDDEN
+      EVALUATE"(({#Process Time Type}==1) || ({#Process Time Type}==5))"
+      DIALOG ONLY
+      TIME PER BATCH:
+   Batch Time Field Toggle,0,TOGGLE,
+      HIDDEN
+      EVALUATE"({#Process Time Type}==1)"
+      DIALOG ONLY
+      SWITCH ON (Batch Time):
+   Resource Time Per Item Toggle,0,TOGGLE,
+      EVALUATE"{#Process Time Type}==3"
+      DIALOG ONLY
+      ALWAYS UPDATE
+      SWITCH ON (Resource Op Time)
+      HIDDEN:
+   Resource Rate Per Hour Toggle,0,TOGGLE,
+      EVALUATE"{#Process Time Type}==4"
+      DIALOG ONLY
+      ALWAYS UPDATE
+      SWITCH ON (Resource Rate Per Hour)
+      HIDDEN:
+   Resource Batch Time Toggle,0,TOGGLE,
+      EVALUATE"{#Process Time Type}==5"
+      DIALOG ONLY
+      ALWAYS UPDATE
+      SWITCH ON (Resource Batch Time)
+      HIDDEN:
+   Op. Time per Item,0.006944444444445,DURATION,
+      HELPPOPUPID (220)
+      DIALOG LEVEL 40
+      FORMAT(.4)
+      DIALOG ONLY
+      NO DAYS
+      HIDE WHEN DISABLED
+      LOOKUP UPDATE:
+   Batch Time,0.006944444444445,DURATION,
+      HELPPOPUPID (230)
+      DIALOG LEVEL 40
+      FORMAT(.4)
+      DIALOG ONLY
+      BATCH TIME
+      HIDE WHEN DISABLED
+      OVERWRITE PREVIOUS
+      LOOKUP UPDATE:
+   Quantity per Hour,1,REAL,
+      HELPPOPUPID (240)
+      DIALOG LEVEL 40
+      FORMAT(.4)
+      DIALOG ONLY
+      HIDE WHEN DISABLED
+      OVERWRITE PREVIOUS
+      LOOKUP UPDATE:
+   Effective Op Time,0,DURATION,
+      HELPPOPUPID (460)
+      SEQ EFFECTIVE PROCESS TIME
+      READ ONLY
+      DIALOG ONLY
+      DIALOG LEVEL 40
+      HIDE WHEN DISABLED:
+#ifdef AS_PRO
+   Real Op Time Per Item,0,DURATION,
+      EVALUATE" ((({Op. Time per Item}*({#Process Time Type}==0))+
+				({Batch Time}*({#Process Time Type}==1))+
+				((1/{Quantity per Hour}/24)*({#Process Time Type}==2)))/
+				{#Productivity Multiplier})+
+				(-1*({#Process Time Type}>=3))"
+      PROCESS TIME
+	  
+      HIDDEN
+      DIALOG ONLY:
+#endif
+#ifndef AS_PRO
+   Real Op Time Per Item,0,DURATION,
+      EVALUATE"((({Op. Time per Item})*({#Process Time Type}==0))+
+      (({Batch Time})*({#Process Time Type}==1))+
+      (((1/{Quantity per Hour})/24)*({#Process Time Type}==2))+
+      ((-1)*({#Process Time Type}>=3)))"
+      PROCESS TIME
+      HIDDEN
+      DIALOG ONLY:
+#endif
+   Slack Time After Last Operation,0,DURATION,
+      HELPPOPUPID (6560)
+      DIALOG ONLY
+      DIALOG LEVEL 40
+	  EVALUATE "({TempsTransport} + {TempsAttente})" 
+      SEQ SLACK:
+#ifdef AS_PRO
+   Slack Time Before Next Operation,-1,DURATION,
+      HELPPOPUPID (6565)
+      DIALOG ONLY
+      DIALOG LEVEL 40
+      END OFFSET
+      LOOKUP UPDATE:
+   Max Time Before Next Op.,-1,DURATION,
+      HELPPOPUPID (6530)
+      DIALOG ONLY
+      DIALOG LEVEL 40
+      INTER OPERATION INTERVAL
+      LOOKUP UPDATE:
+   Interval Type,0,STRING,
+      HELPPOPUPID (6540)
+      DATABASE(Interval Types(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 40
+      INTER OPERATION TYPE
+      LIST TIPS
+      LOOKUP UPDATE:
+   Maximum Operation Span Increase %,-1,REAL,
+      HELPPOPUPID (6550)
+      DIALOG ONLY
+      DIALOG LEVEL 40
+      MAX OPERATION SPAN
+      SUBSTITUTE(-1 -> "Infinite")
+      LOOKUP UPDATE:
+   Productivity Multiplier,1,REAL,
+      HELPPOPUPID (6580)
+      DIALOG ONLY
+      DIALOG LEVEL 40
+      LOOKUP UPDATE:
+#endif
+   Delivery Buffer,0,DURATION,
+      HELPPOPUPID (6690)
+      DELIVERY BUFFER
+      DIALOG ONLY
+      DIALOG LEVEL 40
+      ALLOW UNSPECIFIED
+      LOOKUP UPDATE:
+   Operation Progress,2,STRING,
+      HELPPOPUPID (541)
+	  OPERATION PROGRESS JALONNEMENT
+      DATABASE(Operation Progress Lookup(Name))
+      ALLOW UNSPECIFIED
+      LIST TIPS
+      DIALOG LEVEL 50:
+   Mid Batch Time,-1,TIME,
+      HELPPOPUPID (450)
+#ifndef AS_PRO
+      CURRENT PROGRESS TIME
+#endif
+#ifdef AS_PRO
+      SEQ REFERENCE TIME
+#endif
+      DIALOG ONLY
+      DIALOG LEVEL 50:
+   Mid Batch Quantity,0,REAL,
+      HELPPOPUPID (440)
+      CURRENT PROGRESS
+#ifdef AS_PRO
+      SEQ COMPLETED
+#endif
+      DIALOG ONLY
+      DIALOG LEVEL 50:
+   Start Offset End Sync,1,TOGGLE,
+      HIDDEN
+      START OFFSET END SYNC
+      FORCE DEFAULT VALUE:
+   Attributes,-1,DIALOG,
+      HELPPOPUPID (75)
+      CALL DIALOG 10:
+   Operation Status,-1,DIALOG,
+      HELPPOPUPID (25900)
+      CALL DIALOG 50:
+   Material Cost Per Item,0,REAL,
+      HELPPOPUPID (474)
+#ifndef PR_NOCOST
+      DIALOG ONLY
+#endif
+#ifdef PR_NOCOST
+      HIDDEN
+#endif
+      DIALOG LEVEL 10
+      LOOKUP UPDATE:
+   Material Cost,0,REAL, 
+      HELPPOPUPID (476)
+#ifndef PR_NOCOST
+      MATERIAL COST
+      DIALOG LEVEL 10
+      DIALOG ONLY 
+#endif
+#ifdef PR_NOCOST
+      HIDDEN
+#endif
+      EVALUATE "{Quantity}*{Material Cost Per Item}":
+   User Defined Operation Cost,0,REAL,
+#ifdef PR_NOCOST      
+      HIDDEN
+#endif
+#ifndef PR_NOCOST
+      USER DEFINED OPERATION COST
+#endif
+      DIALOG LEVEL 10
+      LOOKUP UPDATE:
+   Operation Cost,0,REAL, 
+      HELPPOPUPID (477)
+      READ ONLY
+#ifdef PR_NOCOST
+      HIDDEN
+      DIALOG LEVEL 10
+      DIALOG ONLY
+#endif
+#ifndef PR_NOCOST
+      OPERATION COST      
+#endif
+      SUBSTITUTE(-1 -> "Unspecified"):
+   Order Cost,0,REAL,
+#ifndef PR_NOCOST
+      ORDER COST
+#endif
+      HIDDEN:
+   Notes,"",STRING,
+      HELPPOPUPID (70)
+      FREE FORMAT(20)
+      ALLOW EMPTY
+      MAX LENGTH(1000)
+      MULTILINE
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      LOOKUP UPDATE:
+   Document,"",STRING,
+      HELPPOPUPID (540)
+      FREE FORMAT
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      BROWSER (.DOC)
+      FILE SELECT(*.DOC)
+      ALLOW EMPTY
+      LOOKUP UPDATE:
+   Revision,-1,STRING,
+	  ALLOW UNSPECIFIED
+	  ALLOW EMPTY
+	  LOOKUP UPDATE
+	  HIDDEN
+	  SMT ORDERS
+	  HIDE WHEN DISABLED
+	  DIALOG LEVEL 10
+	  FREE FORMAT(30):
+   SMT Date,-1,TIME,
+      GLOBAL ASSIGN
+      SHOW DATE
+      HIDDEN
+	  SMT ORDERS
+	  LOOKUP UPDATE
+	  HIDE WHEN DISABLED
+	  DIALOG LEVEL 10
+      WEIGHTED:
+   SMT Side,1,STRING,
+	  HIDDEN
+	  SMT ORDERS
+      DATABASE(SMT Side(Name))	   
+	  HIDE WHEN DISABLED
+	  DIALOG LEVEL 10:
+   Actual Setup Start,-1,TIME,
+      OVERRIDE(Setup Start)
+      DIALOG ONLY
+      HIDDEN:
+   Actual Start Time,-1,TIME,
+      OVERRIDE(Start Time)
+      DIALOG ONLY
+      HIDDEN:
+   Actual End Time,-1,TIME,
+      OVERRIDE(End Time)
+      DIALOG ONLY
+      HIDDEN:
+   Use Actual Times,0,TOGGLE,
+      HELPPOPUPID (380)
+      DIALOG ONLY
+      USE ACTUAL TIMES
+      DEFAULT ON INSERT
+      SWITCH ON (Setup Start)
+      SWITCH ON (Start Time)
+      SWITCH ON (End Time):
+   Using Actual Times,0,TOGGLE,
+      ACTUAL TIME
+      HIDDEN
+      EVALUATE "(({#Actual Setup Start} > 0) &&
+                ({#Actual Start Time} > 0) &&
+                ({#Actual End Time} > 0)) ||
+                ({#Use Actual Times} > 0)"
+      SWITCH OFF (Lock Operation):
+   Setup Start,-1,TIME,
+      HELPPOPUPID (390)
+      LAUNCH TIME
+      DIALOG ONLY
+      DEFAULT ON INSERT
+      DEFAULT ON REPEAT
+      DEFAULT ON COPY
+      DEFAULT ON SPLIT:
+   Start Time,-1,TIME,
+      HELPPOPUPID (400)
+      START TIME
+      DIALOG ONLY
+      DEFAULT ON INSERT
+      DEFAULT ON REPEAT
+      DEFAULT ON COPY
+      DEFAULT ON SPLIT:
+   End Time,-1,TIME,
+      HELPPOPUPID (410)
+      END TIME
+      DIALOG ONLY
+      DEFAULT ON INSERT
+      DEFAULT ON REPEAT
+      DEFAULT ON COPY
+      DEFAULT ON SPLIT:
+   Hold,0,TOGGLE,
+      HELPPOPUPID (421)
+      DIALOG ONLY
+      DIALOG LEVEL 50:
+   Sequencing Enabled,1,TOGGLE,
+      EVALUATE"{#Hold}==0"
+      AUTO SEQ RESTRICT
+      HIDDEN:
+   Lock Operation,0,TOGGLE,
+      HELPPOPUPID (420)
+      DIALOG ONLY
+      DEFAULT ON INSERT
+      SEQUENCE LOCK:
+   Set Sequencer Operation Thumb,1,TOGGLE,
+      DATABASE(Sequencer Configuration(Set Sequencer Operation Thumb))
+      DIALOG ONLY
+      HIDDEN:
+   Internal Pegging Information,-1,MATRIX, 
+      HIDDEN
+      READ ONLY
+      EXPLICIT MADE FROM INTERNAL
+      AUTO LIST(Orders(Number)):
+   External Pegging Information,-1,MATRIX,
+      HIDDEN
+      READ ONLY
+      EXPLICIT MADE FROM EXTERNAL
+      AUTO LIST(Orders(Number)):
+   Independent Lots,0,TOGGLE,
+      HELPPOPUPID (25910)
+      INDEPENDENT LOTS
+      DIALOG LEVEL 20
+      DIALOG ONLY
+      LOOKUP UPDATE:
+   Material Control Complete,0,TOGGLE, 
+      MATERIAL CONTROL COMPLETE
+      AUTO SEQ RESTRICT
+      HIDDEN
+      DEFAULT ON COPY
+      DEFAULT ON INSERT
+      DEFAULT ON REPEAT
+      DEFAULT ON SPLIT:
+   Material Shortage,0,TOGGLE,
+      SHORTAGES
+      HIDDEN
+      DEFAULT ON COPY
+      DEFAULT ON INSERT
+      DEFAULT ON REPEAT
+      DEFAULT ON SPLIT:
+   Material Over Supply,0,TOGGLE,
+      OVER SUPPLIED
+      HIDDEN
+      DEFAULT ON COPY
+      DEFAULT ON INSERT
+      DEFAULT ON REPEAT
+      DEFAULT ON SPLIT:
+   Demand Status,2,STRING,
+      HELPPOPUPID (25830)
+      DATABASE(Demand Status(Name))
+      EVALUATE"(((({#Material Control Complete}==0)&&({#Material Shortage}==0))*2)+
+                ((({#Material Control Complete}==1)&&({#Material Shortage}==0)&&({#Material Over Supply}==0))*3)+
+                ((({#Material Control Complete}==1)&&({#Material Shortage}==1)&&({#Material Over Supply}==0))*4)+
+                ((({#Material Control Complete}==0)&&({#Material Shortage}==1)&&({#Material Over Supply}==0))*5)+
+                ((({#Material Control Complete}==1)&&({#Material Shortage}==0)&&({#Material Over Supply}==1))*6)+
+                ((({#Material Control Complete}==0)&&({#Material Shortage}==1)&&({#Material Over Supply}==1))*7)+
+                ((({#Material Control Complete}==1)&&({#Material Shortage}==1)&&({#Material Over Supply}==1))*8))"
+      MATERIAL CONTROL UPDATE
+      READ ONLY
+      DIALOG LEVEL 20
+      DIALOG ONLY
+      DEFAULT ON COPY
+      DEFAULT ON INSERT
+      DEFAULT ON REPEAT
+      DEFAULT ON SPLIT
+      LIST TIPS:
+   Op Seq Marker,0,INTEGER,
+      OP SEQ MARKER
+      READ ONLY
+      HIDDEN:
+   Demand Date,-1,TIME,
+      HELPPOPUPID (25840)
+      READ ONLY
+      DEMAND DATE
+      SHOW DATE
+#ifndef AS_PRO
+      INHERIT FROM PARENT
+#endif
+      REPEAT UPDATE
+      PARENT UPDATE
+      DIALOG LEVEL 20
+      DIALOG ONLY:
+   Supply Date,-1,TIME,
+      HELPPOPUPID (25850)
+      READ ONLY
+      SUPPLY DATE
+      SHOW DATE
+      INHERIT FROM PARENT
+      REPEAT UPDATE
+      PARENT UPDATE
+      DIALOG LEVEL 20
+      DIALOG ONLY:
+   Actual Earliest Start Date,-1,TIME,
+      READ ONLY
+      EVALUATE"((({#Demand Date}>{#Earliest Start Date})*{#Demand Date})
+                  +(({#Demand Date}<={#Earliest Start Date})*{#Earliest Start Date}))"
+      EARLIEST START
+      
+      SHOW DATE
+      HIDDEN:
+   Actual Due Date,-1,TIME,
+      READ ONLY
+      EVALUATE"(((({#Due Date}==-1) * ({#Supply Date}==-1))*(-1))
+					+((({#Due Date}>0) * ({#Supply Date}>{#Due Date}))*({#Due Date}))
+					+((({#Supply Date}>0) * ({#Due Date}>={#Supply Date}))*({#Supply Date}))
+					+((({#Due Date}==-1) * ({#Supply Date}>0))*({#Supply Date}))
+					+((({#Supply Date}==-1) * ({#Due Date}>0))*({#Due Date})))"
+      
+      SHOW DATE
+      INHERIT FROM PARENT
+      
+      HIDDEN:
+   Marked For Deletion,0,TOGGLE,
+      HIDDEN:
+   Original Order No.,"",STRING,
+      HELPPOPUPID (1)
+      FREE FORMAT (10)
+      DIALOG ONLY
+      DIALOG LEVEL 20
+      INHERIT FROM PARENT
+      ALLOW EMPTY:
+   Display Sequence Number,1,REAL,
+      DISPLAY SEQUENCE
+      HIDDEN:
+   Weighting,0,REAL,
+      HIDDEN
+      SEQ WEIGHT:
+   Spare Dialog 1,-1,DIALOG,
+      CALL DIALOG 60
+      HIDDEN:
+   Spare Dialog 2,-1,DIALOG,
+      CALL DIALOG 70
+      HIDDEN:
+   Spare Dialog 3,-1,DIALOG,
+      CALL DIALOG 80
+      HIDDEN:
+   Order External Id,"",STRING,
+      SIMATICIT ORDER NID
+      FREE FORMAT
+      HIDDEN:
+   Operation External Id,"",STRING,
+      SIMATICIT MES OPERATION NID
+      FREE FORMAT
+      HIDDEN:
+	Client,"",STRING,
+      FREE FORMAT:  
+	NoSeri,"",STRING,
+      FREE FORMAT:  
+	CodeCondition,"",STRING,
+      FREE FORMAT: 	  	  
+   DateDebut,-1,STRING,
+      FREE FORMAT:	  
+   DateFin,-1,STRING,
+      FREE FORMAT:	  
+   TempsTransport,-1,DURATION,
+      SHOW DATE:	  
+   TempsAttente,-1,DURATION,
+      SHOW DATE:	
+	OpParallele,"",STRING,
+      FREE FORMAT: 	
+	Centre,"",STRING,
+      FREE FORMAT: 		  
+	Description Centre,"",STRING,
+      FREE FORMAT: 
+	AJustementTemps,"",STRING,
+      FREE FORMAT:
+	Support,"",STRING,
+      FREE FORMAT:	
+	SupportVisualisation,0,TOGGLE:	 	  
+	Employe,"",STRING,
+      FREE FORMAT:	  
+	Planifier,0,TOGGLE,
+	AUTO SEQ RESTRICT	 :
+
+	
+    IlotPrecedent,"",STRING, 
+	   FREE FORMAT:   
+	Qualification,"",STRING,
+      FREE FORMAT:
+    Identifiant,"",STRING,
+      FREE FORMAT:            
+	GFLUX,"",STRING,
+      FREE FORMAT:   
+	Priorite,"",STRING,
+      FREE FORMAT:  
+	Statut Operation,"",STRING,
+      FREE FORMAT:  
+	Statut Ordre,"",STRING,
+      FREE FORMAT:  
+   Resource External Id,-1,STRING,
+      DATABASE (Resources(External Id))
+      ADDITIONAL REFERENCE (Resource)
+      SIMATICIT RESOURCE NID
+      ALLOW UNSPECIFIED
+      SUBSTITUTE (-1 -> "")
+      HIDDEN;
+;
+;
+;  Products Table definition - This is a disconnected table
+;
+;
+Products:
+   Parent Part,-1,STRING,
+      HELPPOPUPID (10)
+      FAMILY(Part No.)
+      DIALOG ONLY:
+   Number,0,INTEGER,
+      PRIMARY KEY 
+      HIDDEN:
+   Part No.,"",STRING,
+      HELPPOPUPID (45)
+      FREE FORMAT
+      UNIQUE
+      INHERIT FROM PARENT:
+   Product,"",STRING,
+      HELPPOPUPID (55)
+      FREE FORMAT
+      UNIQUE
+      TIP DISPLAY
+      INHERIT FROM PARENT:
+   Profit,0,REAL,
+      HELPPOPUPID (270)
+      FORMAT(.2)
+      DIALOG ONLY
+      INHERIT FROM PARENT:
+   Transfer Quantity,-1,REAL,
+      HELPPOPUPID (300)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified"):
+   Table Attribute 1,-1,STRING,
+      HELPPOPUPID (6681)
+      DATABASE(Attribute 1(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      LIST TIPS:
+   Table Attribute 2,-1,STRING,
+      HELPPOPUPID (6681)
+      DATABASE(Attribute 2(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      LIST TIPS:
+   Table Attribute 3,-1,STRING,
+      HELPPOPUPID (6681)
+      DATABASE(Attribute 3(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      LIST TIPS:
+#ifdef AS_PRO
+   Table Attribute 4,-1,STRING,
+      HELPPOPUPID (6681)
+      DATABASE(Attribute 4(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      LIST TIPS:
+   Table Attribute 5,-1,STRING,
+      HELPPOPUPID (6681)
+      DATABASE(Attribute 5(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW UNSPECIFIED
+      LIST TIPS:
+#endif
+   String Attribute 1,"",STRING,
+      FREE FORMAT
+      HELPPOPUPID (6682)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW EMPTY:
+   String Attribute 2,"",STRING,
+      FREE FORMAT
+      HELPPOPUPID (6682)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW EMPTY:
+   String Attribute 3,"",STRING,
+      FREE FORMAT
+      HELPPOPUPID (6682)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW EMPTY:
+#ifdef AS_PRO
+   String Attribute 4,"",STRING,
+      FREE FORMAT
+      HELPPOPUPID (6682)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW EMPTY:
+   String Attribute 5,"",STRING,
+      FREE FORMAT
+      HELPPOPUPID (6682)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      ALLOW EMPTY:
+#endif
+   Numerical Attribute 1,0,REAL,
+      HELPPOPUPID (6683)
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+   Numerical Attribute 2,0,REAL,
+      HELPPOPUPID (6683)
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+   Numerical Attribute 3,0,REAL,
+      HELPPOPUPID (6683)
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+#ifdef AS_PRO
+   Numerical Attribute 4,0,REAL,
+      HELPPOPUPID (6683)
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+   Numerical Attribute 5,0,REAL,
+      HELPPOPUPID (6683)
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+#endif
+   Date Attribute 1,-1,TIME,
+      ALLOW UNSPECIFIED
+      HELPPOPUPID (6684)
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+#ifdef AS_PRO
+   Date Attribute 2,-1,TIME,
+      ALLOW UNSPECIFIED
+      HELPPOPUPID (6684)
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+#endif
+   Duration Attribute 1,-1,DURATION,
+      ALLOW UNSPECIFIED
+      HELPPOPUPID (6685)
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+   Duration Attribute 2,-1,DURATION,
+      ALLOW UNSPECIFIED
+      HELPPOPUPID (6685)
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+#ifdef AS_PRO
+   Duration Attribute 3,-1,DURATION,
+      ALLOW UNSPECIFIED
+      HELPPOPUPID (6685)
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+#endif
+   Toggle Attribute 1,0,TOGGLE,
+      HELPPOPUPID (6685)
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+#ifdef AS_PRO
+   Toggle Attribute 2,0,TOGGLE,
+      HELPPOPUPID (6685)
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+#endif
+#ifdef AS_PRO
+   Look Ahead Window,7,DURATION,
+      HELPPOPUPID (530)
+      ALLOW UNSPECIFIED
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      PARENT UPDATE:
+#endif
+   Op. No.,10,INTEGER,
+      HELPPOPUPID (90):
+   Op. Id.,10,INTEGER,
+      DIALOG ONLY
+      HIDDEN
+      OPERATION NUMBER (10):
+   Operation Name,"",STRING,
+      HELPPOPUPID (110)
+      FREE FORMAT (30)
+      UNIQUE FOR FAMILY:
+   Operation,"",STRING,
+      FREE FORMAT
+      EVALUATE"{Part No.}{Operation Name}{Op. No.}"
+      UNIQUE
+      DIALOG ONLY
+      HIDDEN:
+   Resources,-1,DIALOG,
+      HELPPOPUPID (112)
+      CALL DIALOG 30:
+   Primary Resource Data,0,STRING,
+      NULL FIELD
+      DIALOG ONLY
+      DIALOG LEVEL 30:
+   Resource Group,-1,STRING,
+      HELPPOPUPID (130)
+      DIALOG LEVEL 30
+      DATABASE(Resource Groups(Name))
+      ALLOW UNSPECIFIED
+      DIALOG ONLY
+      DEFAULT ON INSERT
+      SUBSTITUTE(-1 -> "All Resources"):
+   Required Resource,-1,STRING,
+      HELPPOPUPID (140)
+      DIALOG LEVEL 30
+      DATABASE(Resource Groups(Resources))
+      ALLOW UNSPECIFIED
+      DEFAULT ON INSERT
+      SUBSTITUTE(-1 -> "Select from Group")
+      DIALOG ONLY:  
+   SMT Operation,0,TOGGLE,
+      HIDDEN
+      DIALOG LEVEL 25
+      DIALOG ONLY
+      SMT PRODUCTS
+      EVALUATE"{SMT OperationString}"
+      SWITCH ON (SMT Date)
+      SWITCH ON (SMT Side)
+      SWITCH ON (Revision):
+   SMT OperationString,0,STRING,
+      HIDDEN
+      DIALOG LEVEL 25
+      ADDITIONAL REFERENCE(Resource Group)
+      DATABASE(Resource Groups(SMT Resource GroupString)):
+   Revision,-1,STRING,
+      ALLOW UNSPECIFIED
+      ALLOW EMPTY
+      HIDDEN
+      SMT PRODUCTS
+      DIALOG LEVEL 25
+      FREE FORMAT(30):
+   SMT Date,-1,TIME,
+      GLOBAL ASSIGN
+      SHOW DATE
+      HIDDEN
+      SMT PRODUCTS
+      DIALOG LEVEL 25
+      WEIGHTED:
+   SMT Side,1,STRING,  
+      HIDDEN
+      SMT PRODUCTS	  
+      DATABASE(SMT Side(Name))
+      DIALOG LEVEL 25:
+   Resource Data,-1,MATRIX,
+      HELPPOPUPID (6100)
+      DIALOG LEVEL 30
+
+      AUTO SELECT
+      AUTO LIST(Resource Groups(Resources)):
+   Automatic Sequencing?,1,MATRIX  TOGGLE,
+      HELPPOPUPID (6110)
+      DIRECT ASSOCIATE(Resource Data):
+   Cost Factor %,100,MATRIX  REAL,
+      HELPPOPUPID (5035)
+#ifdef PR_NOCOST
+      HIDDEN
+#endif
+      DIRECT ASSOCIATE(Resource Data):
+   Resource Setup Time,0,MATRIX  DURATION,
+      HELPPOPUPID (6120)
+      DIRECT ASSOCIATE(Resource Data):
+   Resource Op Time,0,MATRIX  DURATION,
+      HELPPOPUPID (6130)
+      HIDE WHEN DISABLED
+      DIRECT ASSOCIATE(Resource Data):
+   Resource Rate Per Hour,0,MATRIX  REAL,
+      HELPPOPUPID (6131)
+      HIDE WHEN DISABLED
+      OVERWRITE PREVIOUS
+      DIRECT ASSOCIATE(Resource Data):
+   Resource Batch Time,0,MATRIX  DURATION,
+      HELPPOPUPID (6132)
+      HIDE WHEN DISABLED
+      OVERWRITE PREVIOUS
+      DIRECT ASSOCIATE(Resource Data):
+   Resource Real Op Time per Item,0,MATRIX  DURATION,
+      EVALUATE "(((1/{#Resource Rate Per Hour})/24)*({#Process Time Type}==4))+
+      (({#Resource Op Time})*({#Process Time Type}==3))+
+      (({#Resource Batch Time})*({#Process Time Type}==5))"
+      FORMAT (.8)
+      DIALOG ONLY
+      HIDDEN
+      ALWAYS UPDATE
+      DIRECT ASSOCIATE(Resource Data):
+   Resource Constraint,-1,MATRIX  STRING,
+      HELPPOPUPID (6140)
+      DATABASE(Secondary Constraints(Name))
+      ALLOW UNSPECIFIED
+      DIRECT ASSOCIATE(Resource Data):
+   Resource Constraint Usage,5,MATRIX  STRING,
+      HELPPOPUPID (6150)
+      CAPACITY TYPE
+      DATABASE(Constraint Usage(Name))
+      DIRECT ASSOCIATE(Resource Data)
+      LIST TIPS:
+   Resource Constraint Qty,0,MATRIX  REAL,
+      HELPPOPUPID (6160)
+      GRAPH INCREMENT
+      REMOTE(Orders(Quantity))
+      REMOTE(Orders(Numerical Attribute 1))
+      REMOTE(Orders(Numerical Attribute 2))
+      REMOTE(Orders(Numerical Attribute 3))
+#ifdef AS_PRO
+      REMOTE(Orders(Numerical Attribute 4))
+      REMOTE(Orders(Numerical Attribute 5))
+#endif
+      DIRECT ASSOCIATE(Resource Data):
+#ifdef AS_PRO
+   Resource Constraint Group,-1,MATRIX STRING,
+      HELPPOPUPID (2300)
+      DATABASE(Secondary Constraint Groups(Name))
+      ALLOW UNSPECIFIED
+      DEFAULT ON INSERT
+      DIRECT ASSOCIATE(Resource Data)
+      LIST TIPS:
+   Resource Selection Timeout,-1,MATRIX  DURATION,
+      HELPPOPUPID (6170)
+      DIRECT ASSOCIATE(Resource Data):
+#endif
+   Set Subsequent Resource Group,-1,MATRIX  STRING,
+      HELPPOPUPID (6180)
+      ALLOW UNSPECIFIED
+      DATABASE(Resource Groups(Name))
+      DIRECT ASSOCIATE(Resource Data):
+   Reset Subsequent Resource Group,-1,MATRIX  STRING,
+      HELPPOPUPID (6190)
+      ALLOW UNSPECIFIED
+      DATABASE(Resource Groups(Name))
+      DIRECT ASSOCIATE(Resource Data):
+   Secondary Constraint Data,0,STRING,
+      NULL FIELD
+      DIALOG ONLY
+      DIALOG LEVEL 30:
+   Secondary Constraints,-1,MATRIX,
+      HELPPOPUPID (6470)
+      DIALOG LEVEL 30
+      AUTO LIST(Secondary Constraints(Name)):
+   Constraint Usage,5,MATRIX  STRING,
+      HELPPOPUPID (2110)
+      CAPACITY TYPE
+      DATABASE(Constraint Usage(Name))
+      DIRECT ASSOCIATE(Secondary Constraints)
+      LIST TIPS:
+   Constraint Quantity,0,MATRIX  REAL,
+      HELPPOPUPID (2120)
+      GRAPH INCREMENT
+      REMOTE(Orders(Quantity))
+      REMOTE(Orders(Numerical Attribute 1))
+      REMOTE(Orders(Numerical Attribute 2))
+      REMOTE(Orders(Numerical Attribute 3))
+#ifdef AS_PRO
+      REMOTE(Orders(Numerical Attribute 4))
+      REMOTE(Orders(Numerical Attribute 5))
+#endif
+      DIRECT ASSOCIATE(Secondary Constraints):
+   Secondary Constraint Groups,0,STRING,
+      NULL FIELD
+      DIALOG ONLY
+      DIALOG LEVEL 30:
+  Constraint Group 1,-1,STRING,
+      HELPPOPUPID (2300)
+      DIALOG LEVEL 30
+      DATABASE(Secondary Constraint Groups(Name))
+      ALLOW UNSPECIFIED
+      LIST TIPS:
+#ifdef AS_PRO
+   Constraint Group 2,-1,STRING,
+      HELPPOPUPID (2300)
+      DIALOG LEVEL 30
+      DATABASE(Secondary Constraint Groups(Name))
+      ALLOW UNSPECIFIED
+      LIST TIPS:
+#endif
+      Operation Times,-1,DIALOG,
+      HELPPOPUPID (815)
+      CALL DIALOG 40:
+   Setup Time,0,DURATION,
+      HELPPOPUPID (6230)
+      DIALOG ONLY
+      DIALOG LEVEL 40:
+   Process Time Type,0,STRING,
+      HELPPOPUPID (180)
+      DIALOG LEVEL 40
+      DATABASE(Process Time Type Lookup(Name))
+      DEFAULT ON INSERT
+      DIALOG ONLY
+      LIST TIPS:
+   Rate Per Hour Toggle,0,TOGGLE,
+      HIDDEN
+      EVALUATE"{#Process Time Type}==2"
+      DIALOG ONLY
+      SWITCH ON (Quantity per Hour):
+   Time Per Item Toggle,0,TOGGLE,
+      HIDDEN
+      EVALUATE"{#Process Time Type}==0"
+      DIALOG ONLY
+      SWITCH ON (Op. Time per Item):
+   Batch Time Field Toggle,0,TOGGLE,
+      HIDDEN
+      EVALUATE"({#Process Time Type}==1)"
+      DIALOG ONLY
+      SWITCH ON (Batch Time):
+   Resource Time Per Item Toggle,0,TOGGLE,
+      EVALUATE"{#Process Time Type}==3"
+      DIALOG ONLY
+      ALWAYS UPDATE
+      SWITCH ON (Resource Op Time)
+      HIDDEN:
+   Resource Rate Per Hour Toggle,0,TOGGLE,
+      EVALUATE"{#Process Time Type}==4"
+      DIALOG ONLY
+      ALWAYS UPDATE
+      SWITCH ON (Resource Rate Per Hour)
+      HIDDEN:
+   Resource Batch Time Toggle,0,TOGGLE,
+      EVALUATE"{#Process Time Type}==5"
+      DIALOG ONLY
+      ALWAYS UPDATE
+      SWITCH ON (Resource Batch Time)
+      HIDDEN:
+   Op. Time per Item,0.006944444444445,DURATION,
+      HELPPOPUPID (220)
+      DIALOG LEVEL 40
+      FORMAT(.4)
+      DIALOG ONLY
+      NO DAYS
+      HIDE WHEN DISABLED:
+   Batch Time,0.006944444444445,DURATION,
+      HELPPOPUPID (230)
+      DIALOG LEVEL 40
+      FORMAT(.4)
+      DIALOG ONLY
+      PROCESS TIME JALONNEMENT
+      HIDE WHEN DISABLED
+      OVERWRITE PREVIOUS:
+   Quantity per Hour,1,REAL,
+      HELPPOPUPID (240)
+      DIALOG LEVEL 40
+      FORMAT(.4)
+      DIALOG ONLY
+      HIDE WHEN DISABLED
+      OVERWRITE PREVIOUS:
+   Real Op Time Per Item,0,DURATION,
+      EVALUATE"((({Op. Time per Item})*({#Process Time Type}==0))+
+      (({Batch Time})*({#Process Time Type}==1))+
+      (((1/{Quantity per Hour})/24)*({#Process Time Type}==2))+
+      ((-1)*({#Process Time Type}>=3)))"
+      HIDDEN
+      DIALOG ONLY:
+   Slack Time After Last Operation,0,DURATION,
+      HELPPOPUPID (6560)
+      DIALOG ONLY
+      DIALOG LEVEL 40:
+#ifdef AS_PRO
+   Slack Time Before Next Operation,-1,DURATION,
+      HELPPOPUPID (6565)
+      DIALOG ONLY
+      DIALOG LEVEL 40:
+   Max Time Before Next Op.,-1,DURATION,
+      HELPPOPUPID (6530)
+      DIALOG ONLY
+      DIALOG LEVEL 40:
+   Interval Type,0,STRING,
+      HELPPOPUPID (6540)
+      DATABASE(Interval Types(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 40
+      LIST TIPS:
+   Maximum Operation Span Increase %,-1,REAL,
+      HELPPOPUPID (6550)
+      DIALOG ONLY
+      DIALOG LEVEL 40
+      SUBSTITUTE(-1 -> "Infinite"): 
+   Productivity Multiplier,1,REAL,
+      HELPPOPUPID (6580)
+      DIALOG ONLY
+      DIALOG LEVEL 40:
+#endif
+   Delivery Buffer,0,DURATION,
+      HELPPOPUPID (6690)
+      DIALOG ONLY
+      DIALOG LEVEL 40
+      ALLOW UNSPECIFIED:
+   Attributes,-1,DIALOG,
+      HELPPOPUPID (75)
+      CALL DIALOG 10:
+SMT Attributes,-1,DIALOG,      
+      HIDDEN
+      SMT PRODUCTS
+      CALL DIALOG 25:
+   Material Cost Per Item,0,REAL,
+      HELPPOPUPID (474)
+#ifndef PR_NOCOST
+      DIALOG ONLY
+#endif
+#ifdef PR_NOCOST
+      HIDDEN
+#endif
+      DIALOG LEVEL 10:
+   User Defined Operation Cost,0,REAL,
+#ifdef PR_NOCOST      
+      HIDDEN
+#endif
+      DIALOG LEVEL 10:
+   Notes,"",STRING,
+      HELPPOPUPID (70)
+      FREE FORMAT(20)
+      ALLOW EMPTY
+      MAX LENGTH(1000)
+      MULTILINE
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+   Document,"",STRING,
+      HELPPOPUPID (540)
+      FREE FORMAT
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      BROWSER (.DOC)
+      FILE SELECT(*.DOC)
+      ALLOW EMPTY:
+   Independent Lots,0,TOGGLE,
+      HELPPOPUPID (25910)
+      DIALOG LEVEL 10
+      DIALOG ONLY:
+   Display Sequence Number,1,REAL,
+      DISPLAY SEQUENCE
+      HIDDEN:
+   Spare Dialog 1,-1,DIALOG,
+      HIDDEN
+      CALL DIALOG 60:
+   Spare Dialog 2,-1,DIALOG,
+      HIDDEN
+      CALL DIALOG 70:
+   Spare Dialog 3,-1,DIALOG,
+      HIDDEN
+      CALL DIALOG 80:
+   External Id,"",STRING,
+      FREE FORMAT
+      HIDDEN;
+;
+;
+;
+; Resource groups database structure definition
+;
+Resource Groups:
+   Number,0,INTEGER,
+      PRIMARY KEY
+      HIDDEN:
+   Name,"",STRING,
+      HELPPOPUPID (1020)
+      FREE FORMAT (40)
+      UNIQUE
+      GANTT GROUP
+      SEQ GROUP
+      RESOURCE GROUP NAME:
+   Resources,-1,MATRIX,
+      HELPPOPUPID (1030)
+      AUTO LIST(Resources(Name))
+      RESOURCE GROUP LIST:	
+   SMT Resource Group,0, TOGGLE,
+   SMT RESOURCEGROUPS
+      HIDDEN:
+  SMT Resource GroupString,0,STRING,
+		HIDDEN
+		FREE FORMAT(30)
+		EVALUATE"{SMT Resource Group}":
+   Spare Dialog 1,-1,DIALOG,
+      HIDDEN
+      CALL DIALOG 60:
+Display Sequence Number,1,REAL,
+      DISPLAY SEQUENCE
+      HIDDEN:
+   External Id,"",STRING,
+      FREE FORMAT
+      HIDDEN;
+;
+; Resource database structure definition
+;
+Resources:
+   Number,0,INTEGER,
+      PRIMARY KEY
+	  RESOURCES TABLE
+      HIDDEN:
+   Name,"",STRING,
+      HELPPOPUPID (2020)
+      QUEUE
+      FREE FORMAT (20)
+      UNIQUE
+      SEQ WINDOW:
+  Finite or Infinite,1,STRING,
+      HELPPOPUPID (2070)
+      DATABASE(Finite(Name))
+      DIALOG ONLY
+      LIST TIPS
+      DIALOG FIELD NAME "Finite Mode Behavior"
+      SEQ BUCKET CAPACITY:
+#ifdef AS_PRO
+   Finite Toggle,0,TOGGLE,
+      EVALUATE"{#Finite or Infinite}==1"
+      DIALOG ONLY
+      SWITCH OFF (Match Property)
+      HIDDEN:
+#endif
+   Infinite Mode Behavior,-2,STRING,	 
+      HELPPOPUPID (2071)
+      DATABASE(Finite(Name)) 
+      DIALOG ONLY 
+      LIST TIPS
+      ALTERNATE SEQ BUCKET CAPACITY: 
+   Efficiency %,100,REAL,
+      HELPPOPUPID (2260)
+      FORMAT (.2)
+      TIP DISPLAY:
+   Apply Efficiency to Setups?,0,TOGGLE,
+      HELPPOPUPID (2270)
+      DIALOG ONLY:
+   Efficiency Multiplier,1,REAL,
+      EVALUATE"({#Efficiency %}/100)"
+      SEQ MANNING
+      HIDDEN:
+   Setup Efficiency Multiplier,1,REAL,
+      EVALUATE"((({#Apply Efficiency to Setups?}==1)*(1/({#Efficiency %}/100))) +
+               (({#Apply Efficiency to Setups?}==0)*(1)))"
+      FORMAT(.6)
+      SETUP MULTIPLIER
+      HIDDEN:
+   Display Options,-1,DIALOG,
+      HELPPOPUPID (2030)
+      CALL DIALOG 10:
+   Resource Window,1,STRING,
+      HIDDEN
+      HELPPOPUPID (2040)
+      DATABASE(Window State(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      SEQ STATE
+      LIST TIPS:
+   Graduation Items,2,STRING,
+      HIDDEN
+      HELPPOPUPID (2050)
+      DATABASE(Time Items(Name))
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      SEQ BUCKET UNITS
+      LIST TIPS:
+   Graduation Time,1,INTEGER,
+      SEQ BUCKET DURATION
+      HIDDEN:
+   Vertical Bucket Size,24,INTEGER,
+      HIDDEN
+      HELPPOPUPID (2080)
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      SEQ VERTICAL BUCKET SIZE:
+   Gantt Separator,0,TOGGLE,
+      HELPPOPUPID (2185)
+      HELPPOPUPID (1)
+      GANTT SEPARATOR
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+   Secondary Constraints,-1,MATRIX,
+      HELPPOPUPID (2100)
+      AUTO LIST(Secondary Constraints(Name)):
+   Constraint Usage,5,MATRIX  STRING,
+      HELPPOPUPID (2110)
+      CAPACITY TYPE
+      DATABASE(Constraint Usage(Name))
+      DIRECT ASSOCIATE(Secondary Constraints)
+      LIST TIPS:
+   Constraint Quantity,0,MATRIX  REAL,
+      HELPPOPUPID (2120)
+      GRAPH INCREMENT
+      REMOTE(Orders(Quantity))
+      REMOTE(Orders(Numerical Attribute 1))
+      REMOTE(Orders(Numerical Attribute 2))
+      REMOTE(Orders(Numerical Attribute 3))
+      DIRECT ASSOCIATE(Secondary Constraints):
+   Changeover Group,-1,STRING,
+      HELPPOPUPID (2201)
+      ALLOW UNSPECIFIED
+      GLOBAL ASSIGN
+      SORT LIST 
+      DATABASE(Changeover Groups(Name))
+      DIALOG ONLY:
+   Concurrent Setup Times,0,TOGGLE,
+      HELPPOPUPID (2202)
+      CONCURRENT SETUPS:
+#ifdef AS_PRO
+   Preferred Sequence,-1,MATRIX,
+      HELPPOPUPID (2150)
+      PREFERRED SEQUENCE RULE
+      REMOTE(Orders(Due Date))
+      REMOTE(Orders(Priority))
+      REMOTE(Orders(Table Attribute 1 Rank))
+      REMOTE(Orders(Table Attribute 2 Rank))
+      REMOTE(Orders(Table Attribute 3 Rank))
+      REMOTE(Orders(Table Attribute 4 Rank))
+      REMOTE(Orders(Table Attribute 5 Rank))
+      REMOTE(Orders(Numerical Attribute 1))
+      REMOTE(Orders(Numerical Attribute 2))
+      REMOTE(Orders(Numerical Attribute 3))
+      REMOTE(Orders(Numerical Attribute 4))
+      REMOTE(Orders(Numerical Attribute 5))
+      REMOTE(Orders(Date Attribute 1))
+      REMOTE(Orders(Date Attribute 2)):
+#endif
+   Attributes,-1,DIALOG,
+      HELPPOPUPID (2220)
+      CALL DIALOG 20:
+   Attribute 1,"",STRING,
+      HELPPOPUPID (2230)
+      FREE FORMAT(20)
+      ALLOW UNSPECIFIED
+      ALLOW EMPTY
+      DIALOG ONLY
+      DIALOG LEVEL 20:
+   Attribute 2,-1,REAL,
+      HELPPOPUPID (2240)
+      FORMAT(.2)
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      DIALOG ONLY
+      DIALOG LEVEL 20:
+   Attribute 3,-1,DURATION,
+      HELPPOPUPID (2250)
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      DIALOG ONLY
+      DIALOG LEVEL 20:
+   Display Sequence Number,1,REAL,
+      DIALOG ONLY
+      DISPLAY SEQUENCE
+      HIDDEN:
+   Display Order,1,REAL,
+      HELPPOPUPID (2180)
+      DIALOG LEVEL 10:
+#ifdef AS_PRO
+   Advanced Resource Constraints,-1,DIALOG,
+      HELPPOPUPID (2181)
+      CALL DIALOG 30:
+   Match Field,"",STRING,
+      HELPPOPUPID (2182)
+      FREE FORMAT(40)
+      MAX LENGTH(200)
+      MULTILINE
+      MATCH FIELD(Orders(String Attribute 1))
+      DIALOG ONLY
+      DIALOG LEVEL 30:
+   Match Property,-1,INTEGER,
+      HELPPOPUPID (2183)
+      MATCH REQUIRED
+      DIALOG ONLY
+      HIDE WHEN DISABLED
+      DIALOG LEVEL 30
+      SUBSTITUTE(-1 -> "None")
+      REMOTE(Orders(Order No.))
+      REMOTE(Orders(Table Attribute 1))
+      REMOTE(Orders(Table Attribute 2))
+      REMOTE(Orders(Table Attribute 3))
+      REMOTE(Orders(Table Attribute 4))
+      REMOTE(Orders(Table Attribute 5))
+      REMOTE(Orders(String Attribute 1))
+      REMOTE(Orders(String Attribute 2))
+      REMOTE(Orders(String Attribute 3))
+      REMOTE(Orders(String Attribute 4))
+      REMOTE(Orders(String Attribute 5))
+      REMOTE(Orders(Numerical Attribute 1))
+      REMOTE(Orders(Numerical Attribute 2))
+      REMOTE(Orders(Numerical Attribute 3))
+      REMOTE(Orders(Numerical Attribute 4))
+      REMOTE(Orders(Numerical Attribute 5))
+      REMOTE(Orders(Date Attribute 1))
+      REMOTE(Orders(Date Attribute 2))
+      REMOTE(Orders(Part No.))
+      REMOTE(Orders(Due Date))
+      REMOTE(Orders(Priority)): 
+#endif
+   Resource Display Options,0,STRING,
+      HELPPOPUPID (2190)
+      DATABASE(Resource Display Options(Name))
+      RESOURCE OVERVIEW STATE
+      DIALOG ONLY
+      DIALOG LEVEL 10
+      LIST TIPS:
+   Resource Display Style,0,STRING,
+      HELPPOPUPID (2191)
+      RESOURCE OVERVIEW DISPLAY STYLE
+      DATABASE(Resource Display Styles(Name))
+      GLOBAL ASSIGN
+      DIALOG ONLY
+      DIALOG LEVEL 10:
+   Cost Per Hour,0,REAL,
+#ifndef PR_NOCOST
+      COST PER HOUR
+#endif
+#ifdef PR_NOCOST
+      HIDDEN
+#endif      
+      HELPPOPUPID (2023):
+   Use Cost Factor Shift Multiplier?,0,TOGGLE,
+      HELPPOPUPID (2024)
+      USE COST SHIFT MULTIPLIER
+#ifdef PR_NOCOST
+      HIDDEN
+#endif
+      DIALOG ONLY:
+   Exclude from Performance Metrics,0,TOGGLE,
+      HELPPOPUPID (2205)
+      EXCLUDE FROM PERFORMANCE METRICS
+      DIALOG ONLY:
+   Spare Dialog 1,-1,DIALOG,
+      HIDDEN
+      CALL DIALOG 60:
+   Marge Jalonnement,0,REAL,
+	  MARGE JALONNEMENT:
+   External Id,"",STRING,
+      FREE FORMAT
+      HIDDEN;
+;
+; Secondary Constraints Definition
+;
+Secondary Constraints:
+   Number,0,INTEGER,
+      PRIMARY KEY
+      HIDDEN:
+   Name,"",STRING,
+      HELPPOPUPID (8020)
+      UNIQUE
+      FREE FORMAT(20)
+      SEQ GRAPH:
+   Use as a Constraint,1,TOGGLE,
+      HELPPOPUPID (8090)
+      GLOBAL ASSIGN
+      SECONDARY CONSTRAINT
+      LIMIT CHECK:
+   Calendar Effect,3,STRING,
+      HELPPOPUPID (8100)
+      DATABASE(Effects(Name))
+      CAPACITY CALENDAR EFFECT
+      DIALOG ONLY
+      LIST TIPS:
+   Infinite Mode Behavior,0,DIALOG,
+      CALL DIALOG 10
+      DIALOG ONLY:
+   Alternate Use as a Constraint,0,TOGGLE,
+      HELPPOPUPID (8091)
+      GLOBAL ASSIGN
+      ALTERNATE SECONDARY CONSTRAINT
+      DIALOG ONLY 
+      DIALOG LEVEL 10
+      DIALOG FIELD NAME "Use as a Constraint"      
+      ALTERNATE LIMIT CHECK:
+   Alternate Calendar Effect,3,STRING,
+      HELPPOPUPID (8101)
+      DATABASE(Effects(Name))
+      ALTERNATE CAPACITY CALENDAR EFFECT 
+      DIALOG ONLY 
+      DIALOG LEVEL 10
+      DIALOG FIELD NAME "Calendar Effect"
+      LIST TIPS:
+   Display Options,-1,DIALOG,
+      HELPPOPUPID (2030)
+      CALL DIALOG 20:
+   Plot Color,8,STRING,
+      HELPPOPUPID (8030)
+      COLOR
+      DIALOG LEVEL 20
+      DATABASE(Colors(Name))
+      GRAPH CONTROL
+      LIST TIPS:
+   Plot Fill Pattern,1,STRING,
+      HELPPOPUPID (8040)
+      DATABASE(Patterns(Name))
+      PATTERN
+      DIALOG LEVEL 20
+      GRAPH CONTROL
+      DIALOG ONLY
+      LIST TIPS:
+   Max. Value Color,8,STRING,
+      HELPPOPUPID (8060)
+      COLOR
+      DIALOG LEVEL 20
+      GRAPH HIGH CONTROL
+      DATABASE(Colors(Name))
+      LIST TIPS:
+   Min. Value Color,8,STRING,
+      HELPPOPUPID (8080)
+      COLOR
+      GRAPH LOW CONTROL
+      DATABASE(Colors(Name))
+      DIALOG LEVEL 20
+      DIALOG ONLY
+      LIST TIPS:
+   Attributes,-1,DIALOG,
+      HELPPOPUPID (8120)
+      CALL DIALOG 30:
+   Attribute 1,"",STRING,
+      HELPPOPUPID (8130)
+      FREE FORMAT(20)
+      ALLOW UNSPECIFIED
+      ALLOW EMPTY
+      DIALOG ONLY
+      DIALOG LEVEL 30:
+   Attribute 2,-1,REAL,
+      HELPPOPUPID (8140)
+      FORMAT(.2)
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      DIALOG ONLY
+      DIALOG LEVEL 30:
+   Attribute 3,-1,DURATION,
+      HELPPOPUPID (8150)
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      DIALOG ONLY
+      DIALOG LEVEL 30:
+   Cost Per Hour,0,REAL,
+      HELPPOPUPID (2023)
+#ifndef PR_NOCOST
+      CONSTRAINTS COST
+#endif
+#ifdef PR_NOCOST
+      HIDDEN
+#endif
+      FORMAT (.4):
+   Use Cost Factor Shift Multiplier?,1,TOGGLE,
+#ifdef PR_NOCOST
+      HIDDEN
+#endif
+#ifndef PR_NOCOST
+      DIALOG ONLY
+      USE COST SHIFT MULTIPLIER
+#endif
+      HELPPOPUPID (2024):
+   Spare Dialog 1,-1,DIALOG,
+      HIDDEN
+      CALL DIALOG 60:
+Display Sequence Number,1,REAL,
+      DISPLAY SEQUENCE
+      HIDDEN:
+   External Id,"",STRING,
+      FREE FORMAT
+      HIDDEN;
+;
+;	Secondary Constraint Groups
+;	 
+Secondary Constraint Groups: 
+   Number,0,INTEGER,
+      PRIMARY KEY
+      HIDDEN:
+   Name,"",STRING,
+      HELPPOPUPID (8200)
+      UNIQUE
+      FREE FORMAT(20):
+   Secondary Constraints,-1,MATRIX,
+      HELPPOPUPID (8210)
+      ALLOW MULTIPLE CONSTRAINT REFERENCES
+      AUTO LIST(Secondary Constraints(Name)):
+   Constraint Usage,5,MATRIX  STRING,
+      HELPPOPUPID (2110)
+      CAPACITY TYPE
+      DATABASE(Constraint Usage(Name))
+      DIRECT ASSOCIATE(Secondary Constraints)
+      LIST TIPS:
+   Constraint Quantity,0,MATRIX  REAL,
+      HELPPOPUPID (2120)
+      GRAPH INCREMENT
+      REMOTE(Orders(Quantity))
+      REMOTE(Orders(Numerical Attribute 1))
+      REMOTE(Orders(Numerical Attribute 2))
+      REMOTE(Orders(Numerical Attribute 3))
+#ifdef AS_PRO
+      REMOTE(Orders(Numerical Attribute 4))
+      REMOTE(Orders(Numerical Attribute 5))
+#endif
+      DIRECT ASSOCIATE(Secondary Constraints);
+;
+;   Order Status Field Settings
+;
+Order Status:
+   Number,0,INTEGER,
+      HELPPOPUPID (1)
+      PRIMARY KEY
+      HIDDEN:
+   Order Status Name,"",STRING,
+      HELPPOPUPID (21000)
+      UNIQUE
+      FREE FORMAT(30):
+   Description,"",STRING,
+      HELPPOPUPID (21020)
+      FREE FORMAT (40)
+      ALLOW EMPTY
+      MAX LENGTH(500)
+      MULTILINE
+      DIALOG ONLY:
+   Rank,1,INTEGER,
+      HELPPOPUPID (21110):
+   Spare String Field 1,"",STRING,
+        HIDDEN
+      FREE FORMAT(30)
+        ALLOW EMPTY:
+   Spare String Field 2,"",STRING,
+        HIDDEN
+      FREE FORMAT(30)
+        ALLOW EMPTY:
+   Spare Number Field,0,REAL, 
+        HIDDEN:
+   Color,16,REAL,
+      HELPPOPUPID (25920)
+      DIALOG ONLY
+      RGB:
+   Spare Dialog 1,-1,DIALOG,
+      HIDDEN
+      CALL DIALOG 60:
+   Display Sequence Number,1,REAL,
+      DISPLAY SEQUENCE
+      HIDDEN:
+   External Id,"",STRING,
+      FREE FORMAT
+      HIDDEN;
+;
+; User Defined Operation Attribute 1
+;
+Attribute 1:
+   Number,0,INTEGER,
+      PRIMARY KEY
+      HIDDEN:
+   Name,"",STRING,
+      HELPPOPUPID (21100)
+      UNIQUE
+      FREE FORMAT:
+   Rank,1,INTEGER,
+      HELPPOPUPID (21110):
+   Secondary Constraints,-1,MATRIX,
+      HELPPOPUPID (6470)
+      AUTO LIST(Secondary Constraints(Name)):
+   Constraint Usage,5,MATRIX  STRING,
+      HELPPOPUPID (2110)
+      CAPACITY TYPE
+      DATABASE(Constraint Usage(Name))
+      DIRECT ASSOCIATE(Secondary Constraints)
+      LIST TIPS:
+   Constraint Quantity,0,MATRIX  REAL,
+      HELPPOPUPID (2120)
+      GRAPH INCREMENT
+      REMOTE(Orders(Quantity))
+      REMOTE(Orders(Numerical Attribute 1))
+      REMOTE(Orders(Numerical Attribute 2))
+      REMOTE(Orders(Numerical Attribute 3))
+#ifdef AS_PRO
+      REMOTE(Orders(Numerical Attribute 4))
+      REMOTE(Orders(Numerical Attribute 5))
+#endif
+      DIRECT ASSOCIATE(Secondary Constraints):
+#ifdef AS_PRO
+   Valid Resources,1,MATRIX   TOGGLE,
+      HELPPOPUPID (6110)
+      AUTO DIMENSION(,Attribute 1(Name),
+         ,Resources(Name))
+      AUTO SEQ RESTRICT
+      RESOURCE MASK:   
+#endif
+   Spare String Field 1,"",STRING,
+      HIDDEN
+      FREE FORMAT(30)
+      ALLOW EMPTY:
+   Spare String Field 2,"",STRING,
+      HIDDEN
+      FREE FORMAT(30)
+      ALLOW EMPTY:
+   Spare Number Field,0,REAL, 
+      HIDDEN:
+   Color,16777215,REAL,
+      HELPPOPUPID(25920)
+      DIALOG ONLY
+      RGB:
+   Spare Dialog 1,-1,DIALOG,
+      HIDDEN
+      CALL DIALOG 60:
+   Display Sequence Number,1,REAL,
+      DISPLAY SEQUENCE
+      HIDDEN:
+   External Id,"",STRING,
+      FREE FORMAT
+      HIDDEN;
+;
+; User Defined Operation Attribute 2
+;
+Attribute 2:
+   Number,0,INTEGER,
+      PRIMARY KEY
+      HIDDEN:
+   Name,"",STRING,
+      HELPPOPUPID (21100)
+      UNIQUE
+      FREE FORMAT:
+   Rank,1,INTEGER,
+      HELPPOPUPID (21110):
+   Secondary Constraints,-1,MATRIX,
+      HELPPOPUPID (6470)
+      AUTO LIST(Secondary Constraints(Name)):
+   Constraint Usage,5,MATRIX  STRING,
+      HELPPOPUPID (2110)
+      CAPACITY TYPE
+      DATABASE(Constraint Usage(Name))
+      DIRECT ASSOCIATE(Secondary Constraints)
+      LIST TIPS:
+   Constraint Quantity,0,MATRIX  REAL,
+      HELPPOPUPID (2120)
+      GRAPH INCREMENT
+      REMOTE(Orders(Quantity))
+      REMOTE(Orders(Numerical Attribute 1))
+      REMOTE(Orders(Numerical Attribute 2))
+      REMOTE(Orders(Numerical Attribute 3))
+#ifdef AS_PRO
+      REMOTE(Orders(Numerical Attribute 4))
+      REMOTE(Orders(Numerical Attribute 5))
+#endif
+      DIRECT ASSOCIATE(Secondary Constraints):
+#ifdef AS_PRO
+   Valid Resources,1,MATRIX   TOGGLE,
+      HELPPOPUPID (6110)
+      AUTO DIMENSION(,Attribute 2(Name),
+         ,Resources(Name))
+      AUTO SEQ RESTRICT
+      RESOURCE MASK:   
+#endif
+   Spare String Field 1,"",STRING,
+      HIDDEN
+      FREE FORMAT(30)
+      ALLOW EMPTY:
+   Spare String Field 2,"",STRING,
+        HIDDEN
+      FREE FORMAT(30)
+        ALLOW EMPTY:
+   Spare Number Field,0,REAL, 
+        HIDDEN:
+   Color,16,REAL,
+      HELPPOPUPID(25920)
+      DIALOG ONLY
+      RGB:
+   Spare Dialog 1,-1,DIALOG,
+      HIDDEN
+      CALL DIALOG 60:
+   Display Sequence Number,1,REAL,
+      DISPLAY SEQUENCE
+      HIDDEN:
+   External Id,"",STRING,
+      FREE FORMAT
+      HIDDEN;
+;
+; User Defined Operation Attribute 3
+;
+Attribute 3:
+   Number,0,INTEGER,
+      PRIMARY KEY
+      HIDDEN:
+   Name,"",STRING,
+      HELPPOPUPID (21100)
+      UNIQUE
+      FREE FORMAT:
+   Rank,1,INTEGER,
+      HELPPOPUPID (21110):
+   Secondary Constraints,-1,MATRIX,
+      HELPPOPUPID (6470)
+      AUTO LIST(Secondary Constraints(Name)):
+   Constraint Usage,5,MATRIX  STRING,
+      HELPPOPUPID (2110)
+      CAPACITY TYPE
+      DATABASE(Constraint Usage(Name))
+      DIRECT ASSOCIATE(Secondary Constraints)
+      LIST TIPS:
+   Constraint Quantity,0,MATRIX  REAL,
+      HELPPOPUPID (2120)
+      GRAPH INCREMENT
+      REMOTE(Orders(Quantity))
+      REMOTE(Orders(Numerical Attribute 1))
+      REMOTE(Orders(Numerical Attribute 2))
+      REMOTE(Orders(Numerical Attribute 3))
+#ifdef AS_PRO
+      REMOTE(Orders(Numerical Attribute 4))
+      REMOTE(Orders(Numerical Attribute 5))
+#endif
+      DIRECT ASSOCIATE(Secondary Constraints):
+#ifdef AS_PRO
+   Valid Resources,1,MATRIX   TOGGLE,
+      HELPPOPUPID (6110)
+      AUTO DIMENSION(,Attribute 3(Name),
+         ,Resources(Name))
+      AUTO SEQ RESTRICT
+      RESOURCE MASK:   
+#endif
+   Spare String Field 1,"",STRING,
+        HIDDEN
+      FREE FORMAT(30)
+        ALLOW EMPTY:
+   Spare String Field 2,"",STRING,
+        HIDDEN
+      FREE FORMAT(30)
+        ALLOW EMPTY:
+   Spare Number Field,0,REAL, 
+        HIDDEN:
+   Color,16,REAL,
+      HELPPOPUPID(25920)
+      DIALOG ONLY
+      RGB:
+   Spare Dialog 1,-1,DIALOG,
+      HIDDEN
+      CALL DIALOG 60:
+   Display Sequence Number,1,REAL,
+      DISPLAY SEQUENCE
+      HIDDEN:
+   External Id,"",STRING,
+      FREE FORMAT
+      HIDDEN;
+#ifdef AS_PRO
+;
+; User Defined Operation Attribute 4
+;
+Attribute 4:
+   Number,0,INTEGER,
+      PRIMARY KEY
+      HIDDEN:
+   Name,"",STRING,
+      HELPPOPUPID (21100)
+      UNIQUE
+      FREE FORMAT:
+   Rank,1,INTEGER,
+      HELPPOPUPID (21110):
+   Secondary Constraints,-1,MATRIX,
+      HELPPOPUPID (6470)
+      AUTO LIST(Secondary Constraints(Name)):
+   Constraint Usage,5,MATRIX  STRING,
+      HELPPOPUPID (2110)
+      CAPACITY TYPE
+      DATABASE(Constraint Usage(Name))
+      DIRECT ASSOCIATE(Secondary Constraints)
+      LIST TIPS:
+   Constraint Quantity,0,MATRIX  REAL,
+      HELPPOPUPID (2120)
+      GRAPH INCREMENT
+      REMOTE(Orders(Quantity))
+      REMOTE(Orders(Numerical Attribute 1))
+      REMOTE(Orders(Numerical Attribute 2))
+      REMOTE(Orders(Numerical Attribute 3))
+      REMOTE(Orders(Numerical Attribute 4))
+      REMOTE(Orders(Numerical Attribute 5))
+      DIRECT ASSOCIATE(Secondary Constraints):
+   Valid Resources,1,MATRIX   TOGGLE,
+      HELPPOPUPID (6110)
+      AUTO DIMENSION(,Attribute 4(Name),
+         ,Resources(Name))
+      AUTO SEQ RESTRICT
+      RESOURCE MASK:  
+   Spare String Field 1,"",STRING,
+        HIDDEN
+      FREE FORMAT(30)
+        ALLOW EMPTY:
+   Spare String Field 2,"",STRING,
+        HIDDEN
+      FREE FORMAT(30)
+        ALLOW EMPTY:
+   Spare Number Field,0,REAL, 
+        HIDDEN:
+   Color,16,REAL,
+      HELPPOPUPID(25920)
+      DIALOG ONLY
+      RGB:
+   Spare Dialog 1,-1,DIALOG,
+      HIDDEN
+      CALL DIALOG 60:
+   Display Sequence Number,1,REAL,
+      DISPLAY SEQUENCE
+      HIDDEN:
+   External Id,"",STRING,
+      FREE FORMAT
+      HIDDEN;
+;
+; User Defined Operation Attribute 5
+;
+Attribute 5:
+   Number,0,INTEGER,
+      PRIMARY KEY
+      HIDDEN:
+   Name,"",STRING,
+      HELPPOPUPID (21100)
+      UNIQUE
+      FREE FORMAT:
+   Rank,1,INTEGER,
+      HELPPOPUPID (21110):
+   Secondary Constraints,-1,MATRIX,
+      HELPPOPUPID (6470)
+      AUTO LIST(Secondary Constraints(Name)):
+   Constraint Usage,5,MATRIX  STRING,
+      HELPPOPUPID (2110)
+      CAPACITY TYPE
+      DATABASE(Constraint Usage(Name))
+      DIRECT ASSOCIATE(Secondary Constraints)
+      LIST TIPS:
+   Constraint Quantity,0,MATRIX  REAL,
+      HELPPOPUPID (2120)
+      GRAPH INCREMENT
+      REMOTE(Orders(Quantity))
+      REMOTE(Orders(Numerical Attribute 1))
+      REMOTE(Orders(Numerical Attribute 2))
+      REMOTE(Orders(Numerical Attribute 3))
+      REMOTE(Orders(Numerical Attribute 4))
+      REMOTE(Orders(Numerical Attribute 5))
+      DIRECT ASSOCIATE(Secondary Constraints):
+   Valid Resources,1,MATRIX   TOGGLE,
+      HELPPOPUPID (6110)
+      AUTO DIMENSION(,Attribute 5(Name),
+         ,Resources(Name))
+      AUTO SEQ RESTRICT
+      RESOURCE MASK:  
+   Spare String Field 1,"",STRING,
+        HIDDEN
+      FREE FORMAT(30)
+        ALLOW EMPTY:
+   Spare String Field 2,"",STRING,
+        HIDDEN
+      FREE FORMAT(30)
+      ALLOW EMPTY:
+   Spare Number Field,0,REAL, 
+      HIDDEN:
+   Color,16,REAL,
+      HELPPOPUPID(25920)
+      DIALOG ONLY
+      RGB:
+   Spare Dialog 1,-1,DIALOG,
+      HIDDEN
+      CALL DIALOG 60:
+   Display Sequence Number,1,REAL,
+      DISPLAY SEQUENCE
+      HIDDEN:
+   External Id,"",STRING,
+      FREE FORMAT
+      HIDDEN;
+#endif
+;		         
+; Sequencer Configuration
+;
+Sequencer Configuration:
+   Number,0,INTEGER,
+      PRIMARY KEY
+      HIDDEN:
+   Historical Planning Horizon (Days),7,INTEGER,
+      HELPPOPUPID (7020)
+      CONDITIONAL "ENTRY>0":
+   Future Planning Horizon (Days),100,INTEGER,
+      HELPPOPUPID (7030):
+   Set Sequence Overview Range,-1,DIALOG,
+      HELPPOPUPID (7035)
+      CALL DIALOG 10:
+   Sequence Overview Mode,1,STRING,
+      HELPPOPUPID (7120)
+      DIALOG LEVEL 10
+      DATABASE(Seq Overview Modes(Name))
+      LIST TIPS:
+   OverviewMode,-1,STRING,
+      HIDDEN
+      TABLE(OverviewModes)
+      ADDITIONAL REFERENCE(Sequence Overview Mode):
+   Overview Toggle,0,TOGGLE,
+      EVALUATE"({#Sequence Overview Mode}==0)"
+      SWITCH ON (Gantt Start Offset [Days])
+      SWITCH ON (Gantt End Offset [Days])
+      HIDDEN:
+   Gantt Start Offset [Days],-1,REAL,
+      HELPPOPUPID (7130)
+      DIALOG LEVEL 10:
+   Gantt End Offset [Days],7,REAL,
+      HELPPOPUPID (7140)
+      DIALOG LEVEL 10:
+   Set Sequencer Operation Thumb,1,TOGGLE,
+      HELPPOPUPID (7430)
+      SEQUENCER OPERATION THUMB:
+   Default Earliest Start Date Offset,0,INTEGER,
+      HELPPOPUPID (7040):
+   Default Due Date Offset,21,INTEGER,
+      HELPPOPUPID (7050):
+   Default Terminator Offset,0,DURATION,
+      HELPPOPUPID (7060):
+   Default Start Offset,0,DURATION,
+      DIALOG ONLY
+      HIDDEN:
+#ifdef AS_PRO
+   APS Event Script,-1,STRING,
+      APS RULES SCRIPT
+      HELPPOPUPID (7490)
+      DATABASE(PESP Event Scripts(Name))
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified"):
+#endif
+   Calculate Cost,1,STRING,
+      HELPPOPUPID (7067)
+      DATABASE(Cost Behaviour Lookup(Name))
+#ifndef PR_NOCOST
+      COST BEHAVIOUR     
+#endif
+#ifdef PR_NOCOST
+      HIDDEN
+#endif
+      LIST TIPS;
+;
+; Import Export Mapping
+;
+Import Export Mapping:
+   Number,0,INTEGER,
+      PRIMARY KEY
+      HIDDEN:
+   Order Import Event Script,-1,STRING,
+      HELPPOPUPID (7450)
+      DATABASE(PESP Event Scripts(Name))
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      LIST TIPS:
+   Order Export Event Script,-1,STRING,
+      HELPPOPUPID (7470)
+      DATABASE(PESP Event Scripts(Name))
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      LIST TIPS:
+   Release Schedule Event Script,-1,STRING,
+      HELPPOPUPID (7480)
+      DATABASE(PESP Event Scripts(Name))
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      LIST TIPS:
+   Resources Import Event Script,-1,STRING,
+      HELPPOPUPID (7450)
+      DATABASE(PESP Event Scripts(Name))
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      LIST TIPS:
+   Resources Export Event Script,-1,STRING,
+      HELPPOPUPID (7470)
+      DATABASE(PESP Event Scripts(Name))
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      LIST TIPS:
+   Example Import Event Script,-1,STRING,
+      HELPPOPUPID (7450)
+      DATABASE(PESP Event Scripts(Name))
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      LIST TIPS:
+   Example Export Event Script,-1,STRING,
+      HELPPOPUPID (7470)
+      DATABASE(PESP Event Scripts(Name))
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      LIST TIPS:
+   Select Default Order Import Script,-1,STRING,
+      HELPPOPUPID (7320)
+      DATABASE(PIO Scripts(Script Name))
+      HIDDEN
+      DIALOG LEVEL 20
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified"):
+   Select Default Order Export Script,-1,STRING,
+      HELPPOPUPID (7330)
+      DATABASE(PIO Scripts(Script Name))
+      DIALOG LEVEL 20
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      HIDDEN;
+;
+;Data Transfer Mapping
+;
+Data Transfer Mapping:
+   Number,0,INTEGER,
+      PRIMARY KEY
+      READ ONLY
+      HIDDEN:
+   Name,"",STRING,
+      FREE FORMAT(10)
+      READ ONLY:
+   Enabled,1,TOGGLE:
+   Button Text,"",STRING,
+      FREE FORMAT(10):
+   Event Script,-1,STRING,
+      DATABASE(PESP Event Scripts(Name))
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      LIST TIPS;   
+;
+;Menu Button Mapping
+;
+Menu Button Mapping:
+   Number,0,INTEGER,
+      PRIMARY KEY
+      READ ONLY
+      HIDDEN:
+   Name,"",STRING,
+      HELPPOPUPID (26300)
+      FREE FORMAT(10)
+      READ ONLY:
+   Enabled,1,TOGGLE,
+      HELPPOPUPID (26310):
+   Button Text,"",STRING,
+      HELPPOPUPID (26320)
+      FREE FORMAT(10):
+   Event Script,-1,STRING,
+      HELPPOPUPID (26330)
+      DATABASE(PESP Event Scripts(Name))
+      ALLOW UNSPECIFIED
+      SUBSTITUTE(-1 -> "Unspecified")
+      LIST TIPS:
+Display Sequence Number,1,REAL,
+      DISPLAY SEQUENCE
+      HIDDEN;  
+;
+;  Sequencer Workspace Files
+;
+Workspace Files:
+   Number,0,INTEGER,
+      PRIMARY KEY
+      HIDDEN:
+   Description,"",STRING,
+      HELPPOPUPID (16020)
+      FREE FORMAT (30)
+      WPI DESCRIPTION:
+   File Name,"",STRING,
+      HELPPOPUPID (16030)
+      FREE FORMAT (30)
+      MAX LENGTH(512)
+      WPI FILE;
+;
+;   APS Scheduling Rule Selection Dialog
+;
+APS Rules Dialog:
+      Number,0,INTEGER,
+         PRIMARY KEY
+         HIDDEN:
+      APS Rule,100,STRING,
+         DATABASE(PESP Event Scripts(Name))
+         EXCLUDE "{#Script Type}!=5"
+         LIST TIPS;
+;
+;
+Bottleneck Selection:
+      Number,0,INTEGER, 
+         PRIMARY KEY
+         HIDDEN:
+      By Group,0,TOGGLE,
+         BOTTLENECK SELECTION BY GROUP
+         SWITCH ON(Resource Group)
+         SWITCH OFF(Resource):
+      Resource,-1,STRING,
+         BOTTLENECK SELECTION RESOURCE
+         DATABASE(Resources(Name))
+         HIDE WHEN DISABLED:
+      Resource Group,-1,STRING,
+         BOTTLENECK SELECTION GROUP
+         DATABASE(Resource Groups(Name))
+         HIDE WHEN DISABLED
+         OVERWRITE PREVIOUS;
+;
+;
+;   Look Ahead Window Database Definition
+;
+Preferred Sequence Dialog:
+      Number,0,INTEGER,
+         PRIMARY KEY
+         HIDDEN:
+      Look Ahead Window,1,DURATION,
+         SUBSTITUTE(-1 -> "Product Specific");
+;
+;
+;   Minimize Overall Setup Database Definition
+;
+Minimize Setup Dialog:
+      Number,0,INTEGER,
+         PRIMARY KEY
+         HIDDEN:
+      Look Ahead Window,1,DURATION,
+         SUBSTITUTE(-1 -> "Product Specific");
+;
+;   Campaigning Rule Database Definition
+;
+Campaigning Rule Dialog:
+      Number,0,INTEGER,
+         PRIMARY KEY
+         HIDDEN:
+      Reference Date,36535.375,TIME:
+      Campaign Period,7,DURATION:
+      Number of Campaigns,3,INTEGER;
+;
+;
+;
+Demand Status:
+      Number,0,INTEGER,
+         PRIMARY KEY
+         HIDDEN:
+      Name,"",STRING,
+         UNIQUE
+         FREE FORMAT (20):
+      Grouping Color,16,REAL,
+         RGB;
+;
+;
+;
+Changeover Groups:
+      Number,0,INTEGER,
+         HELPPOPUPID (14010)
+         PRIMARY KEY
+         HIDDEN:
+      Name,"",STRING,
+         HELPPOPUPID (26000)
+         UNIQUE
+         FREE FORMAT(20): 
+      Attribute 1 Changeover Time,0,DURATION,
+         HELPPOPUPID (26100)
+         SETUP OVERRIDE MATCH(Orders(Table Attribute 1))
+         SEQ SETUP:
+#ifdef AS_PRO
+      Attribute 1 Changeover Matrix,0,MATRIX	DURATION,
+         HELPPOPUPID (2200)
+         AUTO DIMENSION(From,Attribute 1(Name),
+         To,Attribute 1(Name))
+         SEQ SETUP:
+#endif
+      Attribute 2 Changeover Time,0,DURATION,
+         HELPPOPUPID (26100)
+         SETUP OVERRIDE MATCH(Orders(Table Attribute 2))
+         SEQ SETUP:
+#ifdef AS_PRO
+      Attribute 2 Changeover Matrix,0,MATRIX	DURATION,
+         HELPPOPUPID (2200)
+         AUTO DIMENSION(From,Attribute 2(Name),
+         To,Attribute 2(Name))
+         SEQ SETUP:
+#endif
+      Attribute 3 Changeover Time,0,DURATION,
+         HELPPOPUPID (26100)
+         SETUP OVERRIDE MATCH(Orders(Table Attribute 3))
+         SEQ SETUP:
+#ifdef AS_PRO
+      Attribute 3 Changeover Matrix,0,MATRIX	DURATION,
+         HELPPOPUPID (2200)
+         AUTO DIMENSION(From,Attribute 3(Name),
+         To,Attribute 3(Name))
+         SEQ SETUP:
+      Attribute 4 Changeover Time,0,DURATION,
+         HELPPOPUPID (26100)
+         SETUP OVERRIDE MATCH(Orders(Table Attribute 4))
+         SEQ SETUP:
+      Attribute 4 Changeover Matrix,0,MATRIX	DURATION,
+         HELPPOPUPID (2200)
+         AUTO DIMENSION(From,Attribute 4(Name),
+         To,Attribute 4(Name))
+         SEQ SETUP:
+      Attribute 5 Changeover Time,0,DURATION,
+         HELPPOPUPID (26100)
+         SETUP OVERRIDE MATCH(Orders(Table Attribute 5))
+         SEQ SETUP:
+      Attribute 5 Changeover Matrix,0,MATRIX	DURATION,
+         HELPPOPUPID (2200)
+         AUTO DIMENSION(From,Attribute 5(Name),
+         To,Attribute 5(Name))
+         SEQ SETUP:
+#endif
+      Display Sequence Number,1,REAL,
+         DISPLAY SEQUENCE
+         HIDDEN;
+;
+;   User Tool Configuration Dialog
+;
+Tool Configuration:
+  Number,0,INTEGER,
+     PRIMARY KEY
+     HIDDEN:
+  User Tool 1 Name,"",STRING,
+     HELPPOPUPID (26200)
+     FREE FORMAT(10)
+     ALLOW EMPTY:
+  User Tool 1 Script,-1,STRING,
+     HELPPOPUPID (26210)
+     DATABASE(PESP Event Scripts(Name))
+     ALLOW UNSPECIFIED
+     SUBSTITUTE(-1 -> "Unspecified")
+     EXCLUDE "{#Script Type}!=8"
+     LIST TIPS:
+  User Tool 2 Name,"",STRING,
+     HELPPOPUPID (26200)
+     FREE FORMAT(10)
+     ALLOW EMPTY:
+  User Tool 2 Script,-1,STRING,
+     HELPPOPUPID (26210)
+     DATABASE(PESP Event Scripts(Name))
+     ALLOW UNSPECIFIED
+     SUBSTITUTE(-1 -> "Unspecified")
+     EXCLUDE "{#Script Type}!=8"
+     LIST TIPS:
+  User Tool 3 Name,"",STRING,
+     HELPPOPUPID (26200)
+     FREE FORMAT(10)
+     ALLOW EMPTY:
+  User Tool 3 Script,-1,STRING,
+     HELPPOPUPID (26210)
+     DATABASE(PESP Event Scripts(Name))
+     ALLOW UNSPECIFIED
+     SUBSTITUTE(-1 -> "Unspecified")
+     EXCLUDE "{#Script Type}!=8"
+     LIST TIPS:
+  User Tool 4 Name,"",STRING,
+     HELPPOPUPID (26200)
+     FREE FORMAT(10)
+     ALLOW EMPTY:
+  User Tool 4 Script,-1,STRING,
+     HELPPOPUPID (26210)
+     DATABASE(PESP Event Scripts(Name))
+     ALLOW UNSPECIFIED
+     SUBSTITUTE(-1 -> "Unspecified")
+     EXCLUDE "{#Script Type}!=8"
+     LIST TIPS:
+  User Window Name,"",STRING,
+     HELPPOPUPID (26220)
+     FREE FORMAT(10)
+     ALLOW EMPTY:
+  User Window Function,"",STRING,
+     HELPPOPUPID (26230)
+     FREE FORMAT(30)
+     ALLOW EMPTY:
+  User Window Label,"",STRING,
+     HELPPOPUPID (26240)
+     FREE FORMAT(30)
+     ALLOW EMPTY:
+  Display Sequence Number,1,REAL,
+     DISPLAY SEQUENCE
+     HIDDEN;
+;
+
+;---------------------------------------------------------------------------
+;                             SPECIFIQUE AXILONE
+;---------------------------------------------------------------------------
+;
+;---------------------------------------------------------------------------
+; Definition du chemin d'importation
+;---------------------------------------------------------------------------
+Chemins:
+		Numero,0,INTEGER,
+            PRIMARY KEY | HIDDEN:
+		Display Sequence Number,1,REAL,
+			DISPLAY SEQUENCE
+			HIDDEN:
+		Importations vers Preactor,-1,STRING,
+			NULL FIELD:
+		Repertoire des fichiers d'importation,-1,STRING,
+			FREE FORMAT(60)
+			FULL PATH
+			FOLDER SELECT:
+		Fichier des Commandes,-1,STRING,
+			FREE FORMAT(60):
+		Fichier des OFs Previsionnels,-1,STRING,
+			FREE FORMAT(60):		
+		Fichier des OFs Fermes,-1,STRING,
+			FREE FORMAT(60):
+	    Fichier des Outils,-1,STRING,
+			FREE FORMAT(60):
+		Fichier des Nomenclatures OF,-1,STRING,
+			FREE FORMAT(60):
+		Fichier des Stocks,-1,STRING,
+			FREE FORMAT(60):
+		Fichier des postes de charges,-1,STRING,
+			FREE FORMAT(60):
+	 	Fichier des calendriers,-1,STRING,
+			FREE FORMAT(60):
+	   
+		Exportation vers IFS,-1,STRING,
+			NULL FIELD:
+		Repertoire du fichier OF.xml,"",STRING,
+			FREE FORMAT(60)
+			FOLDER SELECT
+			FULL PATH;
+	
+;
+;-------------------------------------------------------
+; Erreurs OF
+;-------------------------------------------------------
+Erreurs:
+       Numero,0,INTEGER,
+            PRIMARY KEY |
+            HIDDEN:
+	
+		Ligne,-1,STRING,
+			FREE FORMAT
+			LOCATE
+			READ ONLY:
+		TableErreur,-1,STRING,
+			FREE FORMAT
+			LOCATE
+			READ ONLY:
+		Libelle Erreur,-1,STRING,
+            FREE FORMAT(99)
+			LOCATE
+			ALLOW EMPTY;
+;
+;-------------------------------------------------------
+; Lien
+;-------------------------------------------------------
+Lien:
+       Numero,0,INTEGER,
+            PRIMARY KEY |
+            HIDDEN:
+	
+		RecordCommande,0,INTEGER:
+		RecordOF,0,INTEGER;
+;
+RECORD_END
+;
+;

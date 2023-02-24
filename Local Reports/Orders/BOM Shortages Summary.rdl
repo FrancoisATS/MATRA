@@ -1,0 +1,1107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="matrix1">
+        <TablixCorner>
+          <TablixCornerRows>
+            <TablixCornerRow>
+              <TablixCornerCell>
+                <CellContents>
+                  <Textbox Name="textbox3">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value />
+                            <Style>
+                              <FontFamily>Verdana</FontFamily>
+                              <FontSize>8pt</FontSize>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>textbox3</rd:DefaultName>
+                    <ZIndex>3</ZIndex>
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixCornerCell>
+            </TablixCornerRow>
+          </TablixCornerRows>
+        </TablixCorner>
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>0.875in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.3125in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="ShortageQty">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!ShortageQty.Value)</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>ShortageQty</rd:DefaultName>
+                      <ActionInfo>
+                        <Actions>
+                          <Action>
+                            <Drillthrough>
+                              <ReportName>=Left(Globals!ReportFolder,InStrRev(Globals!ReportFolder,"/"))&amp; "Orders/Linked BOM Shortages"</ReportName>
+                              <Parameters>
+                                <Parameter Name="Dataset">
+                                  <Value>=Parameters!Dataset.Value</Value>
+                                </Parameter>
+                                <Parameter Name="StartDate">
+                                  <Value>=First(Fields!StartTime.Value)</Value>
+                                </Parameter>
+                                <Parameter Name="PartNo">
+                                  <Value>=iif(IsNothing(First(Fields!RequiredPartNo.Value)),First(Fields!PartNo.Value),First(Fields!RequiredPartNo.Value))</Value>
+                                </Parameter>
+                                <Parameter Name="Scale">
+                                  <Value>=Parameters!Scale.Value</Value>
+                                </Parameter>
+                              </Parameters>
+                            </Drillthrough>
+                          </Action>
+                        </Actions>
+                      </ActionInfo>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>= "#FFFECC"</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                  <DataElementOutput>Output</DataElementOutput>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="matrix1_StartTime">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!StartTime.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!StartTime.Value</Value>
+                </SortExpression>
+              </SortExpressions>
+              <TablixHeader>
+                <Size>0.3125in</Size>
+                <CellContents>
+                  <Textbox Name="StartTime">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>=Fields!StartTime.Value</Value>
+                            <Style>
+                              <FontFamily>Verdana</FontFamily>
+                              <FontSize>8pt</FontSize>
+                              <FontWeight>Bold</FontWeight>
+                              <Format>d</Format>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style>
+                          <TextAlign>Left</TextAlign>
+                        </Style>
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>StartTime</rd:DefaultName>
+                    <ZIndex>2</ZIndex>
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <BottomBorder>
+                        <Style>Solid</Style>
+                        <Width>1pt</Width>
+                      </BottomBorder>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="matrix1_RequiredPartNo">
+                <GroupExpressions>
+                  <GroupExpression>=iif(IsNothing(Fields!RequiredPartNo.Value),Fields!PartNo.Value,Fields!RequiredPartNo.Value)</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <TablixHeader>
+                <Size>1.375in</Size>
+                <CellContents>
+                  <Textbox Name="RequiredPartNo">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>=iif(IsNothing(Fields!RequiredPartNo.Value),Fields!PartNo.Value,Fields!RequiredPartNo.Value)</Value>
+                            <Style>
+                              <FontFamily>Verdana</FontFamily>
+                              <FontSize>8pt</FontSize>
+                              <FontWeight>Bold</FontWeight>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>RequiredPartNo</rd:DefaultName>
+                    <ZIndex>1</ZIndex>
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <RightBorder>
+                        <Style>Solid</Style>
+                        <Width>1pt</Width>
+                      </RightBorder>
+                      <BackgroundColor>= "#FFFECC"</BackgroundColor>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <RepeatColumnHeaders>true</RepeatColumnHeaders>
+        <RepeatRowHeaders>true</RepeatRowHeaders>
+        <DataSetName>Orders</DataSetName>
+        <Top>0.375in</Top>
+        <Left>0.125in</Left>
+        <Height>0.625in</Height>
+        <Width>2.25in</Width>
+        <Visibility>
+          <Hidden>=iif(Parameters!Scale.Value="Daily",False,True)</Hidden>
+        </Visibility>
+        <DataElementOutput>NoOutput</DataElementOutput>
+        <Style>
+          <BackgroundColor>= "#FFFECC"</BackgroundColor>
+        </Style>
+      </Tablix>
+      <Tablix Name="matrix2">
+        <TablixCorner>
+          <TablixCornerRows>
+            <TablixCornerRow>
+              <TablixCornerCell>
+                <CellContents>
+                  <Textbox Name="textbox2">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value />
+                            <Style>
+                              <FontFamily>Verdana</FontFamily>
+                              <FontSize>8pt</FontSize>
+                              <FontWeight>Bold</FontWeight>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>textbox2</rd:DefaultName>
+                    <ZIndex>3</ZIndex>
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixCornerCell>
+            </TablixCornerRow>
+          </TablixCornerRows>
+        </TablixCorner>
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>0.875in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="ShortageQty_1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!ShortageQty.Value)</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>ShortageQty_1</rd:DefaultName>
+                      <ActionInfo>
+                        <Actions>
+                          <Action>
+                            <Drillthrough>
+                              <ReportName>=Left(Globals!ReportFolder,InStrRev(Globals!ReportFolder,"/"))&amp; "Orders/Linked BOM Shortages"</ReportName>
+                              <Parameters>
+                                <Parameter Name="Dataset">
+                                  <Value>=Parameters!Dataset.Value</Value>
+                                </Parameter>
+                                <Parameter Name="StartDate">
+                                  <Value>=First(Fields!WeekStart.Value)</Value>
+                                </Parameter>
+                                <Parameter Name="PartNo">
+                                  <Value>=iif(IsNothing(First(Fields!RequiredPartNo.Value)),First(Fields!PartNo.Value),First(Fields!RequiredPartNo.Value))</Value>
+                                </Parameter>
+                                <Parameter Name="Scale">
+                                  <Value>=Parameters!Scale.Value</Value>
+                                </Parameter>
+                              </Parameters>
+                            </Drillthrough>
+                          </Action>
+                        </Actions>
+                      </ActionInfo>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                  <DataElementOutput>Output</DataElementOutput>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="matrix2_WeekNo">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!WeekNo.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <TablixHeader>
+                <Size>0.25in</Size>
+                <CellContents>
+                  <Textbox Name="WeekNo">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>=Fields!WeekStart.Value </Value>
+                            <Style>
+                              <FontFamily>Verdana</FontFamily>
+                              <FontSize>8pt</FontSize>
+                              <FontWeight>Bold</FontWeight>
+                              <Format>d</Format>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style>
+                          <TextAlign>Left</TextAlign>
+                        </Style>
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>WeekNo</rd:DefaultName>
+                    <ZIndex>2</ZIndex>
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="matrix2_RowGroup1">
+                <GroupExpressions>
+                  <GroupExpression>=iif(IsNothing(Fields!RequiredPartNo.Value),Fields!PartNo.Value,Fields!RequiredPartNo.Value)</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <TablixHeader>
+                <Size>1.375in</Size>
+                <CellContents>
+                  <Textbox Name="textbox5">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>=iif(IsNothing(Fields!RequiredPartNo.Value),Fields!PartNo.Value,Fields!RequiredPartNo.Value)</Value>
+                            <Style>
+                              <FontFamily>Verdana</FontFamily>
+                              <FontSize>8pt</FontSize>
+                              <FontWeight>Bold</FontWeight>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>textbox5</rd:DefaultName>
+                    <ZIndex>1</ZIndex>
+                    <Style>
+                      <Border>
+                        <Color>LightGrey</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <RepeatColumnHeaders>true</RepeatColumnHeaders>
+        <RepeatRowHeaders>true</RepeatRowHeaders>
+        <DataSetName>OrdersWeekly</DataSetName>
+        <Top>1.09375in</Top>
+        <Left>0.125in</Left>
+        <Height>0.5in</Height>
+        <Width>2.25in</Width>
+        <ZIndex>1</ZIndex>
+        <Visibility>
+          <Hidden>=iif(Parameters!Scale.Value="Weekly",False,True)</Hidden>
+        </Visibility>
+        <DataElementOutput>NoOutput</DataElementOutput>
+        <Style>
+          <BackgroundColor>= "#FFFECC"</BackgroundColor>
+        </Style>
+      </Tablix>
+      <Textbox Name="textbox21">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value rd:LocID="BOMShortagesSummary">BOM Shortages Summary</Value>
+                <Style>
+                  <FontSize>14pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <Color>#004882</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Left>0.125in</Left>
+        <Height>0.75cm</Height>
+        <Width>7.61905cm</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+    </ReportItems>
+    <Height>1.59375in</Height>
+    <Style />
+  </Body>
+  <Width>6.4125in</Width>
+  <Page>
+    <PageHeader>
+      <Height>0.25in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="textbox1">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!ReportName</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.02656in</Top>
+          <Left>0.14922in</Left>
+          <Height>0.19687in</Height>
+          <Width>7.55754cm</Width>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox26">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Format(Globals!ExecutionTime, "g")</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.02656in</Top>
+          <Left>8.37897cm</Left>
+          <Height>0.19687in</Height>
+          <Width>3.05156in</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style />
+    </PageHeader>
+    <PageFooter>
+      <Height>0.5in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="textbox8">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value rd:LocID="Page">="Page " &amp; Globals!PageNumber &amp; "/" &amp; Globals!TotalPages</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.31746cm</Top>
+          <Left>13.96825cm</Left>
+          <Height>0.19688in</Height>
+          <Width>0.7875in</Width>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style />
+    </PageFooter>
+    <PageHeight>24cm</PageHeight>
+    <PageWidth>34cm</PageWidth>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Preactor_Database">
+      <DataSourceReference>Preactor Database</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>ccf1606e-abfc-40d2-ad16-d21be304b9e5</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="Orders">
+      <Query>
+        <DataSourceName>Preactor_Database</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Dataset">
+            <Value>=Parameters!Dataset.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT     UserData.Orders.OrderNo, UserData.Orders.PartNo, UserData.BillOfMaterials.RequiredPartNo, UserData.Orders.Product, 
+                      UserData.BillOfMaterials.RequiredQuantity, UserData.BillOfMaterials.MultiplyByOrderQuantity, UserData.Orders.Quantity AS OrderQty, 
+                      CASE WHEN UserData.BillofMaterials.Multiplybyorderquantity = 'True' THEN
+                          ((SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      * UserData.Orders.Quantity) ELSE
+                          (SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      END AS RequiredQty,
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) 
+                      AS LinkedQty, CASE WHEN UserData.BillofMaterials.Multiplybyorderquantity = 'True' THEN
+                          ((SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      * UserData.Orders.Quantity) -
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) 
+                      ELSE
+                          (SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      -
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) 
+                      END AS ShortageQty, DATEADD(d, 0, DATEDIFF(d, 0, UserData.Orders.StartTime)) AS StartTime
+FROM         DatasetsSequencerOperations INNER JOIN
+                      UserData.Orders ON DatasetsSequencerOperations.dataset_id = UserData.Orders.DatasetId LEFT OUTER JOIN
+                      UserData.BillOfMaterials ON UserData.Orders.DatasetId = UserData.BillOfMaterials.DatasetId AND 
+                      UserData.Orders.OrderNo = UserData.BillOfMaterials.OrderNo AND UserData.Orders.OpNo = UserData.BillOfMaterials.OpNo LEFT OUTER JOIN
+                      UserData.OrderLinks ON UserData.Orders.DatasetId = UserData.OrderLinks.DatasetId AND 
+                      UserData.Orders.OrdersId = UserData.OrderLinks.ToInternalDemandOrder AND 
+                      (UserData.BillOfMaterials.RequiredPartNo = UserData.OrderLinks.PartNo OR
+                      UserData.BillOfMaterials.RequiredPartNo IS NULL)
+GROUP BY DatasetsSequencerOperations.name, UserData.Orders.OrderNo, UserData.Orders.PartNo, UserData.BillOfMaterials.RequiredPartNo, 
+                      UserData.Orders.Product, UserData.BillOfMaterials.RequiredQuantity, UserData.BillOfMaterials.MultiplyByOrderQuantity, UserData.Orders.Quantity, 
+                      UserData.Orders.OpNo, DATEADD(d, 0, DATEDIFF(d, 0, UserData.Orders.StartTime))
+HAVING      (DatasetsSequencerOperations.name = @Dataset) AND ((CASE WHEN UserData.BillofMaterials.Multiplybyorderquantity = 'True' THEN
+                          ((SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      * UserData.Orders.Quantity) -
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) 
+                      ELSE
+                          (SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      -
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) END) &lt;&gt; 0)
+UNION
+SELECT     UserData.Demand.OrderNo, UserData.Demand.PartNo, MIN(OrderLinks_1.PartNo) AS ConsumedPartNo, 'Sales Order' AS Product, 
+                      UserData.Demand.Quantity, 0 AS UnitLevel, 0 AS OrderQty, 0 AS RequiredQty,
+                          (SELECT     CASE WHEN (SUM(OrderLinks_1.Quantity)) IS NULL THEN '0' ELSE SUM(OrderLinks_1.Quantity) END AS LinkedQty) AS LinkedQty, 
+                      UserData.Demand.Quantity -
+                          (SELECT     CASE WHEN (SUM(OrderLinks_1.Quantity)) IS NULL THEN '0' ELSE SUM(OrderLinks_1.Quantity) END AS Expr1) AS ShortageQty, 
+                      MIN(UserData.Demand.DemandDate) AS StartTime
+FROM         UserData.Demand INNER JOIN
+                      DatasetsSequencerOperations AS DatasetsSequencerOperations_1 ON 
+                      UserData.Demand.DatasetId = DatasetsSequencerOperations_1.dataset_id LEFT OUTER JOIN
+                      UserData.OrderLinks AS OrderLinks_1 ON UserData.Demand.DatasetId = OrderLinks_1.DatasetId AND 
+                      UserData.Demand.DemandId = OrderLinks_1.ToExternalDemandOrder AND UserData.Demand.DatasetId = OrderLinks_1.DatasetId AND 
+                      UserData.Demand.DemandId = OrderLinks_1.ToExternalDemandOrder
+GROUP BY UserData.Demand.OrderNo, UserData.Demand.PartNo, DatasetsSequencerOperations_1.name, UserData.Demand.Quantity, DATEADD(d, 0, 
+                      DATEDIFF(d, 0, UserData.Demand.DemandDate))
+HAVING      (DatasetsSequencerOperations_1.name = @Dataset) AND (UserData.Demand.Quantity -
+                          (SELECT     CASE WHEN (SUM(OrderLinks_1.Quantity)) IS NULL THEN '0' ELSE SUM(OrderLinks_1.Quantity) END AS Expr1) &gt; 0)</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="OrderNo">
+          <DataField>OrderNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PartNo">
+          <DataField>PartNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RequiredPartNo">
+          <DataField>RequiredPartNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Product">
+          <DataField>Product</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RequiredQuantity">
+          <DataField>RequiredQuantity</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="MultiplyByOrderQuantity">
+          <DataField>MultiplyByOrderQuantity</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="OrderQty">
+          <DataField>OrderQty</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="RequiredQty">
+          <DataField>RequiredQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="LinkedQty">
+          <DataField>LinkedQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ShortageQty">
+          <DataField>ShortageQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="StartTime">
+          <DataField>StartTime</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataSets">
+      <Query>
+        <DataSourceName>Preactor_Database</DataSourceName>
+        <CommandText>SELECT        dataset_id, name
+FROM            dbo.DatasetsSequencerOperations
+ORDER BY dataset_id</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="dataset_id">
+          <DataField>dataset_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="name">
+          <DataField>name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName>Preactor_Database</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Dataset">
+            <Value>=Parameters!Dataset.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT     UserData.Orders.OrderNo, UserData.Orders.PartNo, UserData.BillOfMaterials.RequiredPartNo, UserData.Orders.Product, 
+                      UserData.BillOfMaterials.RequiredQuantity, UserData.BillOfMaterials.MultiplyByOrderQuantity, UserData.Orders.Quantity AS OrderQty, 
+                      CASE WHEN UserData.BillofMaterials.Multiplybyorderquantity = 'True' THEN
+                          ((SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      * UserData.Orders.Quantity) ELSE
+                          (SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      END AS RequiredQty,
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) 
+                      AS LinkedQty, CASE WHEN UserData.BillofMaterials.Multiplybyorderquantity = 'True' THEN
+                          ((SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      * UserData.Orders.Quantity) -
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) 
+                      ELSE
+                          (SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      -
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) 
+                      END AS ShortageQty, MIN(UserData.Orders.StartTime) AS StartTime, { fn WEEK(UserData.Orders.StartTime) } AS Expr1, DATEADD(wk, DATEDIFF(wk, 6, 
+                      MIN(UserData.Orders.StartTime)), 6) AS WeekStart, DATEADD(wk, DATEDIFF(wk, 5, MIN(UserData.Orders.StartTime)), 5) AS WeekEnd
+FROM         DatasetsSequencerOperations INNER JOIN
+                      UserData.Orders ON DatasetsSequencerOperations.dataset_id = UserData.Orders.DatasetId LEFT OUTER JOIN
+                      UserData.BillOfMaterials ON UserData.Orders.DatasetId = UserData.BillOfMaterials.DatasetId AND 
+                      UserData.Orders.OrderNo = UserData.BillOfMaterials.OrderNo AND UserData.Orders.OpNo = UserData.BillOfMaterials.OpNo LEFT OUTER JOIN
+                      UserData.OrderLinks ON UserData.Orders.DatasetId = UserData.OrderLinks.DatasetId AND 
+                      UserData.Orders.OrdersId = UserData.OrderLinks.ToInternalDemandOrder AND 
+                      (UserData.BillOfMaterials.RequiredPartNo = UserData.OrderLinks.PartNo OR
+                      UserData.BillOfMaterials.RequiredPartNo IS NULL)
+GROUP BY DatasetsSequencerOperations.name, UserData.Orders.OrderNo, UserData.Orders.PartNo, UserData.BillOfMaterials.RequiredPartNo, 
+                      UserData.Orders.Product, UserData.BillOfMaterials.RequiredQuantity, UserData.BillOfMaterials.MultiplyByOrderQuantity, UserData.Orders.Quantity, 
+                      UserData.Orders.OpNo, { fn WEEK(UserData.Orders.StartTime) }
+HAVING      (DatasetsSequencerOperations.name = @Dataset) AND ((CASE WHEN UserData.BillofMaterials.Multiplybyorderquantity = 'True' THEN
+                          ((SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      * UserData.Orders.Quantity) -
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) 
+                      ELSE
+                          (SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      -
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) END) &lt;&gt; 0)</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="OrderNo">
+          <DataField>OrderNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PartNo">
+          <DataField>PartNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RequiredPartNo">
+          <DataField>RequiredPartNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Product">
+          <DataField>Product</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RequiredQuantity">
+          <DataField>RequiredQuantity</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="MultiplyByOrderQuantity">
+          <DataField>MultiplyByOrderQuantity</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="OrderQty">
+          <DataField>OrderQty</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="RequiredQty">
+          <DataField>RequiredQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="LinkedQty">
+          <DataField>LinkedQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ShortageQty">
+          <DataField>ShortageQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="StartTime">
+          <DataField>StartTime</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Expr1">
+          <DataField>Expr1</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="WeekStart">
+          <DataField>WeekStart</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="WeekEnd">
+          <DataField>WeekEnd</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DataSet2">
+      <Query>
+        <DataSourceName>Preactor_Database</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Dataset">
+            <Value>=Parameters!Dataset.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT     UserData.Demand.OrderNo, UserData.Demand.PartNo, MIN(OrderLinks_1.PartNo) AS ConsumedPartNo, 'Sales Order' AS Product, 
+                      UserData.Demand.Quantity, 0 AS UnitLevel, 0 AS OrderQty, 0 AS RequiredQty,
+                          (SELECT     CASE WHEN (SUM(OrderLinks_1.Quantity)) IS NULL THEN '0' ELSE SUM(OrderLinks_1.Quantity) END AS LinkedQty) AS LinkedQty, 
+                      UserData.Demand.Quantity -
+                          (SELECT     CASE WHEN (SUM(OrderLinks_1.Quantity)) IS NULL THEN '0' ELSE SUM(OrderLinks_1.Quantity) END AS Expr1) AS ShortageQty, 
+                     Min( UserData.Demand.DemandDate) AS StartTime
+FROM         UserData.Demand INNER JOIN
+                      DatasetsSequencerOperations AS DatasetsSequencerOperations_1 ON 
+                      UserData.Demand.DatasetId = DatasetsSequencerOperations_1.dataset_id LEFT OUTER JOIN
+                      UserData.OrderLinks AS OrderLinks_1 ON UserData.Demand.DatasetId = OrderLinks_1.DatasetId AND 
+                      UserData.Demand.DemandId = OrderLinks_1.ToExternalDemandOrder AND UserData.Demand.DatasetId = OrderLinks_1.DatasetId AND 
+                      UserData.Demand.DemandId = OrderLinks_1.ToExternalDemandOrder
+GROUP BY UserData.Demand.OrderNo, UserData.Demand.PartNo, DatasetsSequencerOperations_1.name, UserData.Demand.Quantity,(DATEADD(d, 0, DATEDIFF(d, 0,(UserData.Demand.DemandDate) )))
+HAVING      (DatasetsSequencerOperations_1.name = @Dataset)  AND (UserData.Demand.Quantity -
+                          (SELECT     CASE WHEN (SUM(OrderLinks_1.Quantity)) IS NULL THEN '0' ELSE SUM(OrderLinks_1.Quantity) END AS Expr1) &gt; 0)</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="OrderNo">
+          <DataField>OrderNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PartNo">
+          <DataField>PartNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ConsumedPartNo">
+          <DataField>ConsumedPartNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Product">
+          <DataField>Product</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Quantity">
+          <DataField>Quantity</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="UnitLevel">
+          <DataField>UnitLevel</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="OrderQty">
+          <DataField>OrderQty</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="RequiredQty">
+          <DataField>RequiredQty</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="LinkedQty">
+          <DataField>LinkedQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ShortageQty">
+          <DataField>ShortageQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="StartTime">
+          <DataField>StartTime</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="OrdersWeekly">
+      <Query>
+        <DataSourceName>Preactor_Database</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Dataset">
+            <Value>=Parameters!Dataset.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT     UserData.Orders.OrderNo, UserData.Orders.PartNo, UserData.BillOfMaterials.RequiredPartNo, UserData.Orders.Product, 
+                      UserData.BillOfMaterials.RequiredQuantity, UserData.BillOfMaterials.MultiplyByOrderQuantity, UserData.Orders.Quantity AS OrderQty, 
+                      CASE WHEN UserData.BillofMaterials.Multiplybyorderquantity = 'True' THEN
+                          ((SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      * UserData.Orders.Quantity) ELSE
+                          (SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      END AS RequiredQty,
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) 
+                      AS LinkedQty, CASE WHEN UserData.BillofMaterials.Multiplybyorderquantity = 'True' THEN
+                          ((SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      * UserData.Orders.Quantity) -
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) 
+                      ELSE
+                          (SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      -
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) 
+                      END AS ShortageQty, DATEADD(d, 0, DATEDIFF(d, 0, MIN(UserData.Orders.StartTime))) AS StartTime,{ fn WEEK(UserData.Orders.StartTime) } as WeekNo, DATEADD(wk, DATEDIFF(wk, 6, 
+                      MIN(UserData.Orders.StartTime)), 6) AS WeekStart, DATEADD(wk, DATEDIFF(wk, 5, MIN(UserData.Orders.StartTime)), 5) AS WeekEnd
+FROM         DatasetsSequencerOperations INNER JOIN
+                      UserData.Orders ON DatasetsSequencerOperations.dataset_id = UserData.Orders.DatasetId LEFT OUTER JOIN
+                      UserData.BillOfMaterials ON UserData.Orders.DatasetId = UserData.BillOfMaterials.DatasetId AND 
+                      UserData.Orders.OrderNo = UserData.BillOfMaterials.OrderNo AND UserData.Orders.OpNo = UserData.BillOfMaterials.OpNo LEFT OUTER JOIN
+                      UserData.OrderLinks ON UserData.Orders.DatasetId = UserData.OrderLinks.DatasetId AND 
+                      UserData.Orders.OrdersId = UserData.OrderLinks.ToInternalDemandOrder AND 
+                      (UserData.BillOfMaterials.RequiredPartNo = UserData.OrderLinks.PartNo OR
+                      UserData.BillOfMaterials.RequiredPartNo IS NULL)
+GROUP BY DatasetsSequencerOperations.name, UserData.Orders.OrderNo, UserData.Orders.PartNo, UserData.BillOfMaterials.RequiredPartNo, 
+                      UserData.Orders.Product, UserData.BillOfMaterials.RequiredQuantity, UserData.BillOfMaterials.MultiplyByOrderQuantity, UserData.Orders.Quantity, 
+                      UserData.Orders.OpNo,{ fn WEEK(UserData.Orders.StartTime) }
+HAVING      (DatasetsSequencerOperations.name = @Dataset) AND ((CASE WHEN UserData.BillofMaterials.Multiplybyorderquantity = 'True' THEN
+                          ((SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      * UserData.Orders.Quantity) -
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) 
+                      ELSE
+                          (SELECT     CASE WHEN UserData.BillofMaterials.RequiredQuantity IS NULL THEN '0' ELSE UserData.BillofMaterials.RequiredQuantity END) 
+                      -
+                          (SELECT     CASE WHEN SUM(UserData.OrderLinks.Quantity) IS NULL THEN '0' ELSE SUM(UserData.OrderLinks.Quantity) END AS Expr1) END) &lt;&gt; 0)
+UNION
+SELECT     UserData.Demand.OrderNo, UserData.Demand.PartNo, MIN(OrderLinks_1.PartNo) AS ConsumedPartNo, 'Sales Order' AS Product, 
+                      UserData.Demand.Quantity, 0 AS UnitLevel, 0 AS OrderQty, 0 AS RequiredQty,
+                          (SELECT     CASE WHEN (SUM(OrderLinks_1.Quantity)) IS NULL THEN '0' ELSE SUM(OrderLinks_1.Quantity) END AS LinkedQty) AS LinkedQty, 
+                      UserData.Demand.Quantity -
+                          (SELECT     CASE WHEN (SUM(OrderLinks_1.Quantity)) IS NULL THEN '0' ELSE SUM(OrderLinks_1.Quantity) END AS Expr1) AS ShortageQty, 
+                      MIN(UserData.Demand.DemandDate) AS StartTime,{ fn WEEK(UserData.Demand.DemandDate) }as WeekNo, DATEADD(wk, DATEDIFF(wk, 6, 
+                      MIN(UserData.Demand.DemandDate)), 6) AS WeekStart, DATEADD(wk, DATEDIFF(wk, 5, MIN(UserData.Demand.DemandDate)), 5) AS WeekEnd
+FROM         UserData.Demand INNER JOIN
+                      DatasetsSequencerOperations AS DatasetsSequencerOperations_1 ON 
+                      UserData.Demand.DatasetId = DatasetsSequencerOperations_1.dataset_id LEFT OUTER JOIN
+                      UserData.OrderLinks AS OrderLinks_1 ON UserData.Demand.DatasetId = OrderLinks_1.DatasetId AND 
+                      UserData.Demand.DemandId = OrderLinks_1.ToExternalDemandOrder AND UserData.Demand.DatasetId = OrderLinks_1.DatasetId AND 
+                      UserData.Demand.DemandId = OrderLinks_1.ToExternalDemandOrder
+GROUP BY UserData.Demand.OrderNo, UserData.Demand.PartNo, DatasetsSequencerOperations_1.name, UserData.Demand.Quantity, { fn WEEK(UserData.Demand.DemandDate) }
+HAVING      (DatasetsSequencerOperations_1.name = @Dataset) AND (UserData.Demand.Quantity -
+                          (SELECT     CASE WHEN (SUM(OrderLinks_1.Quantity)) IS NULL THEN '0' ELSE SUM(OrderLinks_1.Quantity) END AS Expr1) &gt; 0)</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="OrderNo">
+          <DataField>OrderNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PartNo">
+          <DataField>PartNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RequiredPartNo">
+          <DataField>RequiredPartNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Product">
+          <DataField>Product</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RequiredQuantity">
+          <DataField>RequiredQuantity</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="MultiplyByOrderQuantity">
+          <DataField>MultiplyByOrderQuantity</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="OrderQty">
+          <DataField>OrderQty</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="RequiredQty">
+          <DataField>RequiredQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="LinkedQty">
+          <DataField>LinkedQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ShortageQty">
+          <DataField>ShortageQty</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="StartTime">
+          <DataField>StartTime</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="WeekNo">
+          <DataField>WeekNo</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="WeekStart">
+          <DataField>WeekStart</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="WeekEnd">
+          <DataField>WeekEnd</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="Dataset">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>DataSets</DataSetName>
+          <ValueField>name</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>Dataset</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DataSets</DataSetName>
+          <ValueField>name</ValueField>
+          <LabelField>name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="Scale">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>Daily</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Scale</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>Daily</Value>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Weekly</Value>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
+  </ReportParameters>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>684e43d2-8ff0-437c-be9c-eeb443ac1b70</rd:ReportID>
+</Report>

@@ -1,0 +1,520 @@
+[SHELL]
+#define PARSE_STRICT
+;
+;************************************************************************
+;
+;     Opcenter AS Menu Definition
+;
+;************************************************************************
+;
+;
+#include Language\{COUNTRY}\{COUNTRY}_popup_prmdf.inc #OPTIONAL
+;
+PROGRAMS
+;
+; Include system features
+;
+#include {PREACTOR PATH}\Include\pr_prmdf.inc #VERSION 1
+;
+;
+#include MaterialControl_prmdf.inc
+;
+
+
+Run_FieldsInit.vb: MANIP.EXE,
+	/RunEventScript InitFields,
+	InitFields,
+	Preactor Database Editor,
+	Foreground,
+	ALWAYS:{RETURN}; 
+;
+;
+{CONDITIONAL},
+   {#FIND RELATED DB VALUE("Menu Button Mapping" "Number" "1" "Enabled")} == 1,{NEXT},DATATRANSFER1=1:
+   ELSE,{NEXT},DATATRANSFER1=0;
+   ;
+{CONDITIONAL},
+   {#FIND RELATED DB VALUE("Menu Button Mapping" "Number" "2" "Enabled")} == 1,{NEXT},DATATRANSFER2=1:
+   ELSE,{NEXT},DATATRANSFER2=0;
+;
+{CONDITIONAL},
+   {#FIND RELATED DB VALUE("Menu Button Mapping" "Number" "3" "Enabled")} == 1,{NEXT},DATATRANSFER3=1:
+   ELSE,{NEXT},DATATRANSFER3=0;
+;
+{CONDITIONAL},
+   {#FIND RELATED DB VALUE("Menu Button Mapping" "Number" "4" "Enabled")} == 1,{NEXT},DATATRANSFER4=1:
+   ELSE,{NEXT},DATATRANSFER4=0;
+;
+{CONDITIONAL},
+   {#FIND RELATED DB VALUE("Menu Button Mapping" "Number" "5" "Enabled")} == 1,{NEXT},DATATRANSFER5=1:
+   ELSE,{NEXT},DATATRANSFER5=0;
+;
+{CONDITIONAL},
+   {#FIND RELATED DB VALUE("Menu Button Mapping" "Number" "6" "Enabled")} == 1,{NEXT},DATATRANSFER6=1:
+   ELSE,{NEXT},DATATRANSFER6=0;
+;
+{CONDITIONAL},
+   {#FIND RELATED DB VALUE("Menu Button Mapping" "Number" "7" "Enabled")} == 1,{NEXT},DATATRANSFER7=1:
+   ELSE,{NEXT},DATATRANSFER7=0;
+;
+{CONDITIONAL},
+   {#FIND RELATED DB VALUE("Menu Button Mapping" "Number" "8" "Enabled")} == 1,{NEXT},DATATRANSFER8=1:
+   ELSE,{NEXT},DATATRANSFER8=0;
+;
+{CONDITIONAL},
+   {#FIND RELATED DB VALUE("Menu Button Mapping" "Number" "9" "Enabled")} == 1,{NEXT},DATATRANSFER9=1:
+   ELSE,{NEXT},DATATRANSFER9=0;
+;
+;
+; --------------------------------------------------------------------------
+; Main Menu
+; --------------------------------------------------------------------------
+;
+#label image Data_Transfer_Script_1:{EMBEDDED IMAGE PATH}/Import.Export.48.png
+#label image Data_Transfer_Script_2:{EMBEDDED IMAGE PATH}/Import.Export.48.png
+#label image Data_Transfer_Script_3:{EMBEDDED IMAGE PATH}/Import.Export.48.png
+;
+MENU_Main : {DIALOG},
+   Select Scheduling Option from Menu,
+   Main Menu:
+#ifndef VIEWER
+   PUSHBUTTON | HELPPOPUPID (50100),Data Transfer,MENU_ImpExp:
+   PUSHBUTTON,Erreurs d'importation,Erreurs:
+   PUSHBUTTON | HELPPOPUPID (50030),Generate Schedule,SEQ_Main: 
+   PUSHBUTTON,{FIND RELATED DB VALUE("Menu Button Mapping" "Number" "1" "Button Text")},DATATRANSFER1 = 1,Data_Transfer_Script_1:
+   PUSHBUTTON,{FIND RELATED DB VALUE("Menu Button Mapping" "Number" "2" "Button Text")},DATATRANSFER2 = 1,Data_Transfer_Script_2:
+   PUSHBUTTON,{FIND RELATED DB VALUE("Menu Button Mapping" "Number" "3" "Button Text")},DATATRANSFER3 = 1,Data_Transfer_Script_3:
+#endif
+   PUSHBUTTON | HELPPOPUPID (50070),Data Maintenance,MENU_Maintenance;
+;
+;
+;
+; --------------------------------------------------------------------------
+; Import Export Menu
+; --------------------------------------------------------------------------
+;
+#label image Data_Transfer_Script_4:{EMBEDDED IMAGE PATH}/Import.Export.48.png
+#label image Data_Transfer_Script_5:{EMBEDDED IMAGE PATH}/Import.Export.48.png
+#label image Data_Transfer_Script_6:{EMBEDDED IMAGE PATH}/Import.Export.48.png
+#label image Data_Transfer_Script_7:{EMBEDDED IMAGE PATH}/Import.Export.48.png
+#label image Data_Transfer_Script_8:{EMBEDDED IMAGE PATH}/Import.Export.48.png
+#label image Data_Transfer_Script_9:{EMBEDDED IMAGE PATH}/Import.Export.48.png
+;
+#ifndef VIEWER
+;
+MENU_ImpExp : {DIALOG},
+   Select Data Transfer Option from Menu,
+   Data Transfer Menu:
+   PUSHBUTTON,Chemins d'Importation/Exportation,Chemins:
+   PUSHBUTTON,{FIND RELATED DB VALUE("Menu Button Mapping" "Number" "4" "Button Text")},DATATRANSFER4 = 1,Data_Transfer_Script_4:
+   PUSHBUTTON,{FIND RELATED DB VALUE("Menu Button Mapping" "Number" "5" "Button Text")},DATATRANSFER5 = 1,Data_Transfer_Script_5:
+   PUSHBUTTON,{FIND RELATED DB VALUE("Menu Button Mapping" "Number" "6" "Button Text")},DATATRANSFER6 = 1,Data_Transfer_Script_6:
+   PUSHBUTTON,{FIND RELATED DB VALUE("Menu Button Mapping" "Number" "7" "Button Text")},DATATRANSFER7 = 1,Data_Transfer_Script_7:
+   PUSHBUTTON,{FIND RELATED DB VALUE("Menu Button Mapping" "Number" "8" "Button Text")},DATATRANSFER8 = 1,Data_Transfer_Script_8:
+   PUSHBUTTON,{FIND RELATED DB VALUE("Menu Button Mapping" "Number" "9" "Button Text")},DATATRANSFER9 = 1,Data_Transfer_Script_9;
+;
+#endif
+;
+; ---------------------------------------------------------------------------
+; Data Maintenance Menu
+; ---------------------------------------------------------------------------
+;
+MENU_Maintenance : {DIALOG},
+   Select Maintenance Option from Menu,
+   Data Maintenance:
+PUSHBUTTON,Products,MENU_Products:
+    PUSHBUTTON,Attributes,MENU_Attributes:
+   PUSHBUTTON,Resources,MENU_Resources:
+   PUSHBUTTON,Orders,MENU_Orders;
+;
+; ---------------------------------------------------------------------------
+; Resources Menu
+; ---------------------------------------------------------------------------
+;
+MENU_Resources : {DIALOG},
+   Select Option from Menu,
+   Resources:
+   PUSHBUTTON | HELPPOPUPID (53030),{TABLE DISPLAY NAME("Resource Groups")},EDIT_Groups:
+   PUSHBUTTON | HELPPOPUPID (53040),{TABLE DISPLAY NAME("Resources")},EDIT_Resources:
+   PUSHBUTTON | HELPPOPUPID (53050),{TABLE DISPLAY NAME("Secondary Constraints")},EDIT_Const:
+   PUSHBUTTON | HELPPOPUPID (53060),{TABLE DISPLAY NAME("Secondary Constraint Groups")},EDIT_ConstGroups;
+;
+; ---------------------------------------------------------------------------
+; Attributes Menu
+; ---------------------------------------------------------------------------
+;
+MENU_Attributes : {DIALOG},
+   Select Option from Menu,
+   Attributes:
+PUSHBUTTON | HELPPOPUPID (53560),{TABLE DISPLAY NAME("Attribute 1")},EDIT_Attribute1:
+   PUSHBUTTON | HELPPOPUPID (53550),{TABLE DISPLAY NAME("Order Status")},EDIT_Order_Status:
+   PUSHBUTTON | HELPPOPUPID (53050),{TABLE DISPLAY NAME("Changeover Groups")},EDIT_Changeover:
+   PUSHBUTTON,XXX,MENU_Maintenance;
+;
+; ---------------------------------------------------------------------------
+; Products Menu
+; ---------------------------------------------------------------------------
+;
+MENU_Products : {DIALOG},
+   Select Option from Menu,
+   Products:
+   
+
+   PUSHBUTTON,XXX,MENU_Maintenance;;
+;
+; ---------------------------------------------------------------------------
+; Configuration Menu
+; ---------------------------------------------------------------------------
+;
+#label image EDIT_Sequencer_Configuration:{EMBEDDED IMAGE PATH}/Configuration.48.png
+#label image EDIT_Import_Export_Mapping:{EMBEDDED IMAGE PATH}/Configuration.48.png
+#label image EDIT_MaterialControlConfiguration:{EMBEDDED IMAGE PATH}/MaterialControlConfig.48.png
+#label image EDIT_Tool_Configuration:{EMBEDDED IMAGE PATH}/Configuration.48.png
+;
+MENU_CustomConfiguration : {DIALOG},
+   Select Option from Menu,
+   Settings:
+   PUSHBUTTON,Sequencer Configuration,EDIT_Sequencer_Configuration:
+#ifndef VIEWER
+#ifdef AS_PRO
+   PUSHBUTTON,Material Configuration,MENU_Material_Control:
+#endif
+#endif
+   PUSHBUTTON,Menu Button Mapping,EDIT_Menu_Button_Mapping:   
+   PUSHBUTTON,Tool Configuration,EDIT_Tool_Configuration;
+   
+;
+#ifndef VIEWER
+;
+; --------------------------------------------------------------------------
+; Data Transfer Script 1
+; -------------------------------------------------------------------------- 
+;
+Data_Transfer_Script_1 : MANIP.DLL,
+   /RunEventScript {FIND RELATED DB VALUE("Menu Button Mapping" "Number" "1" "Event Script")},
+   Example Import Event Script,
+   Example Import,
+   Foreground,
+   ALWAYS:{RETURN};
+   ;
+; --------------------------------------------------------------------------
+; Data Transfer Script 2
+; -------------------------------------------------------------------------- 
+;
+Data_Transfer_Script_2 : MANIP.DLL,
+   /RunEventScript {FIND RELATED DB VALUE("Menu Button Mapping" "Number" "2" "Event Script")},
+   Example Import Event Script,
+   Example Import,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; --------------------------------------------------------------------------
+; Data Transfer Script 3
+; -------------------------------------------------------------------------- 
+;
+Data_Transfer_Script_3 : MANIP.DLL,
+   /RunEventScript {FIND RELATED DB VALUE("Menu Button Mapping" "Number" "3" "Event Script")},
+   Example Import Event Script,
+   Example Import,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; --------------------------------------------------------------------------
+; Data Transfer Script 4
+; -------------------------------------------------------------------------- 
+;
+Data_Transfer_Script_4 : MANIP.DLL,
+   /RunEventScript {FIND RELATED DB VALUE("Menu Button Mapping" "Number" "4" "Event Script")},
+   Example Import Event Script,
+   Example Import,
+   Foreground,
+   ALWAYS:{RETURN};
+   ;
+; --------------------------------------------------------------------------
+; Data Transfer Script 5
+; -------------------------------------------------------------------------- 
+;
+Data_Transfer_Script_5 : MANIP.DLL,
+   /RunEventScript {FIND RELATED DB VALUE("Menu Button Mapping" "Number" "5" "Event Script")},
+   Example Import Event Script,
+   Example Import,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; --------------------------------------------------------------------------
+; Data Transfer Script 6
+; -------------------------------------------------------------------------- 
+;
+Data_Transfer_Script_6 : MANIP.DLL,
+   /RunEventScript {FIND RELATED DB VALUE("Menu Button Mapping" "Number" "6" "Event Script")},
+   Example Import Event Script,
+   Example Import,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; --------------------------------------------------------------------------
+; Data Transfer Script 7
+; -------------------------------------------------------------------------- 
+;
+Data_Transfer_Script_7 : MANIP.DLL,
+   /RunEventScript {FIND RELATED DB VALUE("Menu Button Mapping" "Number" "7" "Event Script")},
+   Example Import Event Script,
+   Example Import,
+   Foreground,
+   ALWAYS:{RETURN};
+   ;
+; --------------------------------------------------------------------------
+; Data Transfer Script 8
+; -------------------------------------------------------------------------- 
+;
+Data_Transfer_Script_8 : MANIP.DLL,
+   /RunEventScript {FIND RELATED DB VALUE("Menu Button Mapping" "Number" "8" "Event Script")},
+   Example Import Event Script,
+   Example Import,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; --------------------------------------------------------------------------
+; Data Transfer Script 9
+; -------------------------------------------------------------------------- 
+;
+Data_Transfer_Script_9 : MANIP.DLL,
+   /RunEventScript {FIND RELATED DB VALUE("Menu Button Mapping" "Number" "9" "Event Script")},
+   Example Import Event Script,
+   Example Import,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+#endif
+; --------------------------------------------------------------------------
+; Generate Production Sequence
+; --------------------------------------------------------------------------
+;
+SEQ_Main : PRS.DLL,
+   "/FMT:Orders" "Schedule" /SHOR /PS "/US:10:Unspecified" /NGDDA /NGESA /DWP
+   "/OM:{FIND RELATED DB VALUE("Sequencer Configuration" "Number" "1" "OverviewMode")}"
+   "/OS:{JDATE+{#FIND RELATED DB VALUE("Sequencer Configuration" "Number" "1" "Gantt Start Offset [Days]")}}"
+   "/OE:{JDATE+{#FIND RELATED DB VALUE("Sequencer Configuration" "Number" "1" "Gantt End Offset [Days]")}}"
+   "/SO:{JTIME+{#FIND RELATED DB VALUE("Sequencer Configuration" "Number" "1" "Default Start Offset")}}" 
+   "/ST:{JTIME+{#FIND RELATED DB VALUE("Sequencer Configuration" "Number" "1" "Default Terminator Offset")}}"
+   "/BT:{JDATE-{#FIND RELATED DB VALUE("Sequencer Configuration" "Number" "1" "Historical Planning Horizon (Days)")}}"
+   "/ET:{JDATE+{#FIND RELATED DB VALUE("Sequencer Configuration" "Number" "1" "Future Planning Horizon (Days)")}}"
+   "/DueDate:{DATE+{#FIND RELATED DB VALUE("Sequencer Configuration" "Number" "1" "Default Due Date Offset")}}"
+   "/ES:{DATE+{#FIND RELATED DB VALUE("Sequencer Configuration" "Number" "1" "Default Earliest Start Date Offset")}}"
+    /GL /GZC /FO /HLO "/WPI:Default.prwpi" /MSI:99
+#ifndef VIEWER
+   "/ActiveX:{FIND RELATED DB VALUE("Tool Configuration" "Number" "0" "User Tool 1 Name")}:PESP.EventHandler:RunScriptByName:{FIND RELATED DB VALUE("Tool Configuration" "Number" "0" "User Tool 1 Script")}"
+   "/ActiveX:{FIND RELATED DB VALUE("Tool Configuration" "Number" "0" "User Tool 2 Name")}:PESP.EventHandler:RunScriptByName:{FIND RELATED DB VALUE("Tool Configuration" "Number" "0" "User Tool 2 Script")}"
+   "/ActiveX:{FIND RELATED DB VALUE("Tool Configuration" "Number" "0" "User Tool 3 Name")}:PESP.EventHandler:RunScriptByName:{FIND RELATED DB VALUE("Tool Configuration" "Number" "0" "User Tool 3 Script")}"
+   "/ActiveX:{FIND RELATED DB VALUE("Tool Configuration" "Number" "0" "User Tool 4 Name")}:PESP.EventHandler:RunScriptByName:{FIND RELATED DB VALUE("Tool Configuration" "Number" "0" "User Tool 4 Script")}"
+   "/OCXWindow:{FIND RELATED DB VALUE("Tool Configuration" "Number" "0" "User Window Name")}:{FIND RELATED DB VALUE("Tool Configuration" "Number" "0" "User Window Function")}:{FIND RELATED DB VALUE("Tool Configuration" "Number" "0" "User Window Label")}"
+#endif
+   ,
+   Sequence Orders,
+   Sequencer,
+   Maximize,
+   ALWAYS:{RETURN};
+;
+; ---------------------------------------------------------------------------
+; Edit Sequencer Configuration
+; ---------------------------------------------------------------------------
+;
+EDIT_Sequencer_Configuration : PREDIT.DLL,
+   "/FMT:Sequencer Configuration" /ER:0,
+   Edit Sequencer Configuration,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; ---------------------------------------------------------------------------
+; Edit Menu Button Mapping
+; ---------------------------------------------------------------------------
+;
+EDIT_Menu_Button_Mapping : PREDIT.DLL,
+   "/FMT:Menu Button Mapping" /RestartWarning,
+   Edit Menu Button Mapping,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+   ;
+; ---------------------------------------------------------------------------
+; Edit Tool Configuration
+; ---------------------------------------------------------------------------
+;
+EDIT_Tool_Configuration : PREDIT.DLL,
+   "/FMT:Tool Configuration" /ER:0,
+   Edit Tool Configuration,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; ---------------------------------------------------------------------------
+; Edit Resources
+; ---------------------------------------------------------------------------
+;
+EDIT_Resources : PREDIT.DLL,
+   "/FMT:Resources",
+   Edit Resources,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; ---------------------------------------------------------------------------
+; Edit Order Status
+; ---------------------------------------------------------------------------
+;
+EDIT_Order_Status : PREDIT.DLL,
+   "/FMT:Order Status",
+   Edit Order Status Data,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+; ---------------------------------------------------------------------------
+; Edit Changeover Groups
+; ---------------------------------------------------------------------------
+;
+EDIT_Changeover : PREDIT.DLL,
+   "/FMT:Changeover Groups",
+   Edit Changeover Groups,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; ---------------------------------------------------------------------------
+; Edit Attribute 1
+; ---------------------------------------------------------------------------
+;
+EDIT_Attribute1 : PREDIT.DLL,
+   "/FMT:Attribute 1",
+   Edit Attribute 1,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; ---------------------------------------------------------------------------
+; Edit Attribute 2
+; ---------------------------------------------------------------------------
+;
+EDIT_Attribute2 : PREDIT.DLL,
+   "/FMT:Attribute 2",
+   Edit Attribute 2,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; ---------------------------------------------------------------------------
+; Edit Attribute 3
+; ---------------------------------------------------------------------------
+;
+EDIT_Attribute3 : PREDIT.DLL,
+   "/FMT:Attribute 3",
+   Edit Attribute 3,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+#ifdef AS_PRO
+;
+; ---------------------------------------------------------------------------
+; Edit Attribute 4
+; ---------------------------------------------------------------------------
+;
+EDIT_Attribute4 : PREDIT.DLL,
+   "/FMT:Attribute 4",
+   Edit Attribute 4,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; ---------------------------------------------------------------------------
+; Edit Attribute 5
+; ---------------------------------------------------------------------------
+;
+EDIT_Attribute5 : PREDIT.DLL,
+   "/FMT:Attribute 5",
+   Edit Attribute 5,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+#endif
+;
+; ---------------------------------------------------------------------------
+; Edit Secondary Constraints
+; ---------------------------------------------------------------------------
+;
+EDIT_Const : PREDIT.DLL,
+   "/FMT:Secondary Constraints",
+   Edit Secondary Constraints,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; ---------------------------------------------------------------------------
+; Edit Secondary Constraint Groups
+; ---------------------------------------------------------------------------
+;
+EDIT_ConstGroups : PREDIT.DLL,
+   "/FMT:Secondary Constraint Groups",
+   Edit Secondary Constraint Groups,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; ---------------------------------------------------------------------------
+; Edit Products
+; ---------------------------------------------------------------------------
+;
+EDIT_Products : PREDIT.DLL,
+   "/FMT:Products",
+   Edit Products,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+; ---------------------------------------------------------------------------
+; Edit Products BoM
+; ---------------------------------------------------------------------------
+;
+EDIT_Products_BoM : PREDIT.DLL,
+   "/FMT:Product Bill of Materials",
+   Edit Product Bill of Materials,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};   
+;
+; ---------------------------------------------------------------------------
+; Edit Resource Groups
+; ---------------------------------------------------------------------------
+;
+EDIT_Groups : PREDIT.DLL,
+   "/FMT:Resource Groups" ,
+   Edit Resource Groups,
+   Data Editor,
+   Foreground,
+   ALWAYS:{RETURN};
+;
+;
+;
+; ---------------------------------------------------------------------------
+; Chemins d'importation
+; ---------------------------------------------------------------------------
+Chemins: PREDIT.EXE,
+   "/FMT:Chemins" /ER:0 /NDS,
+   Chemins,
+   Editeur de DonnĂ©es Techniques Preactor,
+   Maximize,
+   ALWAYS:{RETURN};
+;
+;
+;
+; ---------------------------------------------------------------------------
+; FICHIERS D'ERREURS
+; ---------------------------------------------------------------------------
+;
+Erreurs: PREDIT.EXE,
+   "/FMT:Erreurs",
+   Liste des Erreurs d'importation des OFs,
+   Liste des Erreurs d'importation des OFs,
+   Maximize,
+   ALWAYS:{RETURN};
+;
+PROGRAMS_END

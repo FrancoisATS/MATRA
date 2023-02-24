@@ -1,0 +1,1119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
+  <DataSources>
+    <DataSource Name="Preactor_Database">
+      <DataSourceReference>Preactor Database</DataSourceReference>
+      <rd:DataSourceID>ff62a052-e444-485f-b6f7-154364acda71</rd:DataSourceID>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="Orders">
+      <Fields>
+        <Field Name="ID1st_Start_Time">
+          <DataField>1st Start Time</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="OrderNo">
+          <DataField>OrderNo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DatasetId">
+          <DataField>DatasetId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ID2nd_Start_Time">
+          <DataField>2nd Start Time</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Expr2">
+          <DataField>Expr2</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ID1st_End_Time">
+          <DataField>1st End Time</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ID2nd_EndTime">
+          <DataField>2nd EndTime</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Base_Data_Set">
+          <DataField>Base Data Set</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Comparison_Data_Set">
+          <DataField>Comparison Data Set</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DueDate">
+          <DataField>DueDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="TotalDeliveryBufferTime">
+          <DataField>TotalDeliveryBufferTime</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ID1st_Setup_Start">
+          <DataField>1st Setup Start</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ID2nd_Setup_Start">
+          <DataField>2nd Setup Start</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ID1st_Critical_Ratio">
+          <DataField>1st Critical Ratio</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ID2nd_Critical_Ratio">
+          <DataField>2nd Critical Ratio</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ID1st_Order_Cost">
+          <DataField>1st Order Cost</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ID2nd_Order_Cost">
+          <DataField>2nd Order Cost</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="ID2nd_Due_Date">
+          <DataField>2nd Due Date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ID2ndTotalDeliveryBufferTime">
+          <DataField>2ndTotalDeliveryBufferTime</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Preactor_Database</DataSourceName>
+        <CommandText>SELECT     OrdersView.StartTime AS [1st Start Time], OrdersView.OrderNo, OrdersView.DatasetId, OrdersView_1.StartTime AS [2nd Start Time], 
+                      OrdersView_1.DatasetId AS Expr2, OrdersView.EndTime AS [1st End Time], OrdersView_1.EndTime AS [2nd EndTime], 
+                      Orders_Dataset_1.name AS [Base Data Set], UserData.Orders_Dataset.name AS [Comparison Data Set], OrdersView.ActualDueDate AS DueDate, 
+                      OrdersView.DeliveryBuffer AS TotalDeliveryBufferTime, OrdersView.SetupStart AS [1st Setup Start], OrdersView_1.SetupStart AS [2nd Setup Start], 
+                      OrdersView.CriticalRatio AS [1st Critical Ratio], OrdersView_1.CriticalRatio AS [2nd Critical Ratio], OrdersView.OrderCost AS [1st Order Cost], 
+                      OrdersView_1.OrderCost AS [2nd Order Cost], OrdersView_1.ActualDueDate AS [2nd Due Date], 
+                      OrdersView_1.DeliveryBuffer AS [2ndTotalDeliveryBufferTime]
+FROM         UserData.Orders_Dataset RIGHT OUTER JOIN
+                      OrdersView AS OrdersView_1 ON UserData.Orders_Dataset.DatasetId = OrdersView_1.DatasetId RIGHT OUTER JOIN
+                      OrdersView LEFT OUTER JOIN
+                      UserData.Orders_Dataset AS Orders_Dataset_1 ON OrdersView.DatasetId = Orders_Dataset_1.DatasetId ON 
+                      OrdersView_1.OrderNo = OrdersView.OrderNo
+WHERE     (OrdersView.DatasetId = @BaselineDatasetId) AND (OrdersView_1.DatasetId = @ComparisonDatasetId) AND (OrdersView.StartTime IS NOT NULL) AND 
+                      (OrdersView_1.StartTime IS NOT NULL)</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@BaselineDatasetId">
+            <Value>=Parameters!BaselineDatasetId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ComparisonDatasetId">
+            <Value>=Parameters!ComparisonDatasetId.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+    <DataSet Name="Datasets">
+      <Fields>
+        <Field Name="dataset_id">
+          <DataField>dataset_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="name">
+          <DataField>name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Preactor_Database</DataSourceName>
+        <CommandText>SELECT     dataset_id, name
+FROM         DatasetsSequencerOperations</CommandText>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Body>
+    <ReportItems>
+      <Textbox Name="Base_Data_Set">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value rd:LocID="BaseLineSchedule">Base Line Schedule :</Value>
+                <Style>
+                  <FontFamily>Verdana</FontFamily>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Base_Data_Set</rd:DefaultName>
+        <Top>0.5in</Top>
+        <Left>0.25in</Left>
+        <Height>0.5cm</Height>
+        <Width>4.44444cm</Width>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Comparison_Data_Set">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value rd:LocID="ComparativeSchedule">Comparative Schedule :</Value>
+                <Style>
+                  <FontFamily>Verdana</FontFamily>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Comparison_Data_Set</rd:DefaultName>
+        <Top>0.70833in</Top>
+        <Left>0.25in</Left>
+        <Height>0.5cm</Height>
+        <Width>1.75in</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox10">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!Base_Data_Set.Value, "Orders")</Value>
+                <Style>
+                  <FontFamily>Verdana</FontFamily>
+                  <FontSize>8pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>textbox10</rd:DefaultName>
+        <Top>0.5in</Top>
+        <Left>2.01041in</Left>
+        <Height>0.5cm</Height>
+        <Width>2.5in</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox11">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!Comparison_Data_Set.Value, "Orders")</Value>
+                <Style>
+                  <FontFamily>Verdana</FontFamily>
+                  <FontSize>8pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>textbox11</rd:DefaultName>
+        <Top>0.70833in</Top>
+        <Left>2.01042in</Left>
+        <Height>0.5cm</Height>
+        <Width>2.5in</Width>
+        <ZIndex>3</ZIndex>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox4">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value rd:LocID="Criteria">Criteria :</Value>
+                <Style>
+                  <FontFamily>Verdana</FontFamily>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>textbox4</rd:DefaultName>
+        <Top>0.91667in</Top>
+        <Left>0.25in</Left>
+        <Height>0.20833in</Height>
+        <Width>1.75in</Width>
+        <ZIndex>4</ZIndex>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox5">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=Parameters!OrderFilter.Value</Value>
+                <Style>
+                  <FontFamily>Verdana</FontFamily>
+                  <FontSize>8pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>0.91198in</Top>
+        <Left>2.01042in</Left>
+        <Height>0.52646cm</Height>
+        <Width>2.5in</Width>
+        <ZIndex>5</ZIndex>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox14">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value rd:LocID="OrderComparison">Order Comparison</Value>
+                <Style>
+                  <FontSize>14pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <Color>#004882</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>0.12839in</Top>
+        <Left>0.25182in</Left>
+        <Height>0.75cm</Height>
+        <Width>8.24471cm</Width>
+        <ZIndex>6</ZIndex>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Tablix Name="table1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1.125in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.375in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.5in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.5in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.5in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.125in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value rd:LocID="OrderNo">Order No</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox1</rd:DefaultName>
+                      <ZIndex>9</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>None</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </RightBorder>
+                        <BackgroundColor>="#FFFECC"</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>= Fields!Base_Data_Set.Value</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>8</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </RightBorder>
+                        <BackgroundColor>="#FFFECC"</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox12">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>= Fields!Comparison_Data_Set.Value</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox12</rd:DefaultName>
+                      <ZIndex>7</ZIndex>
+                      <Style>
+                        <TopBorder>
+                          <Style>None</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </RightBorder>
+                        <BackgroundColor>="#FFFECC"</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value rd:LocID="NetChange">Net Change</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox6</rd:DefaultName>
+                      <ZIndex>6</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </LeftBorder>
+                        <BackgroundColor>="#FFFECC"</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox9">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Change Effect</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox9</rd:DefaultName>
+                      <ZIndex>5</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </LeftBorder>
+                        <BackgroundColor>="#FFFECC"</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.125in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="OrderNo">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!OrderNo.Value)</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>OrderNo</rd:DefaultName>
+                      <ZIndex>4</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>None</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </RightBorder>
+                        <BackgroundColor>= "#FFFECC"</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox3">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=iif(IsDate(First(Fields!ID1st_Start_Time.Value)),switch(Parameters!OrderFilter.Value="End Time",Format(Max(Fields!ID1st_End_Time.Value),"g"),Parameters!OrderFilter.Value="Setup Start",Format(Min(Fields!ID1st_Setup_Start.Value),"g"),Parameters!OrderFilter.Value="Due Date",Format(First(Fields!DueDate.Value),"d"),Parameters!OrderFilter.Value="Critical Ratio",Last(Fields!ID1st_Critical_Ratio.Value),Parameters!OrderFilter.Value="Order Cost",Last(Fields!ID1st_Order_Cost.Value),Parameters!OrderFilter.Value="Due Date Performance",iif(round(((Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24))-Fix(Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24)))*60)=60,Fix(Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(First(Fields!DueDate.Value)).ToOADate)+1))*24))+1 &amp; " Hours " &amp;  "0 Mins",Fix(Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(First(Fields!DueDate.Value)).ToOADate)+1))*24)) &amp; " Hours " &amp; round(((Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24))-Fix(Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24)))*60) &amp; " Mins"),Parameters!OrderFilter.Value="Make Span",iif(round(((((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)-fix(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24))*60)=60,Fix(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)+1 &amp; " Hours " &amp;  "0 Mins",Fix(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24) &amp; " Hours " &amp; round(((((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)-fix(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24))*60) &amp; " Mins")),"")</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <Format>N</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>3</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </RightBorder>
+                        <BackgroundColor>=Switch(cdate(max(Fields!ID1st_End_Time.Value)).ToOADate&lt;=((CDate(First(Fields!DueDate.Value)).ToOADate)+1)-(First(Fields!TotalDeliveryBufferTime.Value)),"Lime",((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)&gt;=((CDate(First(Fields!DueDate.Value)).ToOADate)+1)-(First(Fields!TotalDeliveryBufferTime.Value)))AndAlso (cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)&lt;=((cdate(First(Fields!DueDate.Value)).ToOADate) +1),"Yellow",(cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)&gt;((cdate(First(Fields!DueDate.Value)).ToOADate) +1),"Red")</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox13">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=iif(IsDate(min(Fields!ID2nd_Start_Time.Value)),switch(Parameters!OrderFilter.Value="End Time",Format(max(Fields!ID2nd_EndTime.Value),"g"),Parameters!OrderFilter.Value="Setup Start",Format(min(Fields!ID2nd_Setup_Start.Value),"g"),Parameters!OrderFilter.Value="Due Date",Format(first(Fields!ID2nd_Due_Date.Value),"d"),Parameters!OrderFilter.Value="Critical Ratio",last(Fields!ID2nd_Critical_Ratio.Value),Parameters!OrderFilter.Value="Order Cost",last(Fields!ID2nd_Order_Cost.Value),Parameters!OrderFilter.Value="Due Date Performance",iif(Format(round(((Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))-fix(Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24)))*60))=60,fix(Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))+1 &amp; " Hours " &amp;   "0 Mins",fix(Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24)) &amp; " Hours " &amp; Format(round(((Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))-fix(Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24)))*60)) &amp; " Mins" ),Parameters!OrderFilter.Value="Make Span",iif(round(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)-fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24))*60)=60,fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)+1 &amp; " Hours " &amp;  "0 Mins",fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24) &amp; " Hours " &amp; round(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)-fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24))*60)&amp; " Mins")),"")</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <Format>N</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox13</rd:DefaultName>
+                      <ZIndex>2</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </RightBorder>
+                        <BackgroundColor>=Switch(cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate&lt;=((CDate(First(Fields!ID2nd_Due_Date.Value)).ToOADate)+1)-(First(Fields!ID2ndTotalDeliveryBufferTime.Value)),"Lime",((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)&gt;=((CDate(First(Fields!ID2nd_Due_Date.Value)).ToOADate)+1)-(First(Fields!ID2ndTotalDeliveryBufferTime.Value)))AndAlso (cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)&lt;=((cdate(First(Fields!ID2nd_Due_Date.Value)).ToOADate) +1),"Yellow",(cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)&gt;((cdate(First(Fields!ID2nd_Due_Date.Value)).ToOADate) +1),"Red")</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox8">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=iif(IsDate(min(Fields!ID2nd_Start_Time.Value)),switch(Parameters!OrderFilter.Value="End Time",iif(round(Abs(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)-(cdate(max(Fields!ID1st_End_Time.Value)).ToOADate))*24)-(Fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)-(cdate(max(Fields!ID1st_End_Time.Value)).ToOADate))*24)))*60))=60,Abs(Fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)-(cdate(max(Fields!ID1st_End_Time.Value)).ToOADate))*24))+1 &amp; " Hours " &amp;  "0 Mins",Abs(Fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)-(cdate(max(Fields!ID1st_End_Time.Value)).ToOADate))*24))&amp; " Hours " &amp; round(Abs(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)-(cdate(max(Fields!ID1st_End_Time.Value)).ToOADate))*24)-(Fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)-(cdate(max(Fields!ID1st_End_Time.Value)).ToOADate))*24)))*60))&amp; " Mins"),Parameters!OrderFilter.Value="Setup Start",iif(round(abs(((((cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate)-(cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24))-(fix(((cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate)-(cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)))*60)=60,Abs(Fix(((cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate)-(cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24))+1 &amp; " Hours " &amp; "0 Mins",Abs(Fix(((cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate)-(cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)) &amp; " Hours " &amp; round(abs(((((cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate)-(cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24))-(fix(((cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate)-(cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)))*60) &amp; " Mins"),Parameters!OrderFilter.Value="Due Date",iif(round(Abs(((((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)-(cdate(first(Fields!DueDate.Value)).ToOADate))*24))-(fix(((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)-(cdate(first(Fields!DueDate.Value)).ToOADate))*24)))*60)=60,Abs(Fix(((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)-(cdate(first(Fields!DueDate.Value)).ToOADate))*24))+1 &amp; " Hours " &amp; "0 Mins",Abs(Fix(((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)-(cdate(first(Fields!DueDate.Value)).ToOADate))*24)) &amp; " Hours " &amp; round(Abs(((((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)-(cdate(first(Fields!DueDate.Value)).ToOADate))*24))-(fix(((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)-(cdate(first(Fields!DueDate.Value)).ToOADate))*24)))*60)&amp; " Mins") ,Parameters!OrderFilter.Value="Critical Ratio",Abs(round(last(Fields!ID2nd_Critical_Ratio.Value)-last(Fields!ID1st_Critical_Ratio.Value),2)),Parameters!OrderFilter.Value="Order Cost",Abs(round(last(Fields!ID2nd_Order_Cost.Value)-last(Fields!ID1st_Order_Cost.Value),2)),Parameters!OrderFilter.Value="Due Date Performance",iif(round(Abs((((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))-((((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24)))-fix(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))-((((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24))))*60)=60,Abs(Fix(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))-((((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24))))+1 &amp; " Hours " &amp;   "0 Mins",Abs(Fix(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))-((((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24)))) &amp; " Hours " &amp; round(Abs((((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))-((((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24)))-fix(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))-((((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24))))*60)) &amp; " Mins",Parameters!OrderFilter.Value="Make Span",iif(round(Abs(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(first(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)-(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24))-fix((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)-(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)))*60)=60,Abs(Fix((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)-(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)))+1 &amp; " Hours " &amp;  "0 Mins",Abs(Fix((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)-(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24))) &amp; " Hours " &amp; round(Abs(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(first(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)-(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24))-fix((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)-(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)))*60)&amp; " Mins")),"")</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <Format>N</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox8</rd:DefaultName>
+                      <ZIndex>1</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </LeftBorder>
+                        <BackgroundColor>= "#FFFECC"</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox16">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=iif(Parameters!OrderFilter.Value= "End Time",(Switch(Max(Fields!ID1st_End_Time.Value) &lt; Max(Fields!ID2nd_EndTime.Value),"+",Max(Fields!ID1st_End_Time.Value) &gt; Max(Fields!ID2nd_EndTime.Value),"-",Max(Fields!ID1st_End_Time.Value) = Max(Fields!ID2nd_EndTime.Value),"")),iif(Parameters!OrderFilter.Value= "Setup Start",(Switch(Min(Fields!ID1st_Setup_Start.Value) &lt; Min(Fields!ID2nd_Setup_Start.Value),"+",Min(Fields!ID1st_Setup_Start.Value) &gt; Min(Fields!ID2nd_Setup_Start.Value),"-",Min(Fields!ID1st_Setup_Start.Value) = Min(Fields!ID2nd_Setup_Start.Value),"" )),iif(Parameters!OrderFilter.Value = "Due Date",(Switch(First(Fields!DueDate.Value) &lt; First(Fields!ID2nd_Due_Date.Value),"+",First(Fields!DueDate.Value) &gt; First(Fields!ID2nd_Due_Date.Value),"-",First(Fields!DueDate.Value) = First(Fields!ID2nd_Due_Date.Value),"" )),iif(Parameters!OrderFilter.Value = "Critical Ratio",(Switch(rOUND(Last(Fields!ID1st_Critical_Ratio.Value),2) &lt; rOUND(Last(Fields!ID2nd_Critical_Ratio.Value),2),"+",rOUND(Last(Fields!ID1st_Critical_Ratio.Value),2) &gt; rOUND(Last(Fields!ID2nd_Critical_Ratio.Value),2),"-",rOUND(Last(Fields!ID1st_Critical_Ratio.Value),2) = rOUND(Last(Fields!ID2nd_Critical_Ratio.Value),2),"" )),iif(Parameters!OrderFilter.Value = "Order Cost",(Switch(rOUND(Last(Fields!ID1st_Order_Cost.Value),2) &lt; rOUND(Last(Fields!ID2nd_Order_Cost.Value),2),"+",rOUND(Last(Fields!ID1st_Order_Cost.Value),2) &gt; rOUND(Last(Fields!ID2nd_Order_Cost.Value),2),"-",rOUND(Last(Fields!ID1st_Order_Cost.Value),2) = rOUND(Last(Fields!ID2nd_Order_Cost.Value),2),"" )),iif(Parameters!OrderFilter.Value= "Due Date Performance",IIF(CDBL(iif(round(((Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24))-Fix(Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24)))*60)=60,Fix(Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(First(Fields!DueDate.Value)).ToOADate)+1))*24))+1 ,Fix(Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(First(Fields!DueDate.Value)).ToOADate)+1))*24)) &amp; "." &amp; round(((Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24))-Fix(Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24)))*60) ))&gt;CDBL(iif(Format(round(((Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))-fix(Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24)))*60))=60,fix(Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))+1 ,fix(Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24)) &amp; "." &amp; Format(round(((Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))-fix(Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24)))*60)) )),"-",IIF(CDBL(iif(round(((Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24))-Fix(Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24)))*60)=60,Fix(Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(First(Fields!DueDate.Value)).ToOADate)+1))*24))+1 ,Fix(Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(First(Fields!DueDate.Value)).ToOADate)+1))*24)) &amp; "." &amp; round(((Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24))-Fix(Abs(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate) - ((cdate(first(Fields!DueDate.Value)).ToOADate)+1))*24)))*60) ))&lt;CDBL(iif(Format(round(((Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))-fix(Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24)))*60))=60,fix(Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))+1 ,fix(Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24)) &amp; "." &amp; Format(round(((Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24))-fix(Abs(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate) - ((cdate(first(Fields!ID2nd_Due_Date.Value)).ToOADate)+1))*24)))*60)) )),"+","")),iif(Parameters!OrderFilter.Value= "Make Span",switch(cdbl(iif(round(((((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)-fix(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24))*60)=60,Fix(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)+1 ,Fix(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24) &amp; "." &amp; round(((((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)-fix(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24))*60))) &gt; cdbl(iif(round(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)-fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24))*60)=60,fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)+1 ,fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24) &amp; "." &amp; round(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)-fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24))*60))),"-",cdbl(iif(round(((((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)-fix(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24))*60)=60,Fix(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)+1 ,Fix(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24) &amp; "." &amp; round(((((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24)-fix(((cdate(max(Fields!ID1st_End_Time.Value)).ToOADate)- (cdate(min(Fields!ID1st_Setup_Start.Value)).ToOADate))*24))*60))) &lt; cdbl(iif(round(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)-fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24))*60)=60,fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)+1 ,fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24) &amp; "." &amp; round(((((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24)-fix(((cdate(max(Fields!ID2nd_EndTime.Value)).ToOADate)- (cdate(min(Fields!ID2nd_Setup_Start.Value)).ToOADate))*24))*60))),"+"),"")))))))</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <Format>N</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox16</rd:DefaultName>
+                      <Style>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>0.25pt</Width>
+                        </LeftBorder>
+                        <BackgroundColor>= "#FFFECC"</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="table1_Group1">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!OrderNo.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="table1_Group2">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!OrderNo.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Group Name="table1_Details_Group">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!OrderNo.Value</GroupExpression>
+                        </GroupExpressions>
+                        <DataElementName>Detail</DataElementName>
+                      </Group>
+                      <TablixMembers>
+                        <TablixMember />
+                      </TablixMembers>
+                      <DataElementName>Detail_Collection</DataElementName>
+                      <DataElementOutput>Output</DataElementOutput>
+                      <KeepTogether>true</KeepTogether>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixMember>
+              </TablixMembers>
+              <Visibility>
+                <Hidden>=Fields!OrderNo.UniqueName</Hidden>
+              </Visibility>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>Orders</DataSetName>
+        <Top>1.22396in</Top>
+        <Left>0.23958in</Left>
+        <Height>0.25in</Height>
+        <Width>7in</Width>
+        <ZIndex>7</ZIndex>
+        <Style>
+          <Border>
+            <Color>#044882</Color>
+            <Style>Solid</Style>
+          </Border>
+          <TopBorder>
+            <Style>Solid</Style>
+          </TopBorder>
+          <BottomBorder>
+            <Style>Solid</Style>
+          </BottomBorder>
+          <LeftBorder>
+            <Style>Solid</Style>
+          </LeftBorder>
+          <RightBorder>
+            <Style>Solid</Style>
+          </RightBorder>
+          <Color>#044882</Color>
+        </Style>
+      </Tablix>
+    </ReportItems>
+    <Height>1.47396in</Height>
+    <Style>
+      <Border>
+        <Color>White</Color>
+      </Border>
+      <RightBorder>
+        <Style>Solid</Style>
+        <Width>1pt</Width>
+      </RightBorder>
+      <BackgroundColor>White</BackgroundColor>
+    </Style>
+  </Body>
+  <ReportParameters>
+    <ReportParameter Name="BaselineDatasetId">
+      <DataType>Integer</DataType>
+      <Prompt>Base Line Schedule</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Datasets</DataSetName>
+          <ValueField>dataset_id</ValueField>
+          <LabelField>name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="ComparisonDatasetId">
+      <DataType>Integer</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Comparison Schedule</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Datasets</DataSetName>
+          <ValueField>dataset_id</ValueField>
+          <LabelField>name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="OrderFilter">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>Due Date Performance</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Criteria</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>Due Date</Value>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Critical Ratio</Value>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Order Cost</Value>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Setup Start</Value>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>End Time</Value>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Due Date Performance</Value>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>Make Span</Value>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+    </ReportParameter>
+  </ReportParameters>
+  <Width>18.49207cm</Width>
+  <Page>
+    <PageHeader>
+      <Height>0.34375in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="textbox7">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!ReportName.ToString()</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.07292in</Top>
+          <Left>0.09375in</Left>
+          <Height>0.125in</Height>
+          <Width>3.125in</Width>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox29">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!ExecutionTime.ToString()</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>8pt</FontSize>
+                    <Format>g</Format>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.125in</Top>
+          <Left>4.375in</Left>
+          <Height>0.125in</Height>
+          <Width>1.625in</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style>
+        <BackgroundColor>White</BackgroundColor>
+      </Style>
+    </PageHeader>
+    <PageFooter>
+      <Height>0.38906in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="textbox15">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value rd:LocID="Page">="Page " &amp;" "&amp;(Globals!PageNumber.ToString())&amp;""&amp; "/" &amp;""&amp;(Globals!TotalPages.ToString())</Value>
+                  <Style>
+                    <FontFamily>Verdana</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.16328in</Top>
+          <Left>4.625in</Left>
+          <Height>0.125in</Height>
+          <Width>1.375in</Width>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style>
+        <BackgroundColor>White</BackgroundColor>
+      </Style>
+    </PageFooter>
+    <PageHeight>24cm</PageHeight>
+    <PageWidth>34cm</PageWidth>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportID>9a9f3f41-d523-45f3-b877-3218329fae6f</rd:ReportID>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+</Report>
